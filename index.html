@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>keelGTM | Signal-Based ABM Systems</title>
+  <link rel="icon" href="keel logos/2.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    :root {
+      --bg: #291001;
+      --cream: #e1dfdb;
+      --orange: #ff5930;
+      --border: rgba(225,223,219,0.08);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-user-select:none; user-select:none; }
+    html { overflow-x:hidden; scroll-behavior:smooth; }
+    body { background:#291001; color:#e1dfdb; font-family:'Inter',sans-serif; overflow-x:hidden; }
+
+    /* Grain texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.038;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 180px 180px;
+    }
+
+    /* Wave background */
+    #wave-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background: #291001;
+    }
+    #wave-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #wave-svg path {
+      fill: none;
+      stroke-width: 0.8;
+    }
+
+    /* Progress bar */
+    #progress-bar {
+      position:fixed;
+      top:0; left:0;
+      height:2px;
+      width:0%;
+      background:#ff5930;
+      box-shadow:0 0 10px rgba(255,89,48,0.6);
+      z-index:10000;
+      transition:width 0.1s linear;
+    }
+
+    /* NAV */
+    #navbar {
+      position:fixed;
+      top:16px; left:50%;
+      transform:translateX(-50%);
+      width:calc(100% - 48px);
+      max-width:1100px;
+      z-index:1000;
+      transition:background 0.3s ease, box-shadow 0.3s ease;
+      background:rgba(41,16,1,0.7);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      border:1px solid rgba(225,223,219,0.12);
+      border-radius:999px;
+    }
+    .nav-inner {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 8px 0 20px;
+      height:64px;
+      position:relative;
+    }
+    .nav-logo { display:flex; align-items:center; text-decoration:none; }
+    .nav-links {
+      display:flex;
+      gap:32px;
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+    }
+    .nav-links a {
+      font-size:13px;
+      font-weight:500;
+      color:rgba(225,223,219,0.6);
+      text-decoration:none;
+      transition:color 0.2s;
+    }
+    .nav-links a:hover { color:#e1dfdb; }
+    .btn-nav {
+      background:#e1dfdb;
+      color:#291001;
+      font-family:'Inter',sans-serif;
+      font-size:13px;
+      font-weight:600;
+      padding:10px 22px;
+      border-radius:999px;
+      text-decoration:none;
+      transition:background 0.2s, transform 0.2s;
+      white-space:nowrap;
+    }
+    .btn-nav:hover { background:#fff; transform:translateY(-1px); }
+    #navbar.scrolled {
+      background:rgba(41,16,1,0.96);
+      box-shadow:0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    /* HERO */
+    .hero {
+      position:relative;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 6vw;
+      padding-top:110px;
+      z-index:2;
+      overflow:hidden;
+    }
+    .hero-content { max-width:58%; position:relative; z-index:2; }
+    .hero-label {
+      display:block;
+      font-size:11px;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:#ff5930;
+      margin-bottom:2rem;
+    }
+    .hero h1 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(4rem,7vw,8.5rem);
+      line-height:1.02;
+      letter-spacing:-0.03em;
+      color:#e1dfdb;
+      margin-bottom:2rem;
+    }
+    .hero h1 em { color:#ff5930; font-style:italic; }
+    .hero p {
+      font-size:clamp(1rem,1.3vw,1.15rem);
+      line-height:1.75;
+      color:rgba(225,223,219,0.65);
+      max-width:460px;
+      margin-bottom:2.5rem;
+    }
+    .hero-actions { display:flex; gap:14px; align-items:center; margin-bottom:3rem; }
+    .btn-primary {
+      background:#ff5930;
+      color:#291001;
+      font-family:'Inter',sans-serif;
+      font-size:14px;
+      font-weight:700;
+      padding:16px 40px;
+      border-radius:12px;
+      text-decoration:none;
+      transition:transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(255,89,48,0.35); }
+    .btn-secondary {
+      border:1px solid rgba(225,223,219,0.3);
+      color:#e1dfdb;
+      font-family:'Inter',sans-serif;
+      font-size:15px;
+      font-weight:500;
+      padding:18px 48px;
+      border-radius:4px;
+      text-decoration:none;
+      transition:border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color:rgba(225,223,219,0.7); color:#fff; }
+    .hero-symbol {
+      position: absolute;
+      right: 2vw;
+      top: 18%;
+      transform: translateY(-50%);
+      width: clamp(374px, 46vw, 682px);
+      pointer-events: none;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-keel-bulb {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      background: #ff5930;
+      border-radius: 50%;
+      bottom: 18.1%;
+      left: 50.5%;
+      box-shadow:
+        0 0 6px 3px rgba(255,89,48,0.85),
+        0 0 18px 8px rgba(255,89,48,0.5),
+        0 0 40px 16px rgba(255,89,48,0.25);
+      animation: keel-pulse 4.5s ease-in-out infinite;
+    }
+    @keyframes keel-pulse {
+      0%, 100% { box-shadow: 0 0 6px 3px rgba(255,89,48,0.85), 0 0 18px 8px rgba(255,89,48,0.5), 0 0 40px 16px rgba(255,89,48,0.25); }
+      50%       { box-shadow: 0 0 10px 5px rgba(255,89,48,1),   0 0 28px 12px rgba(255,89,48,0.65), 0 0 60px 24px rgba(255,89,48,0.35); }
+    }
+    .hero-symbol img {
+      width: 100%;
+      height: auto;
+      opacity: 0.08;
+      filter: brightness(0) invert(1);
+    }
+
+
+    /* SECTIONS */
+    .section {
+      padding:12vh 6vw;
+      border-top:1px solid rgba(225,223,219,0.08);
+      position:relative;
+      z-index:2;
+    }
+    .section-inner { max-width:1200px; margin:0 auto; }
+    .section-label {
+      display:block;
+      font-size:11px;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:rgba(225,223,219,0.35);
+      margin-bottom:1.2rem;
+    }
+    .section h2 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.5rem,5vw,5.5rem);
+      line-height:1.08;
+      letter-spacing:-0.025em;
+      color:#e1dfdb;
+      margin-bottom:7vh;
+    }
+
+    /* SPLIT LAYOUT */
+    .split-layout {
+      display:grid;
+      grid-template-columns:1fr 1.4fr;
+      gap:80px;
+      align-items:start;
+    }
+    .split-left h2 { position:sticky; top:130px; margin-bottom:0; }
+    .split-right { display:flex; flex-direction:column; }
+
+    /* PAIN POINTS */
+    .pain-point {
+      padding-bottom:2.5rem;
+      margin-bottom:2.5rem;
+      border-bottom:1px solid rgba(225,223,219,0.08);
+    }
+    .pain-point:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+    .pain-point h3 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.4rem,2vw,1.9rem);
+      color:#e1dfdb;
+      margin-bottom:0.6rem;
+    }
+    .pain-point p {
+      font-size:1.05rem;
+      line-height:1.7;
+      color:rgba(225,223,219,0.6);
+      max-width:500px;
+    }
+
+    /* DELIVERABLES */
+    .deliverables { display:flex; flex-direction:column; }
+    .deliverable {
+      display:grid;
+      grid-template-columns:80px 1fr;
+      gap:32px;
+      padding:3rem 0;
+      border-top:1px solid rgba(225,223,219,0.08);
+      align-items:start;
+    }
+    .deliverable:last-child { border-bottom:1px solid rgba(225,223,219,0.08); }
+    .del-num {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.5rem,4vw,4.5rem);
+      color:rgba(225,223,219,0.12);
+      line-height:1;
+    }
+    .deliverable h3 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.5rem,2.2vw,2rem);
+      color:#e1dfdb;
+      margin-bottom:0.6rem;
+    }
+    .deliverable p {
+      font-size:1.05rem;
+      line-height:1.7;
+      color:rgba(225,223,219,0.6);
+      max-width:580px;
+    }
+
+    /* STEPS */
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:48px; }
+    .step { padding-top:1.8rem; border-top:2px solid rgba(225,223,219,0.18); }
+    .step-num {
+      display:block;
+      font-size:11px;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      color:rgba(225,223,219,0.3);
+      margin-bottom:1rem;
+    }
+    .step h3 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.6rem,2.2vw,2rem);
+      color:#e1dfdb;
+      margin-bottom:0.75rem;
+    }
+    .step p { font-size:1.05rem; line-height:1.7; color:rgba(225,223,219,0.6); }
+
+    /* WHY STATEMENTS */
+    .why-statements { display:flex; flex-direction:column; }
+    .why-statements h3 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.2rem,1.8vw,1.7rem);
+      color:#e1dfdb;
+      padding:1.4rem 0;
+      border-bottom:1px solid rgba(225,223,219,0.08);
+      line-height:1.3;
+    }
+    .why-statements h3:first-child { padding-top:0; }
+
+    /* CTA */
+    .cta-inner { text-align:center; display:flex; flex-direction:column; align-items:center; }
+    .cta-inner h2 { margin-bottom:2rem; }
+    .cta-inner h2 em { font-style:italic; color:#e1dfdb; }
+    .btn-cta {
+      display:inline-block;
+      background:#e1dfdb;
+      color:#291001;
+      font-family:'Inter',sans-serif;
+      font-size:15px;
+      font-weight:700;
+      padding:16px 36px;
+      border-radius:999px;
+      text-decoration:none;
+      transition:background 0.2s, transform 0.2s;
+      margin-bottom:1rem;
+    }
+    .btn-cta:hover { background:#fff; transform:translateY(-2px); }
+    .cta-sub { font-size:13px; color:rgba(225,223,219,0.35); margin-top:0.8rem; }
+
+    /* FOOTER */
+    footer {
+      padding:2.5rem 6vw;
+      border-top:1px solid rgba(225,223,219,0.08);
+      position:relative;
+      z-index:2;
+    }
+    .footer-inner {
+      max-width:1200px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:1rem;
+    }
+    .footer-tagline {
+      font-family:'Playfair Display',serif;
+      font-style:italic;
+      font-size:0.95rem;
+      color:rgba(225,223,219,0.3);
+    }
+    .orange-dot { color:#ff5930; }
+    .footer-links { display:flex; gap:2rem; }
+    .footer-links a {
+      font-size:12px;
+      font-weight:500;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      color:rgba(225,223,219,0.35);
+      text-decoration:none;
+      transition:color 0.2s;
+    }
+    .footer-links a:hover { color:#e1dfdb; }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .nav-links { display:none; }
+      .nav-inner { padding:0 8px 0 16px; }
+      .hero { flex-direction:column; justify-content:center; padding:0 6vw; padding-top:100px; }
+      .hero-content { max-width:100%; }
+      .hero-symbol { display:none; }
+      .split-layout { grid-template-columns:1fr; gap:40px; }
+      .split-left h2 { position:static; }
+      .steps { grid-template-columns:1fr; }
+      .footer-inner { flex-direction:column; text-align:center; }
+      .footer-links { justify-content:center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progress-bar"></div>
+
+  <div id="wave-bg">
+    <svg id="wave-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="keel logos/1.svg" alt="keelGTM" height="24" width="auto">
+      </a>
+      <div class="nav-links">
+        <a href="#problem">The Problem</a>
+        <a href="#solution">The System</a>
+        <a href="#process">Process</a>
+      </div>
+      <a href="mailto:hello@keelgtm.com" class="btn-nav">Free Strategy</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <span class="hero-label">Signal-Based GTM Engineering</span>
+      <h1>Outbound is<br>broken. Let's<br>engineer your<br><em>scale.</em></h1>
+      <p>We build the intelligence layer that powers your outbound. Signal-based ABM systems for Seed–Series B SaaS — built once, handed off clean, runs at scale.</p>
+      <div class="hero-actions">
+        <a href="#solution" class="btn-secondary">See the System</a>
+      </div>
+    </div>
+    <div class="hero-symbol">
+      <img src="keel logos/logo 1 (2).svg" alt="" aria-hidden="true">
+      <span class="hero-keel-bulb"></span>
+    </div>
+  </section>
+
+  <section id="problem" class="section">
+    <div class="section-inner">
+      <div class="split-layout">
+        <div class="split-left">
+          <span class="section-label">The Problem</span>
+          <h2>The Outbound<br>Trap.</h2>
+        </div>
+        <div class="split-right">
+          <div class="pain-point">
+            <h3>Blind Outreach</h3>
+            <p>No intelligence layer. You're guessing who is in-market and burning through your TAM with irrelevant pitches.</p>
+          </div>
+          <div class="pain-point">
+            <h3>Spray and Pray</h3>
+            <p>High volume, zero precision. Thousands of emails for single-digit meetings, destroying your domain reputation in the process.</p>
+          </div>
+          <div class="pain-point">
+            <h3>Wasted Cycles</h3>
+            <p>Your SDRs spend 80% of their time acting as data scrapers instead of having conversations with buyers who actually need you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="solution" class="section">
+    <div class="section-inner">
+      <span class="section-label">The System</span>
+      <h2>One service. One deliverable.<br>We build the system, hand you the keys.</h2>
+      <div class="deliverables">
+        <div class="deliverable">
+          <span class="del-num">01</span>
+          <div>
+            <h3>Enriched Target Account List</h3>
+            <p>We map your TAM and build a rigorously enriched database. No dirty data, no dead emails. Just high-fit accounts with architectural precision.</p>
+          </div>
+        </div>
+        <div class="deliverable">
+          <span class="del-num">02</span>
+          <div>
+            <h3>Signal Stack</h3>
+            <p>We wire up the intelligence layer. Hiring trends, tech installations, funding rounds, executive movement. Outreach triggered by reality, not calendars.</p>
+          </div>
+        </div>
+        <div class="deliverable">
+          <span class="del-num">03</span>
+          <div>
+            <h3>Personalization Framework</h3>
+            <p>We construct the programmatic messaging architecture. Dynamic variables mapped to signals, generating outbound that looks undeniably handwritten.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" class="section">
+    <div class="section-inner">
+      <span class="section-label">The Process</span>
+      <h2>How It Works.</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">Step 01</span>
+          <h3>Diagnose.</h3>
+          <p>We audit your ICP, existing tech stack, and historical outbound to locate exactly where the friction is.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">Step 02</span>
+          <h3>Architect.</h3>
+          <p>We engineer your signal stack, build the framework, and configure the full infrastructure in a focused sprint.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">Step 03</span>
+          <h3>Hand off.</h3>
+          <p>We deliver a fully operational system with clean documentation. No forced retainers. You own the engine entirely.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why" class="section">
+    <div class="section-inner">
+      <div class="split-layout">
+        <div class="split-left">
+          <span class="section-label">The Difference</span>
+          <h2>Why<br>keelGTM.</h2>
+        </div>
+        <div class="split-right why-statements">
+          <h3>We act like engineers, not marketers.</h3>
+          <h3>We build scalable assets, not costly dependencies.</h3>
+          <h3>We charge for system value, not our hours.</h3>
+          <h3>No fluff. No retainers. Just execution.</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta" class="section">
+    <div class="section-inner cta-inner">
+      <span class="section-label" style="color:#ff5930;">Ready to scale?</span>
+      <h2>Want to scale?<br><em>Just <span style="color:#ff5930;">keel</span> it.</em></h2>
+      <a href="mailto:hello@keelgtm.com" class="btn-cta">Free Strategy</a>
+      <p class="cta-sub">No commitment. Just a conversation.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <img src="keel logos/1.svg" alt="keelGTM" height="38" width="auto">
+      <span class="footer-tagline">Just keel it<span class="orange-dot">.</span></span>
+      <div class="footer-links">
+        <a href="https://linkedin.com/company/keelgtm" target="_blank">LinkedIn</a>
+        <a href="mailto:hello@keelgtm.com">hello@keelgtm.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── SVG WAVE GRID ─────────────────────────────────────────────
+    (function() {
+      const svg = document.getElementById('wave-svg');
+      const mouse = { x: -999, y: -999, lx: 0, ly: 0, sx: -999, sy: -999, vx: 0, vy: 0, vs: 0, a: 0, set: false };
+      let W = 0, H = 0;
+      let paths = [];
+      let lines = [];
+
+      // Simple 2D noise using sine permutation (no library needed)
+      function noise2D(x, y) {
+        const X = Math.floor(x) & 255;
+        const Y = Math.floor(y) & 255;
+        x -= Math.floor(x);
+        y -= Math.floor(y);
+        const u = x * x * x * (x * (x * 6 - 15) + 10);
+        const v = y * y * y * (y * (y * 6 - 15) + 10);
+        const a = Math.sin(X * 127.1 + Y * 311.7) * 43758.5453;
+        const b = Math.sin(X * 269.5 + Y * 183.3) * 43758.5453;
+        const c = Math.sin(X * 127.1 + (Y+1) * 311.7) * 43758.5453;
+        const d = Math.sin(X * 269.5 + (Y+1) * 183.3) * 43758.5453;
+        const lerp = (a, b, t) => a + t * (b - a);
+        return lerp(lerp(a - Math.floor(a), b - Math.floor(b), u),
+                    lerp(c - Math.floor(c), d - Math.floor(d), u), v) * 2 - 1;
+      }
+
+      function setSize() {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        svg.setAttribute('width', W);
+        svg.setAttribute('height', H);
+      }
+
+      function setLines() {
+        // Clear old paths
+        paths.forEach(p => p.remove());
+        paths = [];
+        lines = [];
+
+        const xGap = 28;
+        const yGap = 28;
+        const cols = Math.ceil((W + 200) / xGap);
+        const rows = Math.ceil((H + 60) / yGap);
+        const xStart = (W - xGap * cols) / 2;
+        const yStart = (H - yGap * rows) / 2;
+
+        // Line colors — all warm mahogany tones matching #291001 palette
+        const colors = [
+          'rgba(80, 35, 8, 0.55)',
+          'rgba(65, 28, 6, 0.45)',
+          'rgba(90, 40, 10, 0.38)',
+          'rgba(55, 22, 5, 0.50)',
+          'rgba(75, 32, 7, 0.42)',
+        ];
+
+        for (let i = 0; i < cols; i++) {
+          const pts = [];
+          for (let j = 0; j < rows; j++) {
+            pts.push({
+              x: xStart + xGap * i,
+              y: yStart + yGap * j,
+              wave: { x: 0, y: 0 },
+              cursor: { x: 0, y: 0, vx: 0, vy: 0 }
+            });
+          }
+
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('fill', 'none');
+          path.setAttribute('stroke', colors[i % colors.length]);
+          path.setAttribute('stroke-width', '0.8');
+          svg.appendChild(path);
+          paths.push(path);
+          lines.push(pts);
+        }
+      }
+
+      function movePoints(time) {
+        lines.forEach(pts => {
+          pts.forEach(p => {
+            const move = noise2D((p.x + time * 0.008) * 0.003, (p.y + time * 0.003) * 0.002) * 8;
+            p.wave.x = Math.cos(move) * 14;
+            p.wave.y = Math.sin(move) * 7;
+
+            const dx = p.x - mouse.sx;
+            const dy = p.y - mouse.sy;
+            const d = Math.hypot(dx, dy);
+            const l = Math.max(175, mouse.vs);
+
+            if (d < l) {
+              const s = 1 - d / l;
+              const f = Math.cos(d * 0.001) * s;
+              p.cursor.vx += Math.cos(mouse.a) * f * l * mouse.vs * 0.00035;
+              p.cursor.vy += Math.sin(mouse.a) * f * l * mouse.vs * 0.00035;
+            }
+
+            p.cursor.vx += (0 - p.cursor.x) * 0.01;
+            p.cursor.vy += (0 - p.cursor.y) * 0.01;
+            p.cursor.vx *= 0.95;
+            p.cursor.vy *= 0.95;
+            p.cursor.x += p.cursor.vx;
+            p.cursor.y += p.cursor.vy;
+            p.cursor.x = Math.min(50, Math.max(-50, p.cursor.x));
+            p.cursor.y = Math.min(50, Math.max(-50, p.cursor.y));
+          });
+        });
+      }
+
+      function moved(p, withCursor = true) {
+        return {
+          x: p.x + p.wave.x + (withCursor ? p.cursor.x : 0),
+          y: p.y + p.wave.y + (withCursor ? p.cursor.y : 0)
+        };
+      }
+
+      function drawLines() {
+        lines.forEach((pts, i) => {
+          if (pts.length < 2 || !paths[i]) return;
+          const first = moved(pts[0], false);
+          let d = `M ${first.x.toFixed(1)} ${first.y.toFixed(1)}`;
+          for (let j = 1; j < pts.length; j++) {
+            const c = moved(pts[j]);
+            d += ` L ${c.x.toFixed(1)} ${c.y.toFixed(1)}`;
+          }
+          paths[i].setAttribute('d', d);
+        });
+      }
+
+      function tick(time) {
+        mouse.sx += (mouse.x - mouse.sx) * 0.1;
+        mouse.sy += (mouse.y - mouse.sy) * 0.1;
+        const dx = mouse.x - mouse.lx;
+        const dy = mouse.y - mouse.ly;
+        const d = Math.hypot(dx, dy);
+        mouse.vs += (d - mouse.vs) * 0.1;
+        mouse.vs = Math.min(100, mouse.vs);
+        mouse.lx = mouse.x;
+        mouse.ly = mouse.y;
+        mouse.a = Math.atan2(dy, dx);
+        movePoints(time);
+        drawLines();
+        requestAnimationFrame(tick);
+      }
+
+      window.addEventListener('mousemove', e => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        if (!mouse.set) {
+          mouse.sx = mouse.x;
+          mouse.sy = mouse.y;
+          mouse.lx = mouse.x;
+          mouse.ly = mouse.y;
+          mouse.set = true;
+        }
+      });
+
+      window.addEventListener('resize', () => { setSize(); setLines(); });
+
+      setSize();
+      setLines();
+      requestAnimationFrame(tick);
+    })();
+
+    // ── SCROLL PROGRESS BAR ───────────────────────────────────────
+    const progressBar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (scrolled / total * 100) + '%';
+    });
+
+    // ── NAV SCROLL CLASS ──────────────────────────────────────────
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // ── GSAP ANIMATIONS ───────────────────────────────────────────
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Nav entrance
+    gsap.from("#navbar", {
+      y: -40, opacity: 0, duration: 1, ease: "power3.out", delay: 0.1
+    });
+
+    // Hero entrance
+    gsap.fromTo(".hero-label",   {opacity:0, y:20}, {opacity:1, y:0, duration:0.8, ease:"power3.out", delay:0.3});
+    gsap.fromTo(".hero h1",      {opacity:0, y:60}, {opacity:1, y:0, duration:1.2, ease:"power3.out", delay:0.5});
+    gsap.fromTo(".hero p",       {opacity:0, y:30}, {opacity:1, y:0, duration:1,   ease:"power3.out", delay:0.8});
+    gsap.fromTo(".hero-actions", {opacity:0, y:20}, {opacity:1, y:0, duration:0.8, ease:"power3.out", delay:1});
+    gsap.fromTo(".hero-symbol",  {opacity:0, scale:0.9}, {opacity:1, scale:1, duration:2, ease:"power3.out", delay:0.6});
+    gsap.to(".hero-symbol", {y:-20, duration:4, ease:"sine.inOut", repeat:-1, yoyo:true, delay:2});
+
+    // Section headings
+    gsap.utils.toArray('.section h2').forEach(el => {
+      gsap.fromTo(el, {opacity:0, y:50}, {
+        opacity:1, y:0, duration:1, ease:'power3.out',
+        scrollTrigger: {trigger:el, start:'top 85%', toggleActions:'play none none none'}
+      });
+    });
+
+    // Pain points
+    gsap.utils.toArray('.pain-point').forEach((el, i) => {
+      gsap.fromTo(el, {opacity:0, y:35}, {
+        opacity:1, y:0, duration:0.8, delay:i*0.12, ease:'power3.out',
+        scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
+      });
+    });
+
+    // Deliverables
+    gsap.utils.toArray('.deliverable').forEach((el, i) => {
+      gsap.fromTo(el, {opacity:0, y:30}, {
+        opacity:1, y:0, duration:0.8, delay:i*0.1, ease:'power3.out',
+        scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
+      });
+    });
+
+    // Steps
+    gsap.utils.toArray('.step').forEach((el, i) => {
+      gsap.fromTo(el, {opacity:0, y:30}, {
+        opacity:1, y:0, duration:0.8, delay:i*0.15, ease:'power3.out',
+        scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
+      });
+    });
+
+    // Why statements
+    gsap.utils.toArray('.why-statements h3').forEach((el, i) => {
+      gsap.fromTo(el, {opacity:0, x:30}, {
+        opacity:1, x:0, duration:0.7, delay:i*0.1, ease:'power3.out',
+        scrollTrigger: {trigger:el, start:'top 90%', toggleActions:'play none none none'}
+      });
+    });
+
+    // CTA
+    gsap.fromTo('#cta h2', {opacity:0, y:60}, {
+      opacity:1, y:0, duration:1.2, ease:'power3.out',
+      scrollTrigger: {trigger:'#cta', start:'top 85%', toggleActions:'play none none none'}
+    });
+    gsap.fromTo('.btn-cta', {opacity:0, y:20}, {
+      opacity:1, y:0, duration:0.8, delay:0.3, ease:'power3.out',
+      scrollTrigger: {trigger:'#cta', start:'top 85%', toggleActions:'play none none none'}
+    });
+  </script>
+
+</body>
+</html>
