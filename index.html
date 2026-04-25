@@ -270,7 +270,11 @@
       padding-bottom:2.5rem;
       margin-bottom:2.5rem;
       border-bottom:1px solid rgba(225,223,219,0.08);
+      border-left: 2px solid transparent;
+      padding-left: 1.2rem;
+      transition: border-color 0.3s ease;
     }
+    .pain-point:hover { border-color: #ff5930; }
     .pain-point:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
     .pain-point h3 {
       font-family:'Playfair Display',serif;
@@ -283,6 +287,73 @@
       line-height:1.7;
       color:rgba(225,223,219,0.6);
       max-width:500px;
+    }
+
+    /* PROOF OF CRAFT */
+    .craft-subhead {
+      font-size: 1.05rem;
+      color: rgba(225,223,219,0.5);
+      margin-top: -4vh;
+      margin-bottom: 5vh;
+    }
+    .craft-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .craft-card {
+      border: 1px solid rgba(225,223,219,0.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .craft-card:hover {
+      border-color: rgba(255,89,48,0.35);
+      transform: translateY(-4px);
+    }
+    .craft-card-inner {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .craft-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #ff5930;
+      display: inline-block;
+    }
+    .craft-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.2rem, 1.6vw, 1.5rem);
+      color: #e1dfdb;
+      line-height: 1.2;
+    }
+    .craft-problem {
+      font-size: 0.9rem;
+      color: rgba(225,223,219,0.4);
+      line-height: 1.6;
+    }
+    .craft-solution {
+      font-size: 0.95rem;
+      color: rgba(225,223,219,0.7);
+      line-height: 1.6;
+    }
+    .craft-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .craft-tags span {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(225,223,219,0.4);
+      border: 1px solid rgba(225,223,219,0.12);
+      border-radius: 999px;
+      padding: 3px 10px;
     }
 
     /* DELIVERABLES */
@@ -336,16 +407,19 @@
     .step p { font-size:1.05rem; line-height:1.7; color:rgba(225,223,219,0.6); }
 
     /* WHY STATEMENTS */
-    .why-statements { display:flex; flex-direction:column; }
-    .why-statements h3 {
-      font-family:'Playfair Display',serif;
-      font-size:clamp(1.2rem,1.8vw,1.7rem);
-      color:#e1dfdb;
-      padding:1.4rem 0;
-      border-bottom:1px solid rgba(225,223,219,0.08);
-      line-height:1.3;
+    .why-statements { display: flex; flex-direction: column; gap: 0; }
+    .why-line {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.2vw, 3.2rem);
+      color: rgba(225,223,219,0.15);
+      padding: 1.6rem 0;
+      border-bottom: 1px solid rgba(225,223,219,0.06);
+      line-height: 1.2;
+      transition: color 0.4s ease;
+      cursor: default;
     }
-    .why-statements h3:first-child { padding-top:0; }
+    .why-line:first-child { border-top: 1px solid rgba(225,223,219,0.06); }
+    .why-line:hover { color: #e1dfdb; }
 
     /* CTA */
     .cta-inner { text-align:center; display:flex; flex-direction:column; align-items:center; }
@@ -402,6 +476,42 @@
     }
     .footer-links a:hover { color:#e1dfdb; }
 
+    /* TOOL STRIP */
+    .marquee-track {
+      width: 100%;
+      overflow: hidden;
+      mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    }
+    .marquee-inner {
+      display: flex;
+      gap: 56px;
+      width: max-content;
+      animation: marquee-scroll 28s linear infinite;
+      align-items: center;
+    }
+    .marquee-inner span {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(225,223,219,0.25);
+      white-space: nowrap;
+      padding: 6px 18px;
+      border: 1px solid rgba(225,223,219,0.08);
+      border-radius: 999px;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+    .marquee-inner span:hover {
+      color: rgba(225,223,219,0.7);
+      border-color: rgba(225,223,219,0.2);
+    }
+    @keyframes marquee-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
     /* MOBILE */
     @media (max-width: 768px) {
       .nav-links { display:none; }
@@ -412,6 +522,7 @@
       .split-layout { grid-template-columns:1fr; gap:40px; }
       .split-left h2 { position:static; }
       .steps { grid-template-columns:1fr; }
+      .craft-grid { grid-template-columns: 1fr; }
       .footer-inner { flex-direction:column; text-align:center; }
       .footer-links { justify-content:center; }
     }
@@ -434,16 +545,17 @@
         <a href="#problem">The Problem</a>
         <a href="#solution">The System</a>
         <a href="#process">Process</a>
+        <a href="playbook.html">Playbook</a>
       </div>
-      <a href="mailto:hello@keelgtm.com" class="btn-nav">Free Strategy</a>
+      <a href="https://cal.com/placeholder" class="btn-nav" target="_blank">Book a Call</a>
     </div>
   </nav>
 
   <section class="hero" id="home">
     <div class="hero-content">
-      <span class="hero-label">Signal-Based GTM Engineering</span>
-      <h1>Outbound is<br>broken. Let's<br>engineer your<br><em>scale.</em></h1>
-      <p>We build the intelligence layer that powers your outbound. Signal-based ABM systems for Seed–Series B SaaS — built once, handed off clean, runs at scale.</p>
+      <span class="hero-label">Clay-Powered GTM Engineering</span>
+      <h1>We build your<br>outbound engine.<br>You keep <em>the keys.</em></h1>
+      <p>Signal-based ABM systems for Seed–Series B SaaS. Built in Clay, handed off clean. No retainers, no dependencies — just an engine that runs.</p>
       <div class="hero-actions">
         <a href="#solution" class="btn-secondary">See the System</a>
       </div>
@@ -464,17 +576,64 @@
         <div class="split-right">
           <div class="pain-point">
             <h3>Blind Outreach</h3>
-            <p>No intelligence layer. You're guessing who is in-market and burning through your TAM with irrelevant pitches.</p>
+            <p>You're burning through your TAM with no intelligence layer. No signals, no context, no timing — just guesses dressed up as strategy.</p>
           </div>
           <div class="pain-point">
-            <h3>Spray and Pray</h3>
-            <p>High volume, zero precision. Thousands of emails for single-digit meetings, destroying your domain reputation in the process.</p>
+            <h3>Spray & Pray</h3>
+            <p>Volume without precision destroys your domain reputation and wastes your TAM. You're not building pipeline. You're blacklisting yourself.</p>
           </div>
           <div class="pain-point">
             <h3>Wasted Cycles</h3>
-            <p>Your SDRs spend 80% of their time acting as data scrapers instead of having conversations with buyers who actually need you.</p>
+            <p>Your SDRs are data scrapers. 80% of their time goes to list-building they shouldn't be doing — and conversations that should be happening, aren't.</p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="craft" class="section">
+    <div class="section-inner">
+      <span class="section-label">The Difference</span>
+      <h2>The keel beneath<br>your GTM.</h2>
+      <p class="craft-subhead">Three real builds. Clay-native. Handed off clean.</p>
+      <div class="craft-grid">
+
+        <div class="craft-card">
+          <div class="craft-card-inner">
+            <span class="craft-tag">ABM</span>
+            <h3>Enterprise ABM List — Shopify ANZ</h3>
+            <p class="craft-problem">Problem: No precision account list for an enterprise ANZ GTM motion.</p>
+            <p class="craft-solution">Built a fully enriched, ICP-mapped account list targeting ANZ enterprise accounts in Clay.</p>
+            <div class="craft-tags">
+              <span>Clay</span><span>Apollo</span><span>LinkedIn</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="craft-card">
+          <div class="craft-card-inner">
+            <span class="craft-tag">Signals</span>
+            <h3>Tech Stack Identification — Nerdio</h3>
+            <p class="craft-problem">Problem: No visibility into what tools target accounts were running.</p>
+            <p class="craft-solution">Surfaced tech stack data for target accounts and wired it as an enrichment signal in Clay.</p>
+            <div class="craft-tags">
+              <span>Clay</span><span>BuiltWith</span><span>Clearbit</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="craft-card">
+          <div class="craft-card-inner">
+            <span class="craft-tag">ABM</span>
+            <h3>ABM Lead Generation — Epicor ANZ</h3>
+            <p class="craft-problem">Problem: Needed a qualified lead list for distribution & manufacturing vertical in ANZ.</p>
+            <p class="craft-solution">Built a vertically targeted ABM list for an enterprise GTM motion in Clay.</p>
+            <div class="craft-tags">
+              <span>Clay</span><span>Apollo</span><span>LinkedIn</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -487,22 +646,22 @@
         <div class="deliverable">
           <span class="del-num">01</span>
           <div>
-            <h3>Enriched Target Account List</h3>
-            <p>We map your TAM and build a rigorously enriched database. No dirty data, no dead emails. Just high-fit accounts with architectural precision.</p>
+            <h3>ICP-Mapped Account List</h3>
+            <p>TAM mapped, enriched, zero dirty data. We build your target account list in Clay — precise ICP criteria, clean contacts, ready to work from day one.</p>
           </div>
         </div>
         <div class="deliverable">
           <span class="del-num">02</span>
           <div>
-            <h3>Signal Stack</h3>
-            <p>We wire up the intelligence layer. Hiring trends, tech installations, funding rounds, executive movement. Outreach triggered by reality, not calendars.</p>
+            <h3>Enrichment Infrastructure</h3>
+            <p>Tech stack, hiring signals, firmographics, contact data — all wired up and prioritized inside your Clay table. Every column built to trigger the right outreach.</p>
           </div>
         </div>
         <div class="deliverable">
           <span class="del-num">03</span>
           <div>
-            <h3>Personalization Framework</h3>
-            <p>We construct the programmatic messaging architecture. Dynamic variables mapped to signals, generating outbound that looks undeniably handwritten.</p>
+            <h3>Handoff-Ready System</h3>
+            <p>Clean documentation, a full walkthrough, and a system your team can run from day one. No retainer. No dependency on us. You own it entirely.</p>
           </div>
         </div>
       </div>
@@ -516,19 +675,46 @@
       <div class="steps">
         <div class="step">
           <span class="step-num">Step 01</span>
-          <h3>Diagnose.</h3>
-          <p>We audit your ICP, existing tech stack, and historical outbound to locate exactly where the friction is.</p>
+          <h3>Scope.</h3>
+          <p>We map your ICP, audit your data sources, and define exactly what your Clay table needs to do. No assumptions, no guesswork.</p>
         </div>
         <div class="step">
           <span class="step-num">Step 02</span>
-          <h3>Architect.</h3>
-          <p>We engineer your signal stack, build the framework, and configure the full infrastructure in a focused sprint.</p>
+          <h3>Build.</h3>
+          <p>We construct your enrichment infrastructure in Clay. Waterfalls, signals, contact data, firmographics — everything wired up and tested.</p>
         </div>
         <div class="step">
           <span class="step-num">Step 03</span>
-          <h3>Hand off.</h3>
-          <p>We deliver a fully operational system with clean documentation. No forced retainers. You own the engine entirely.</p>
+          <h3>Hand Off.</h3>
+          <p>You receive a fully operational Clay system with clean documentation and a walkthrough. You own it from day one. No retainer required.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tools" class="section" style="padding: 6vh 0; overflow: hidden;">
+    <div class="marquee-track">
+      <div class="marquee-inner">
+        <span>Clay</span>
+        <span>Apollo.io</span>
+        <span>LinkedIn</span>
+        <span>Clearbit</span>
+        <span>Hunter.io</span>
+        <span>Instantly</span>
+        <span>Smartlead</span>
+        <span>BuiltWith</span>
+        <span>Phantombuster</span>
+        <span>OpenAI</span>
+        <span>Clay</span>
+        <span>Apollo.io</span>
+        <span>LinkedIn</span>
+        <span>Clearbit</span>
+        <span>Hunter.io</span>
+        <span>Instantly</span>
+        <span>Smartlead</span>
+        <span>BuiltWith</span>
+        <span>Phantombuster</span>
+        <span>OpenAI</span>
       </div>
     </div>
   </section>
@@ -541,10 +727,10 @@
           <h2>Why<br>keelGTM.</h2>
         </div>
         <div class="split-right why-statements">
-          <h3>We act like engineers, not marketers.</h3>
-          <h3>We build scalable assets, not costly dependencies.</h3>
-          <h3>We charge for system value, not our hours.</h3>
-          <h3>No fluff. No retainers. Just execution.</h3>
+          <h3 class="why-line">We act like engineers, not marketers.</h3>
+          <h3 class="why-line">We build assets you own — not dependencies you rent.</h3>
+          <h3 class="why-line">We charge for the system, not the hours.</h3>
+          <h3 class="why-line">No retainers. No fluff. Just execution.</h3>
         </div>
       </div>
     </div>
@@ -552,9 +738,11 @@
 
   <section id="cta" class="section">
     <div class="section-inner cta-inner">
-<h2>Want to scale?<br><em>Just <span style="color:#ff5930;">keel</span> it.</em></h2>
-      <a href="mailto:hello@keelgtm.com" class="btn-cta">Free Strategy</a>
-      <p class="cta-sub">No commitment. Just a conversation.</p>
+      <span class="section-label">Ready?</span>
+      <h2>Your outbound<br>needs a <em>keel.</em></h2>
+      <p style="font-size:1.05rem; color:rgba(225,223,219,0.5); margin-bottom:2.5rem; max-width:420px; line-height:1.7;">One conversation. We map your system. No commitment.</p>
+      <a href="https://cal.com/placeholder" class="btn-cta" target="_blank">Book a Free Call</a>
+      <p class="cta-sub">30 minutes. No pitch. Just clarity.</p>
     </div>
   </section>
 
@@ -776,6 +964,14 @@
       });
     });
 
+    // Craft cards
+    gsap.utils.toArray('.craft-card').forEach((el, i) => {
+      gsap.fromTo(el, {opacity:0, y:40}, {
+        opacity:1, y:0, duration:0.8, delay:i*0.15, ease:'power3.out',
+        scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
+      });
+    });
+
     // Deliverables
     gsap.utils.toArray('.deliverable').forEach((el, i) => {
       gsap.fromTo(el, {opacity:0, y:30}, {
@@ -793,9 +989,9 @@
     });
 
     // Why statements
-    gsap.utils.toArray('.why-statements h3').forEach((el, i) => {
-      gsap.fromTo(el, {opacity:0, x:30}, {
-        opacity:1, x:0, duration:0.7, delay:i*0.1, ease:'power3.out',
+    gsap.utils.toArray('.why-line').forEach((el, i) => {
+      gsap.fromTo(el, {opacity:0, x:40}, {
+        opacity:1, x:0, duration:0.9, delay:i*0.12, ease:'power3.out',
         scrollTrigger: {trigger:el, start:'top 90%', toggleActions:'play none none none'}
       });
     });
