@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>keelGTM | The Playbook</title>
+  <link rel="icon" href="keel logos/2.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    :root {
+      --bg: #291001;
+      --cream: #e1dfdb;
+      --orange: #ff5930;
+      --border: rgba(225,223,219,0.08);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-user-select:none; user-select:none; }
+    html { overflow-x:hidden; scroll-behavior:smooth; }
+    body { background:#291001; color:#e1dfdb; font-family:'Inter',sans-serif; overflow-x:hidden; }
+
+    /* Grain texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.038;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 180px 180px;
+    }
+
+    /* Wave background */
+    #wave-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background: #291001;
+    }
+    #wave-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #wave-svg path {
+      fill: none;
+      stroke-width: 0.8;
+    }
+
+    /* Progress bar */
+    #progress-bar {
+      position:fixed;
+      top:0; left:0;
+      height:2px;
+      width:0%;
+      background:#ff5930;
+      box-shadow:0 0 10px rgba(255,89,48,0.6);
+      z-index:10000;
+      transition:width 0.1s linear;
+    }
+
+    /* NAV */
+    #navbar {
+      position:fixed;
+      top:16px; left:50%;
+      transform:translateX(-50%);
+      width:calc(100% - 48px);
+      max-width:1100px;
+      z-index:1000;
+      transition:background 0.3s ease, box-shadow 0.3s ease;
+      background:rgba(41,16,1,0.7);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      border:1px solid rgba(225,223,219,0.12);
+      border-radius:999px;
+    }
+    .nav-inner {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 8px 0 20px;
+      height:64px;
+      position:relative;
+    }
+    .nav-logo { display:flex; align-items:center; text-decoration:none; }
+    .nav-links {
+      display:flex;
+      gap:32px;
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+    }
+    .nav-links a {
+      font-size:13px;
+      font-weight:500;
+      color:rgba(225,223,219,0.6);
+      text-decoration:none;
+      transition:color 0.2s;
+    }
+    .nav-links a:hover { color:#e1dfdb; }
+    .btn-nav {
+      background:#e1dfdb;
+      color:#291001;
+      font-family:'Inter',sans-serif;
+      font-size:13px;
+      font-weight:600;
+      padding:10px 22px;
+      border-radius:999px;
+      text-decoration:none;
+      transition:background 0.2s, transform 0.2s;
+      white-space:nowrap;
+    }
+    .btn-nav:hover { background:#fff; transform:translateY(-1px); }
+    #navbar.scrolled {
+      background:rgba(41,16,1,0.96);
+      box-shadow:0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    /* HERO */
+    .hero {
+      position:relative;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 6vw;
+      padding-top:110px;
+      z-index:2;
+      overflow:hidden;
+    }
+    .hero-content { max-width:58%; position:relative; z-index:2; }
+    .hero-label {
+      display:block;
+      font-size:11px;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:#ff5930;
+      margin-bottom:2rem;
+    }
+    .hero h1 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(4rem,7vw,8.5rem);
+      line-height:1.02;
+      letter-spacing:-0.03em;
+      color:#e1dfdb;
+      margin-bottom:2rem;
+    }
+    .hero h1 em { color:#ff5930; font-style:italic; }
+    .hero p {
+      font-size:clamp(1rem,1.3vw,1.15rem);
+      line-height:1.75;
+      color:rgba(225,223,219,0.65);
+      max-width:460px;
+      margin-bottom:2.5rem;
+    }
+
+    /* Playbook Hero */
+    .playbook-hero { min-height: 52vh; padding-top: 140px; padding-bottom: 6vh; justify-content: flex-start; }
+    .playbook-hero h1 { font-size: clamp(3rem, 6vw, 7rem); }
+
+    /* SECTIONS */
+    .section {
+      padding:12vh 6vw;
+      border-top:1px solid rgba(225,223,219,0.08);
+      position:relative;
+      z-index:2;
+    }
+    .section-inner { max-width:1200px; margin:0 auto; }
+    .section-label {
+      display:block;
+      font-size:11px;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:rgba(225,223,219,0.35);
+      margin-bottom:1.2rem;
+    }
+    .section h2 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.5rem,5vw,5.5rem);
+      line-height:1.08;
+      letter-spacing:-0.025em;
+      color:#e1dfdb;
+      margin-bottom:7vh;
+    }
+
+    /* PLAYBOOK GRID */
+    .playbook-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+    .playbook-card {
+      border: 1px solid rgba(225,223,219,0.08);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      background: rgba(255,255,255,0.015);
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+    .playbook-card:hover { border-color: rgba(255,89,48,0.25); }
+    .playbook-card-top {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .playbook-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #ff5930;
+    }
+    .playbook-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 2vw, 1.9rem);
+      color: #e1dfdb;
+      line-height: 1.2;
+    }
+    .playbook-card p {
+      font-size: 1rem;
+      color: rgba(225,223,219,0.55);
+      line-height: 1.7;
+      max-width: 640px;
+    }
+    .playbook-read-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 0.5rem;
+      background: none;
+      border: 1px solid rgba(225,223,219,0.2);
+      color: #e1dfdb;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      width: fit-content;
+    }
+    .playbook-read-btn:hover { border-color: #ff5930; background: rgba(255,89,48,0.06); }
+    .read-arrow { transition: transform 0.3s ease; display: inline-block; }
+    .playbook-card.open .read-arrow { transform: rotate(180deg); }
+    .playbook-card-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .playbook-card.open .playbook-card-body { max-height: 600px; }
+    .playbook-card-content {
+      padding: 0 2.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border-top: 1px solid rgba(225,223,219,0.06);
+      padding-top: 2rem;
+    }
+    .playbook-card-content p {
+      font-size: 1rem;
+      color: rgba(225,223,219,0.6);
+      line-height: 1.8;
+    }
+
+    /* FOOTER */
+    footer {
+      padding:2.5rem 6vw;
+      border-top:1px solid rgba(225,223,219,0.08);
+      position:relative;
+      z-index:2;
+    }
+    .footer-inner {
+      max-width:1200px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:1rem;
+    }
+    .footer-tagline {
+      font-family:'Playfair Display',serif;
+      font-style:italic;
+      font-size:0.95rem;
+      color:rgba(225,223,219,0.3);
+    }
+    .orange-dot { color:#ff5930; }
+    .footer-links { display:flex; gap:2rem; }
+    .footer-links a {
+      font-size:12px;
+      font-weight:500;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      color:rgba(225,223,219,0.35);
+      text-decoration:none;
+      transition:color 0.2s;
+    }
+    .footer-links a:hover { color:#e1dfdb; }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .nav-links { display:none; }
+      .nav-inner { padding:0 8px 0 16px; }
+      .hero { flex-direction:column; justify-content:center; padding:0 6vw; padding-top:100px; }
+      .hero-content { max-width:100%; }
+      .playbook-hero { padding-top: 100px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progress-bar"></div>
+
+  <div id="wave-bg">
+    <svg id="wave-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="keel logos/1.svg" alt="keelGTM" height="24" width="auto">
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="playbook.html" style="color:#e1dfdb;">Playbook</a>
+      </div>
+      <a href="https://cal.com/chehan-karunaratne/30min" class="btn-nav" target="_blank">Book a Call</a>
+    </div>
+  </nav>
+
+  <section class="hero playbook-hero">
+    <div class="hero-content">
+      <span class="hero-label">The Playbook</span>
+      <h1>What we know.<br>How we <em>build.</em></h1>
+      <p>Methodology, frameworks, and real builds — from inside the Clay table.</p>
+    </div>
+  </section>
+
+  <section id="entries" class="section">
+    <div class="section-inner">
+      <span class="section-label">The Entries</span>
+      <h2>Three frameworks.<br>Built in the field.</h2>
+      <div class="playbook-grid">
+
+        <div class="playbook-card" data-card="1">
+          <div class="playbook-card-top">
+            <span class="playbook-tag">Enrichment</span>
+            <h3>Clay Enrichment Waterfall</h3>
+            <p>How we structure data waterfalls in Clay — column logic, fallback chains, and prioritization that keeps your data clean.</p>
+            <button class="playbook-read-btn" onclick="toggleCard(1)">Read <span class="read-arrow">↓</span></button>
+          </div>
+          <div class="playbook-card-body" id="card-body-1">
+            <div class="playbook-card-content">
+              <p>Placeholder content — full methodology writeup goes here. This section will explain the exact column structure, fallback logic, and waterfall prioritization we use when building enrichment tables in Clay.</p>
+              <p>Topics covered: primary data sources, fallback chains, deduplication logic, field validation, and output formatting.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="playbook-card" data-card="2">
+          <div class="playbook-card-top">
+            <span class="playbook-tag">Signals</span>
+            <h3>Tech Stack Identification at Scale</h3>
+            <p>How we surface what tools a company runs and wire it as an enrichment signal — built with BuiltWith and Clearbit inside Clay.</p>
+            <button class="playbook-read-btn" onclick="toggleCard(2)">Read <span class="read-arrow">↓</span></button>
+          </div>
+          <div class="playbook-card-body" id="card-body-2">
+            <div class="playbook-card-content">
+              <p>Placeholder content — full methodology writeup goes here. This section will cover how we query BuiltWith and Clearbit via Clay, normalize the output, and use tech stack data as an enrichment and signal trigger.</p>
+              <p>Topics covered: data sources, Clay column setup, signal logic, and how to use this for outbound targeting.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="playbook-card" data-card="3">
+          <div class="playbook-card-top">
+            <span class="playbook-tag">ABM</span>
+            <h3>Shopify ANZ ABM Build</h3>
+            <p>The full build walkthrough — ICP criteria, enrichment layers, and account scoring for an enterprise ANZ GTM motion.</p>
+            <button class="playbook-read-btn" onclick="toggleCard(3)">Read <span class="read-arrow">↓</span></button>
+          </div>
+          <div class="playbook-card-body" id="card-body-3">
+            <div class="playbook-card-content">
+              <p>Placeholder content — full build walkthrough goes here. This section will cover how we defined the ICP, built the enrichment layers, scored accounts, and delivered a handoff-ready Clay table for Shopify ANZ.</p>
+              <p>Topics covered: ICP mapping, enrichment column structure, scoring logic, and final output format.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <img src="keel logos/1.svg" alt="keelGTM" height="38" width="auto">
+      <span class="footer-tagline">Just keel it<span class="orange-dot">.</span></span>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/company/keelgtm/" target="_blank">LinkedIn</a>
+        <a href="mailto:hello@keelgtm.com">hello@keelgtm.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── SVG WAVE GRID ─────────────────────────────────────────────
+    (function() {
+      const svg = document.getElementById('wave-svg');
+      const mouse = { x: -999, y: -999, lx: 0, ly: 0, sx: -999, sy: -999, vx: 0, vy: 0, vs: 0, a: 0, set: false };
+      let W = 0, H = 0;
+      let paths = [];
+      let lines = [];
+
+      // Simple 2D noise using sine permutation (no library needed)
+      function noise2D(x, y) {
+        const X = Math.floor(x) & 255;
+        const Y = Math.floor(y) & 255;
+        x -= Math.floor(x);
+        y -= Math.floor(y);
+        const u = x * x * x * (x * (x * 6 - 15) + 10);
+        const v = y * y * y * (y * (y * 6 - 15) + 10);
+        const a = Math.sin(X * 127.1 + Y * 311.7) * 43758.5453;
+        const b = Math.sin(X * 269.5 + Y * 183.3) * 43758.5453;
+        const c = Math.sin(X * 127.1 + (Y+1) * 311.7) * 43758.5453;
+        const d = Math.sin(X * 269.5 + (Y+1) * 183.3) * 43758.5453;
+        const lerp = (a, b, t) => a + t * (b - a);
+        return lerp(lerp(a - Math.floor(a), b - Math.floor(b), u),
+                    lerp(c - Math.floor(c), d - Math.floor(d), u), v) * 2 - 1;
+      }
+
+      function setSize() {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        svg.setAttribute('width', W);
+        svg.setAttribute('height', H);
+      }
+
+      function setLines() {
+        // Clear old paths
+        paths.forEach(p => p.remove());
+        paths = [];
+        lines = [];
+
+        const xGap = 28;
+        const yGap = 28;
+        const cols = Math.ceil((W + 200) / xGap);
+        const rows = Math.ceil((H + 60) / yGap);
+        const xStart = (W - xGap * cols) / 2;
+        const yStart = (H - yGap * rows) / 2;
+
+        // Line colors — all warm mahogany tones matching #291001 palette
+        const colors = [
+          'rgba(80, 35, 8, 0.55)',
+          'rgba(65, 28, 6, 0.45)',
+          'rgba(90, 40, 10, 0.38)',
+          'rgba(55, 22, 5, 0.50)',
+          'rgba(75, 32, 7, 0.42)',
+        ];
+
+        for (let i = 0; i < cols; i++) {
+          const pts = [];
+          for (let j = 0; j < rows; j++) {
+            pts.push({
+              x: xStart + xGap * i,
+              y: yStart + yGap * j,
+              wave: { x: 0, y: 0 },
+              cursor: { x: 0, y: 0, vx: 0, vy: 0 }
+            });
+          }
+
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('fill', 'none');
+          path.setAttribute('stroke', colors[i % colors.length]);
+          path.setAttribute('stroke-width', '0.8');
+          svg.appendChild(path);
+          paths.push(path);
+          lines.push(pts);
+        }
+      }
+
+      function movePoints(time) {
+        lines.forEach(pts => {
+          pts.forEach(p => {
+            const move = noise2D((p.x + time * 0.008) * 0.003, (p.y + time * 0.003) * 0.002) * 8;
+            p.wave.x = Math.cos(move) * 14;
+            p.wave.y = Math.sin(move) * 7;
+
+            const dx = p.x - mouse.sx;
+            const dy = p.y - mouse.sy;
+            const d = Math.hypot(dx, dy);
+            const l = Math.max(175, mouse.vs);
+
+            if (d < l) {
+              const s = 1 - d / l;
+              const f = Math.cos(d * 0.001) * s;
+              p.cursor.vx += Math.cos(mouse.a) * f * l * mouse.vs * 0.00035;
+              p.cursor.vy += Math.sin(mouse.a) * f * l * mouse.vs * 0.00035;
+            }
+
+            p.cursor.vx += (0 - p.cursor.x) * 0.01;
+            p.cursor.vy += (0 - p.cursor.y) * 0.01;
+            p.cursor.vx *= 0.95;
+            p.cursor.vy *= 0.95;
+            p.cursor.x += p.cursor.vx;
+            p.cursor.y += p.cursor.vy;
+            p.cursor.x = Math.min(50, Math.max(-50, p.cursor.x));
+            p.cursor.y = Math.min(50, Math.max(-50, p.cursor.y));
+          });
+        });
+      }
+
+      function moved(p, withCursor = true) {
+        return {
+          x: p.x + p.wave.x + (withCursor ? p.cursor.x : 0),
+          y: p.y + p.wave.y + (withCursor ? p.cursor.y : 0)
+        };
+      }
+
+      function drawLines() {
+        lines.forEach((pts, i) => {
+          if (pts.length < 2 || !paths[i]) return;
+          const first = moved(pts[0], false);
+          let d = `M ${first.x.toFixed(1)} ${first.y.toFixed(1)}`;
+          for (let j = 1; j < pts.length; j++) {
+            const c = moved(pts[j]);
+            d += ` L ${c.x.toFixed(1)} ${c.y.toFixed(1)}`;
+          }
+          paths[i].setAttribute('d', d);
+        });
+      }
+
+      function tick(time) {
+        mouse.sx += (mouse.x - mouse.sx) * 0.1;
+        mouse.sy += (mouse.y - mouse.sy) * 0.1;
+        const dx = mouse.x - mouse.lx;
+        const dy = mouse.y - mouse.ly;
+        const d = Math.hypot(dx, dy);
+        mouse.vs += (d - mouse.vs) * 0.1;
+        mouse.vs = Math.min(100, mouse.vs);
+        mouse.lx = mouse.x;
+        mouse.ly = mouse.y;
+        mouse.a = Math.atan2(dy, dx);
+        movePoints(time);
+        drawLines();
+        requestAnimationFrame(tick);
+      }
+
+      window.addEventListener('mousemove', e => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        if (!mouse.set) {
+          mouse.sx = mouse.x;
+          mouse.sy = mouse.y;
+          mouse.lx = mouse.x;
+          mouse.ly = mouse.y;
+          mouse.set = true;
+        }
+      });
+
+      window.addEventListener('resize', () => { setSize(); setLines(); });
+
+      setSize();
+      setLines();
+      requestAnimationFrame(tick);
+    })();
+
+    // ── SCROLL PROGRESS BAR ───────────────────────────────────────
+    const progressBar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (scrolled / total * 100) + '%';
+    });
+
+    // ── NAV SCROLL CLASS ──────────────────────────────────────────
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // ── TOGGLE CARD FUNCTION ──────────────────────────────────────
+    function toggleCard(id) {
+      const card = document.querySelector('[data-card="' + id + '"]');
+      card.classList.toggle('open');
+    }
+
+    // ── GSAP ANIMATIONS ───────────────────────────────────────────
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Nav entrance
+    gsap.from("#navbar", {
+      y: -40, opacity: 0, duration: 1, ease: "power3.out", delay: 0.1
+    });
+
+    // Hero entrance
+    gsap.fromTo(".hero-label",   {opacity:0, y:20}, {opacity:1, y:0, duration:0.8, ease:"power3.out", delay:0.3});
+    gsap.fromTo(".hero h1",      {opacity:0, y:60}, {opacity:1, y:0, duration:1.2, ease:"power3.out", delay:0.5});
+    gsap.fromTo(".hero p",       {opacity:0, y:30}, {opacity:1, y:0, duration:1,   ease:"power3.out", delay:0.8});
+
+    // Section headings
+    gsap.utils.toArray('.section h2').forEach(el => {
+      gsap.fromTo(el, {opacity:0, y:50}, {
+        opacity:1, y:0, duration:1, ease:'power3.out',
+        scrollTrigger: {trigger:el, start:'top 85%', toggleActions:'play none none none'}
+      });
+    });
+
+    // Playbook cards
+    gsap.utils.toArray('.playbook-card').forEach((el, i) => {
+      gsap.fromTo(el, {opacity:0, y:40}, {
+        opacity:1, y:0, duration:0.8, delay:i*0.12, ease:'power3.out',
+        scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
+      });
+    });
+  </script>
+
+</body>
+</html>
