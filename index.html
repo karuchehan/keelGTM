@@ -194,38 +194,20 @@
     .hero-symbol {
       position: absolute;
       right: 2vw;
-      top: 18%;
+      top: 50%;
       transform: translateY(-50%);
-      width: clamp(374px, 46vw, 682px);
+      width: clamp(340px, 44vw, 640px);
+      height: clamp(340px, 44vw, 640px);
       pointer-events: none;
       z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .hero-keel-bulb {
-      position: absolute;
-      width: 9px;
-      height: 9px;
-      background: #ff5930;
-      border-radius: 50%;
-      bottom: 18.1%;
-      left: 50.5%;
-      box-shadow:
-        0 0 6px 3px rgba(255,89,48,0.85),
-        0 0 18px 8px rgba(255,89,48,0.5),
-        0 0 40px 16px rgba(255,89,48,0.25);
-      animation: keel-pulse 4.5s ease-in-out infinite;
-    }
-    @keyframes keel-pulse {
-      0%, 100% { box-shadow: 0 0 6px 3px rgba(255,89,48,0.85), 0 0 18px 8px rgba(255,89,48,0.5), 0 0 40px 16px rgba(255,89,48,0.25); }
-      50%       { box-shadow: 0 0 10px 5px rgba(255,89,48,1),   0 0 28px 12px rgba(255,89,48,0.65), 0 0 60px 24px rgba(255,89,48,0.35); }
-    }
-    .hero-symbol img {
+    #keel-canvas {
       width: 100%;
-      height: auto;
-      opacity: 0.08;
-      filter: brightness(0) invert(1);
+      height: 100%;
+      display: block;
     }
 
 
@@ -765,8 +747,7 @@
       </div>
     </div>
     <div class="hero-symbol">
-      <img src="keel logos/logo 1 (2).svg" alt="" aria-hidden="true">
-      <span class="hero-keel-bulb"></span>
+      <canvas id="keel-canvas" aria-hidden="true"></canvas>
     </div>
   </section>
 
@@ -1352,6 +1333,235 @@
         });
       }, { threshold: 0.2 });
       blocks.forEach(b => observer.observe(b));
+    })();
+
+    // ── KEEL SHIP ANIMATION ───────────────────────────────────
+    (function() {
+      const canvas = document.getElementById('keel-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width * window.devicePixelRatio;
+        canvas.height = rect.height * window.devicePixelRatio;
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      let t = 0;
+      const W = () => canvas.width / window.devicePixelRatio;
+      const H = () => canvas.height / window.devicePixelRatio;
+
+      // Wave particles
+      const particles = [];
+      for (let i = 0; i < 60; i++) {
+        particles.push({
+          x: Math.random() * 600,
+          y: Math.random() * 600,
+          r: Math.random() * 1.5 + 0.3,
+          speed: Math.random() * 0.3 + 0.1,
+          opacity: Math.random() * 0.4 + 0.1,
+          drift: Math.random() * Math.PI * 2
+        });
+      }
+
+      function drawWaves(cx, waterY) {
+        const w = W(), h = H();
+        // Multiple wave layers
+        const layers = [
+          { amp: 8, freq: 0.018, speed: 0.4, alpha: 0.18, width: 1.2 },
+          { amp: 5, freq: 0.028, speed: 0.6, alpha: 0.12, width: 0.8 },
+          { amp: 12, freq: 0.012, speed: 0.25, alpha: 0.10, width: 1.5 },
+        ];
+        layers.forEach(layer => {
+          ctx.beginPath();
+          ctx.moveTo(0, waterY);
+          for (let x = 0; x <= w; x += 3) {
+            const y = waterY + Math.sin(x * layer.freq + t * layer.speed) * layer.amp
+                            + Math.sin(x * layer.freq * 0.7 - t * layer.speed * 0.8) * layer.amp * 0.5;
+            ctx.lineTo(x, y);
+          }
+          ctx.lineTo(w, h);
+          ctx.lineTo(0, h);
+          ctx.closePath();
+          const grad = ctx.createLinearGradient(0, waterY, 0, h);
+          grad.addColorStop(0, `rgba(255,89,48,${layer.alpha})`);
+          grad.addColorStop(0.4, `rgba(180,50,20,${layer.alpha * 0.5})`);
+          grad.addColorStop(1, `rgba(41,16,1,0)`);
+          ctx.fillStyle = grad;
+          ctx.fill();
+          // Wave line on top
+          ctx.beginPath();
+          ctx.moveTo(0, waterY);
+          for (let x = 0; x <= w; x += 3) {
+            const y = waterY + Math.sin(x * layer.freq + t * layer.speed) * layer.amp
+                            + Math.sin(x * layer.freq * 0.7 - t * layer.speed * 0.8) * layer.amp * 0.5;
+            ctx.lineTo(x, y);
+          }
+          ctx.strokeStyle = `rgba(255,89,48,${layer.alpha * 1.8})`;
+          ctx.lineWidth = layer.width;
+          ctx.stroke();
+        });
+      }
+
+      function drawKeel(cx, waterY) {
+        // Keel structure — vertical fin cutting down from hull
+        const keelTop = waterY + 2;
+        const keelBot = waterY + H() * 0.28;
+        const keelW = 3;
+
+        // Keel glow
+        const keelGrad = ctx.createLinearGradient(cx, keelTop, cx, keelBot);
+        keelGrad.addColorStop(0, 'rgba(255,89,48,0.9)');
+        keelGrad.addColorStop(0.6, 'rgba(255,89,48,0.5)');
+        keelGrad.addColorStop(1, 'rgba(255,89,48,0)');
+        ctx.shadowColor = 'rgba(255,89,48,0.8)';
+        ctx.shadowBlur = 18;
+        ctx.beginPath();
+        ctx.moveTo(cx - keelW, keelTop);
+        ctx.lineTo(cx - 1, keelBot);
+        ctx.lineTo(cx + 1, keelBot);
+        ctx.lineTo(cx + keelW, keelTop);
+        ctx.closePath();
+        ctx.fillStyle = keelGrad;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Bulb at keel bottom
+        const pulse = Math.sin(t * 2) * 0.3 + 0.7;
+        ctx.beginPath();
+        ctx.arc(cx, keelBot, 5 * pulse, 0, Math.PI * 2);
+        ctx.fillStyle = '#ff5930';
+        ctx.shadowColor = 'rgba(255,89,48,1)';
+        ctx.shadowBlur = 20 * pulse;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      function drawHull(cx, waterY) {
+        const w = W();
+        const hullW = w * 0.38;
+        const hullH = H() * 0.09;
+
+        ctx.beginPath();
+        ctx.moveTo(cx - hullW * 0.5, waterY - hullH * 0.3);
+        // Bow (right, forward)
+        ctx.bezierCurveTo(
+          cx + hullW * 0.3, waterY - hullH * 0.3,
+          cx + hullW * 0.5, waterY - hullH * 0.1,
+          cx + hullW * 0.52, waterY + 2
+        );
+        // Keel connection bottom
+        ctx.lineTo(cx + 4, waterY + 2);
+        ctx.lineTo(cx - 4, waterY + 2);
+        // Stern (left)
+        ctx.lineTo(cx - hullW * 0.52, waterY - hullH * 0.05);
+        ctx.bezierCurveTo(
+          cx - hullW * 0.5, waterY - hullH * 0.15,
+          cx - hullW * 0.45, waterY - hullH * 0.3,
+          cx - hullW * 0.5, waterY - hullH * 0.3
+        );
+        ctx.closePath();
+
+        const hullGrad = ctx.createLinearGradient(cx, waterY - hullH, cx, waterY);
+        hullGrad.addColorStop(0, 'rgba(225,223,219,0.12)');
+        hullGrad.addColorStop(1, 'rgba(225,223,219,0.04)');
+        ctx.fillStyle = hullGrad;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(225,223,219,0.2)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Deck line
+        ctx.beginPath();
+        ctx.moveTo(cx - hullW * 0.48, waterY - hullH * 0.32);
+        ctx.bezierCurveTo(
+          cx - hullW * 0.1, waterY - hullH * 0.38,
+          cx + hullW * 0.2, waterY - hullH * 0.36,
+          cx + hullW * 0.5, waterY - hullH * 0.12
+        );
+        ctx.strokeStyle = 'rgba(225,223,219,0.35)';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+      }
+
+      function drawWake(cx, waterY) {
+        // Wake lines spreading from bow
+        const w = W();
+        const bowX = cx + w * 0.19;
+        for (let i = 0; i < 4; i++) {
+          const spread = (i + 1) * 22;
+          const len = (4 - i) * 38;
+          const alpha = (0.22 - i * 0.04) * (Math.sin(t * 0.8 + i) * 0.15 + 0.85);
+          ctx.beginPath();
+          ctx.moveTo(bowX, waterY + 2);
+          ctx.lineTo(bowX + len, waterY + spread);
+          ctx.strokeStyle = `rgba(255,89,48,${alpha})`;
+          ctx.lineWidth = 1.2 - i * 0.2;
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.moveTo(bowX, waterY + 2);
+          ctx.lineTo(bowX + len * 0.7, waterY - spread * 0.5);
+          ctx.strokeStyle = `rgba(225,223,219,${alpha * 0.5})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+
+      function drawParticles(waterY) {
+        const w = W(), h = H();
+        particles.forEach(p => {
+          p.x -= p.speed;
+          if (p.x < -10) p.x = w + 10;
+          p.y = waterY + 20 + Math.sin(p.drift + t * 0.5) * 15 + (p.y - waterY - 20) * 0.98;
+          if (p.y > h * 0.92) p.y = waterY + Math.random() * 40 + 10;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,89,48,${p.opacity * 0.6})`;
+          ctx.fill();
+        });
+      }
+
+      function drawLabel(cx, waterY) {
+        const keelBot = waterY + H() * 0.28 + 18;
+        ctx.font = '500 10px Inter, sans-serif';
+        ctx.fillStyle = 'rgba(255,89,48,0.5)';
+        ctx.letterSpacing = '0.14em';
+        ctx.textAlign = 'center';
+        ctx.fillText('K E E L', cx, keelBot + 14);
+        // small tick lines
+        ctx.beginPath();
+        ctx.moveTo(cx - 28, keelBot + 8);
+        ctx.lineTo(cx - 14, keelBot + 8);
+        ctx.moveTo(cx + 14, keelBot + 8);
+        ctx.lineTo(cx + 28, keelBot + 8);
+        ctx.strokeStyle = 'rgba(255,89,48,0.3)';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+
+      function frame() {
+        t += 0.012;
+        const w = W(), h = H();
+        ctx.clearRect(0, 0, w, h);
+
+        const cx = w * 0.48;
+        const waterY = h * 0.52;
+
+        drawWaves(cx, waterY);
+        drawParticles(waterY);
+        drawWake(cx, waterY);
+        drawKeel(cx, waterY);
+        drawHull(cx, waterY);
+        drawLabel(cx, waterY);
+
+        requestAnimationFrame(frame);
+      }
+
+      requestAnimationFrame(frame);
     })();
   </script>
 
