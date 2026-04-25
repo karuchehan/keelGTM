@@ -411,15 +411,15 @@
     .why-line {
       font-family: 'Playfair Display', serif;
       font-size: clamp(1.8rem, 3.2vw, 3.2rem);
-      color: rgba(225,223,219,0.15);
+      color: #e1dfdb;
       padding: 1.6rem 0;
       border-bottom: 1px solid rgba(225,223,219,0.06);
       line-height: 1.2;
-      transition: color 0.4s ease;
+      transition: color 0.3s ease;
       cursor: default;
     }
     .why-line:first-child { border-top: 1px solid rgba(225,223,219,0.06); }
-    .why-line:hover { color: #e1dfdb; }
+    .why-line:hover { color: #ff5930; }
 
     /* CTA */
     .cta-inner { text-align:center; display:flex; flex-direction:column; align-items:center; }
@@ -512,6 +512,75 @@
       100% { transform: translateX(-50%); }
     }
 
+    /* TEAM */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .team-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 2.5rem;
+      border: 1px solid rgba(225,223,219,0.08);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.015);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .team-card:hover {
+      border-color: rgba(255,89,48,0.3);
+      transform: translateY(-4px);
+    }
+    .team-img-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(255,89,48,0.3);
+      flex-shrink: 0;
+    }
+    .team-img-placeholder {
+      width: 100%;
+      height: 100%;
+      background: rgba(255,89,48,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: #ff5930;
+    }
+    .team-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+    .team-info { display: flex; flex-direction: column; gap: 0.5rem; }
+    .team-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: #e1dfdb;
+      line-height: 1.2;
+    }
+    .team-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #ff5930;
+    }
+    .team-card p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: rgba(225,223,219,0.55);
+      margin-top: 0.25rem;
+    }
+    @media (max-width: 768px) {
+      .team-grid { grid-template-columns: 1fr; }
+    }
+
     /* MOBILE */
     @media (max-width: 768px) {
       .nav-links { display:none; }
@@ -594,8 +663,8 @@
   <section id="craft" class="section">
     <div class="section-inner">
       <span class="section-label">The Difference</span>
-      <h2>The keel beneath<br>your GTM.</h2>
-      <p class="craft-subhead">Three real builds. Clay-native. Handed off clean.</p>
+      <h2>The <em style="color:#ff5930;">keel</em> beneath<br>your GTM.</h2>
+      <p class="craft-subhead">Clay-native builds. Signal-driven. Handed off clean.</p>
       <div class="craft-grid">
 
         <div class="craft-card">
@@ -736,10 +805,53 @@
     </div>
   </section>
 
+  <section id="team" class="section">
+    <div class="section-inner">
+      <span class="section-label">The Team</span>
+      <h2>The people<br>behind the <em>system.</em></h2>
+      <div class="team-grid">
+
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <div class="team-img-placeholder">C</div>
+          </div>
+          <div class="team-info">
+            <h3>Chehan K.</h3>
+            <span class="team-title">Co-Founder · GTM Engineer</span>
+            <p>Clay expert and systems builder. Specializes in enrichment infrastructure, signal-based ABM, and RevOps automation.</p>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <div class="team-img-placeholder">T</div>
+          </div>
+          <div class="team-info">
+            <h3>Co-Founder</h3>
+            <span class="team-title">Co-Founder · Lead Strategist</span>
+            <p>Placeholder — add name, role, and bio here.</p>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <div class="team-img-placeholder">T</div>
+          </div>
+          <div class="team-info">
+            <h3>Co-Founder</h3>
+            <span class="team-title">Co-Founder · Enrichment Specialist</span>
+            <p>Placeholder — add name, role, and bio here.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <section id="cta" class="section">
     <div class="section-inner cta-inner">
       <span class="section-label">Ready?</span>
-      <h2>Your outbound<br>needs a <em>keel.</em></h2>
+      <h2>Your outbound<br>needs a <em style="color:#ff5930;">keel.</em></h2>
       <p style="font-size:1.05rem; color:rgba(225,223,219,0.5); margin-bottom:2.5rem; max-width:420px; line-height:1.7;">One conversation. We map your system. No commitment.</p>
       <a href="https://cal.com/chehan-karunaratne/30min" class="btn-cta" target="_blank">Book a Free Call</a>
       <p class="cta-sub">30 minutes. No pitch. Just clarity.</p>
@@ -993,6 +1105,14 @@
       gsap.fromTo(el, {opacity:0, x:40}, {
         opacity:1, x:0, duration:0.9, delay:i*0.12, ease:'power3.out',
         scrollTrigger: {trigger:el, start:'top 90%', toggleActions:'play none none none'}
+      });
+    });
+
+    // Team cards
+    gsap.utils.toArray('.team-card').forEach((el, i) => {
+      gsap.fromTo(el, {opacity:0, y:40}, {
+        opacity:1, y:0, duration:0.8, delay:i*0.12, ease:'power3.out',
+        scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
       });
     });
 
