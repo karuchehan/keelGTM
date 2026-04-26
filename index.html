@@ -625,137 +625,120 @@
       100% { transform: translateX(-50%); }
     }
 
-    /* PROCESS SCROLL */
-    .process-scroll-section { padding-bottom: 0; }
-    .process-scroll-container { padding: 0 6vw 12vh; }
-    .process-track { display: flex; flex-direction: column; max-width: 1200px; margin: 0 auto; }
-    .process-step-block {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 48px;
-      padding: 80px 0;
-      border-top: 1px solid rgba(225,223,219,0.06);
-      opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+    /* ORBIT PROCESS */
+    .process-orbit-section { padding-bottom: 0; overflow: hidden; }
+    .orbit-scroll-wrapper {
+      positn: relative;
+      height: 300vh;
     }
-    .process-step-block.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .process-step-left {
+    .orbit-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 16px;
-      padding-top: 6px;
+      justify-content: center;
+      overflow: hidden;
     }
-    .process-step-meta {
+    .orbit-scroll-spacer { height: 0; }
+    .orbit-stage {
+      position: relative;
+      width: min(520px, 80vw);
+      height: min(520px, 80vw);
+    }
+    .orbit-ring {
+      position: absolute;
+      inset: 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 12px;
+      justify-content: center;
     }
-    .process-phase {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: rgba(225,223,219,0.3);
-      white-space: nowrap;
+    .orbit-track {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(255,89,48,0.15);
     }
-    .process-dot {
+    .orbit-center-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff5930;
+      box-shadow: 0 0 20px rgba(255,89,48,0.6), 0 0 40px rgba(255,89,48,0.3);
+      animation: keel-pulse 3s ease-in-out infinite;
+    }
+    .orbit-node {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      transform-origin: center center;
+      transition: none;
+    }
+    .orbit-node-dot {
+      position: absolute;
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: rgba(225,223,219,0.15);
-      border: 2px solid rgba(225,223,219,0.2);
-      transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-    }
-    .process-step-block.visible .process-dot {
       background: #ff5930;
-      border-color: #ff5930;
-      box-shadow: 0 0 12px rgba(255,89,48,0.5);
+      border: 2px solid rgba(255,89,48,0.4);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 10px rgba(255,89,48,0.5);
+      opacity: 0;
+      transition: opacity 0.4s ease;
     }
-    .process-line {
-      flex: 1;
-      width: 1px;
-      background: rgba(225,223,219,0.08);
-      min-height: 60px;
-    }
-    .process-step-right {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-    .process-step-right h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 4vw, 4rem);
-      color: #e1dfdb;
-      line-height: 1.05;
-    }
-    .process-step-right > p {
-      font-size: 1.05rem;
-      line-height: 1.75;
-      color: rgba(225,223,219,0.6);
-      max-width: 520px;
-    }
-    .process-visual {
-      margin-top: 1.5rem;
-      max-width: 540px;
-    }
-    .process-visual-inner {
-      background: rgba(255,255,255,0.025);
-      border: 1px solid rgba(225,223,219,0.1);
+    .orbit-node.active .orbit-node-dot { opacity: 1; }
+    .orbit-node-card {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,89,48,0.2);
       border-radius: 12px;
       padding: 1.5rem;
-      backdrop-filter: blur(10px);
+      width: 200px;
+      transform: scale(0.9);
     }
-    .pv-label {
+    .orbit-node.active .orbit-node-card {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+    .orbit-step-num {
       font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.14em;
-      color: rgba(225,223,219,0.3);
-      margin-bottom: 1rem;
-    }
-    .pv-rows { display: flex; flex-direction: column; gap: 10px; }
-    .pv-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(225,223,219,0.05);
-    }
-    .pv-row:last-child { border-bottom: none; }
-    .pv-tag {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: rgba(225,223,219,0.35);
-      background: rgba(225,223,219,0.06);
-      border-radius: 4px;
-      padding: 3px 8px;
-      white-space: nowrap;
-      min-width: 80px;
-      text-align: center;
-    }
-    .pv-tag.orange {
       color: #ff5930;
-      background: rgba(255,89,48,0.08);
+      display: block;
+      margin-bottom: 0.4rem;
     }
-    .pv-val {
-      font-size: 13px;
-      color: rgba(225,223,219,0.7);
-      font-weight: 500;
+    .orbit-node-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: #e1dfdb;
+      margin-bottom: 0.5rem;
+      line-height: 1.1;
     }
-    .pv-live {
-      color: #4ade80;
-      font-weight: 600;
+    .orbit-node-card p {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: rgba(225,223,219,0.55);
     }
+
+    /* Card position offsets from orbit dot — adjusted per quadrant */
+    #orbit-1 .orbit-node-card { top: -20px; left: 20px; }
+    #orbit-2 .orbit-node-card { top: -20px; right: 20px; left: auto; }
+    #orbit-3 .orbit-node-card { bottom: -20px; top: auto; left: 20px; }
+
     @media (max-width: 768px) {
-      .process-step-block { grid-template-columns: 60px 1fr; gap: 24px; padding: 48px 0; }
+      .orbit-scroll-wrapper { height: 250vh; }
+      .orbit-stage { width: 85vw; height: 85vw; }
+      .orbit-node-card { width: 160px; padding: 1rem; }
+      .orbit-node-card h3 { font-size: 1.3rem; }
+      .orbit-node-card p { font-size: 0.82rem; }
     }
 
     /* TEAM */
@@ -1052,94 +1035,52 @@
     </div>
   </section>
 
-  <section id="process" class="section process-scroll-section">
-    <div class="section-inner">
-      <span class="section-label">The Process</span>
-      <h2>How it <em>works.</em></h2>
-    </div>
-    <div class="process-scroll-container">
-      <div class="process-track">
+<section id="process" class="section process-orbit-section">
+  <div class="section-inner">
+    <span class="section-label">The Process</span>
+    <h2>How it <em>works.</em></h2>
+  </div>
+  <div class="orbit-scroll-wrapper">
+    <div class="orbit-sticky">
+      <div class="orbit-stage">
 
-        <div class="process-step-block" data-step="1">
-          <div class="process-step-left">
-            <div class="process-step-meta">
-              <span class="process-phase">Step 01</span>
-              <div class="process-dot"></div>
-            </div>
-            <div class="process-line"></div>
-          </div>
-          <div class="process-step-right">
+        <div class="orbit-ring">
+          <div class="orbit-center-dot"></div>
+          <div class="orbit-track"></div>
+        </div>
+
+        <div class="orbit-node" id="orbit-1">
+          <div class="orbit-node-dot"></div>
+          <div class="orbit-node-card">
+            <span class="orbit-step-num">01</span>
             <h3>Scope.</h3>
-            <p>We map your ICP, audit your data sources, and define exactly what your Clay table needs to do. No assumptions, no guesswork.</p>
-            <div class="process-visual">
-              <div class="process-visual-inner">
-                <div class="pv-label">ICP Definition</div>
-                <div class="pv-rows">
-                  <div class="pv-row"><span class="pv-tag orange">Industry</span><span class="pv-val">SaaS · B2B · Fintech</span></div>
-                  <div class="pv-row"><span class="pv-tag">Headcount</span><span class="pv-val">50 – 500</span></div>
-                  <div class="pv-row"><span class="pv-tag">Stage</span><span class="pv-val">Seed · Series A · Series B</span></div>
-                  <div class="pv-row"><span class="pv-tag orange">Signal</span><span class="pv-val">Hiring SDRs · Raised funding</span></div>
-                  <div class="pv-row"><span class="pv-tag">Region</span><span class="pv-val">ANZ · NA · EMEA</span></div>
-                </div>
-              </div>
-            </div>
+            <p>We map your ICP, audit your data sources, and define exactly what your Clay table needs to do.</p>
           </div>
         </div>
 
-        <div class="process-step-block" data-step="2">
-          <div class="process-step-left">
-            <div class="process-step-meta">
-              <span class="process-phase">Step 02</span>
-              <div class="process-dot"></div>
-            </div>
-            <div class="process-line"></div>
-          </div>
-          <div class="process-step-right">
+        <div class="orbit-node" id="orbit-2">
+          <div class="orbit-node-dot"></div>
+          <div class="orbit-node-card">
+            <span class="orbit-step-num">02</span>
             <h3>Build.</h3>
-            <p>We construct your enrichment infrastructure in Clay. Waterfalls, signals, contact data, firmographics — everything wired up and tested.</p>
-            <div class="process-visual">
-              <div class="process-visual-inner">
-                <div class="pv-label">Clay Enrichment Table</div>
-                <div class="pv-rows">
-                  <div class="pv-row"><span class="pv-tag orange">Column</span><span class="pv-val">Company Domain → Apollo</span></div>
-                  <div class="pv-row"><span class="pv-tag">Waterfall</span><span class="pv-val">LinkedIn → Clearbit → Hunter</span></div>
-                  <div class="pv-row"><span class="pv-tag orange">Signal</span><span class="pv-val">Tech Stack via BuiltWith</span></div>
-                  <div class="pv-row"><span class="pv-tag">Output</span><span class="pv-val">Verified email · Mobile · Title</span></div>
-                  <div class="pv-row"><span class="pv-tag">Status</span><span class="pv-val pv-live">● Live</span></div>
-                </div>
-              </div>
-            </div>
+            <p>We construct your enrichment infrastructure in Clay. Waterfalls, signals, contact data — everything wired up and tested.</p>
           </div>
         </div>
 
-        <div class="process-step-block" data-step="3">
-          <div class="process-step-left">
-            <div class="process-step-meta">
-              <span class="process-phase">Step 03</span>
-              <div class="process-dot"></div>
-            </div>
-          </div>
-          <div class="process-step-right">
+        <div class="orbit-node" id="orbit-3">
+          <div class="orbit-node-dot"></div>
+          <div class="orbit-node-card">
+            <span class="orbit-step-num">03</span>
             <h3>Hand Off.</h3>
-            <p>You receive a fully operational Clay system with clean documentation and a walkthrough. You own it from day one. No retainer required.</p>
-            <div class="process-visual">
-              <div class="process-visual-inner">
-                <div class="pv-label">Handoff Package</div>
-                <div class="pv-rows">
-                  <div class="pv-row"><span class="pv-tag orange">Delivered</span><span class="pv-val">Clay table · Full build</span></div>
-                  <div class="pv-row"><span class="pv-tag">Docs</span><span class="pv-val">Column guide · SOP walkthrough</span></div>
-                  <div class="pv-row"><span class="pv-tag orange">Walkthrough</span><span class="pv-val">60-min live session</span></div>
-                  <div class="pv-row"><span class="pv-tag">Ownership</span><span class="pv-val">100% yours · No retainer</span></div>
-                  <div class="pv-row"><span class="pv-tag">Status</span><span class="pv-val pv-live">● Ready</span></div>
-                </div>
-              </div>
-            </div>
+            <p>You receive a fully operational Clay system with clean documentation. You own it from day one. No retainer required.</p>
           </div>
         </div>
 
       </div>
     </div>
-  </section>
+    <div class="orbit-scroll-spacer"></div>
+  </div>
+</section>
 
   <section id="tools" class="section" style="padding: 6vh 0; overflow: hidden;">
     <div class="marquee-track">
@@ -1529,17 +1470,70 @@
       scrollTrigger: {trigger:'#cta', start:'top 85%', toggleActions:'play none none none'}
     });
 
-    // Process scroll blocks
+    // Orbit animation
     (function() {
-      const blocks = document.querySelectorAll('.process-step-block');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+      const wrapper = document.querySelector('.orbit-scroll-wrapper');
+      const sticky = document.querySelector('.orbit-sticky');
+      const stage = document.querySelector('.orbit-stage');
+      const nodes = document.querySelectorAll('.orbit-node');
+      if (!wrapper || !stage) return;
+
+      const R = stage.offsetWidth / 2;
+
+      // Angles for each step at each scroll phase (in degrees, 0 = top)
+      // Phase 0: only step 1 visible at top (270deg = top of circle)
+      // Phase 1: step 1 moves to top-left, step 2 appears at top
+      // Phase 2: step 1 bottom-left, step 2 left, step 3 top
+      const phases = [
+        [270, null, null],
+        [225, 270, null],
+        [180, 225, 270],
+      ];
+
+      function setNode(node, angleDeg, radius) {
+        const rad = (angleDeg * Math.PI) / 180;
+        const x = Math.cos(rad) * radius;
+        const y = Math.sin(rad) * radius;
+        node.style.transform = `translate(calc(${x}px - 0px), calc(${y}px - 0px))`;
+      }
+
+      function update() {
+        const rect = wrapper.getBoundingClientRect();
+        const scrolled = -rect.top;
+        const total = rect.height - window.innerHeight;
+        const progress = Math.max(0, Math.min(1, scrolled / total));
+
+        // 3 phases: 0-0.33, 0.33-0.66, 0.66-1
+        const phaseIndex = Math.min(2, Math.floor(progress * 3));
+        const phaseProgress = (progress * 3) - phaseIndex;
+
+        nodes.forEach((node, i) => {
+          const currentPhase = phases[phaseIndex];
+          const nextPhase = phases[Math.min(2, phaseIndex + 1)];
+
+          if (currentPhase[i] === null) {
+            node.classList.remove('active');
+            return;
           }
+
+          node.classList.add('active');
+
+          const startAngle = currentPhase[i];
+          const endAngle = nextPhase[i] !== null ? nextPhase[i] : startAngle;
+          const angle = startAngle + (endAngle - startAngle) * phaseProgress;
+
+          const radius = stage.offsetWidth / 2 - 10;
+          const rad = (angle * Math.PI) / 180;
+          const x = Math.cos(rad) * radius;
+          const y = Math.sin(rad) * radius;
+
+          node.style.transform = `translate(${x}px, ${y}px)`;
         });
-      }, { threshold: 0.2 });
-      blocks.forEach(b => observer.observe(b));
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
     })();
 
   </script>
