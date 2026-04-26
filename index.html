@@ -631,9 +631,10 @@
 
     /* STACKING CARDS PROCESS */
     .process-stack-section { padding-bottom: 0; }
+    #process { overflow: visible; }
     .stack-cards-wrap {
       position: relative;
-      padding-bottom: 10vh;
+      padding-bottom: 60vh;
     }
     .stack-card {
       position: sticky;
@@ -642,13 +643,12 @@
       border-radius: 16px;
       border: 1px solid rgba(225,223,219,0.1);
       background: #291001;
-      overflow: hidden;
       z-index: calc(var(--i) + 1);
       transition: box-shadow 0.3s ease;
     }
     .stack-card:nth-child(1) { background: #2e1302; }
-    .stack-card:nth-child(2) { background: #321503; }
-    .stack-card:nth-child(3) { background: #361704; }
+    .stack-card:nth-child(2) { background: #321503; box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
+    .stack-card:nth-child(3) { background: #361704; box-shadow: 0 -8px 40px rgba(0,0,0,0.5); }
     .stack-card-inner {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -890,7 +890,7 @@
     <div class="hero-content">
       <span class="hero-label">Clay-Powered Lead Generation</span>
       <h1>The <em>keel</em> beneath<br>your GTM.</h1>
-      <p>We build signal-based ABM systems for B2B sales teams. Clay-native, handed off clean — your team runs it from day one.</p>
+      <p>We build Clay-powered lead generation systems for B2B sales teams. Precision account lists, enriched data, and a fully operational table handed off clean. Your team owns it from day one.</p>
       <div class="hero-actions">
         <a href="#solution" class="btn-secondary">See the System</a>
       </div>
