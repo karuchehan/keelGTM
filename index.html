@@ -718,20 +718,21 @@
       letter-spacing: 0.16em;
       color: rgba(225,223,219,0.2);
     }
-    .orbit-content-wrap { position: relative; min-height: 280px; }
+    .orbit-content-wrap {
+      position: relative;
+      min-height: 210vh;
+    }
     .orbit-content {
-      position: absolute;
-      top: 0; left: 0;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-      pointer-events: none;
+      position: relative;
+      display: block;
+      min-height: 70vh;
+      opacity: 0.15;
+      transform: translateY(0);
+      transition: opacity 0.4s ease;
+      pointer-events: auto;
     }
     .orbit-content.active {
       opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-      position: relative;
     }
     .orbit-step-label {
       display: block;
@@ -1535,10 +1536,8 @@
 
     // Orbit animation
     (function() {
-      const wrapper = document.querySelector('.orbit-scroll-wrapper');
-      if (!wrapper) return;
+      const panels = document.querySelectorAll('.orbit-content');
       const btns = document.querySelectorAll('.orbit-btn');
-      const contents = document.querySelectorAll('.orbit-content');
       const centerNum = document.getElementById('orbit-active-num');
       let current = 1;
 
@@ -1546,18 +1545,24 @@
         if (step === current) return;
         current = step;
         btns.forEach(b => b.classList.toggle('active', parseInt(b.dataset.step) === step));
-        contents.forEach(c => c.classList.toggle('active', parseInt(c.dataset.content) === step));
+        panels.forEach(p => p.classList.toggle('active', parseInt(p.dataset.content) === step));
         if (centerNum) centerNum.textContent = step.toString().padStart(2, '0');
       }
 
-      // Scroll-driven: divide scroll into 3 equal phases
+      // Viewport-detection scroll: find which panel is in viewport center
       function onScroll() {
-        const rect = wrapper.getBoundingClientRect();
-        const scrolled = -rect.top;
-        const total = rect.height - window.innerHeight;
-        const progress = Math.max(0, Math.min(1, scrolled / total));
-        const step = progress < 0.33 ? 1 : progress < 0.66 ? 2 : 3;
-        activate(step);
+        const viewportCenter = window.innerHeight / 2;
+        let activeIndex = 1;
+
+        panels.forEach((panel, idx) => {
+          const rect = panel.getBoundingClientRect();
+          // Panel is in view if its top is above center AND bottom is below 0
+          if (rect.top < viewportCenter && rect.bottom > 0) {
+            activeIndex = idx + 1; // 1-indexed
+          }
+        });
+
+        activate(activeIndex);
       }
 
       // Also allow click
@@ -1567,7 +1572,7 @@
 
       // Set initial state
       btns[0].classList.add('active');
-      contents[0].classList.add('active');
+      panels[0].classList.add('active');
 
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
