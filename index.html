@@ -314,26 +314,33 @@
 
     /* PAIN POINTS */
     .pain-point {
-      padding-bottom:2.5rem;
-      margin-bottom:2.5rem;
-      border-bottom:1px solid rgba(225,223,219,0.08);
-      border-left: 2px solid transparent;
-      padding-left: 1.2rem;
-      transition: border-color 0.3s ease;
+      padding: 2rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(225,223,219,0.07);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.01);
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+      cursor: default;
     }
-    .pain-point:hover { border-color: #ff5930; }
-    .pain-point:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+    .pain-point:last-child { margin-bottom: 0; }
+    .pain-point:hover {
+      background: rgba(255,89,48,0.05);
+      border-color: rgba(255,89,48,0.25);
+      transform: translateX(6px);
+    }
     .pain-point h3 {
-      font-family:'Playfair Display',serif;
-      font-size:clamp(1.4rem,2vw,1.9rem);
-      color:#e1dfdb;
-      margin-bottom:0.6rem;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 2vw, 1.9rem);
+      color: #e1dfdb;
+      margin-bottom: 0.6rem;
+      transition: color 0.3s ease;
     }
+    .pain-point:hover h3 { color: #ff5930; }
     .pain-point p {
-      font-size:1.05rem;
-      line-height:1.7;
-      color:rgba(225,223,219,0.6);
-      max-width:500px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: rgba(225,223,219,0.6);
+      max-width: 500px;
     }
 
     /* PROOF OF CRAFT */
@@ -403,34 +410,112 @@
       padding: 3px 10px;
     }
 
-    /* DELIVERABLES */
-    .deliverables { display:flex; flex-direction:column; }
-    .deliverable {
-      display:grid;
-      grid-template-columns:80px 1fr;
-      gap:32px;
-      padding:3rem 0;
-      border-top:1px solid rgba(225,223,219,0.08);
-      align-items:start;
+    /* SERVICES */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
     }
-    .deliverable:last-child { border-bottom:1px solid rgba(225,223,219,0.08); }
-    .del-num {
-      font-family:'Playfair Display',serif;
-      font-size:clamp(2.5rem,4vw,4.5rem);
-      color:rgba(225,223,219,0.12);
-      line-height:1;
+    .service-card {
+      border: 1px solid rgba(225,223,219,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.015);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
     }
-    .deliverable h3 {
-      font-family:'Playfair Display',serif;
-      font-size:clamp(1.5rem,2.2vw,2rem);
-      color:#e1dfdb;
-      margin-bottom:0.6rem;
+    .service-card:hover {
+      border-color: rgba(255,89,48,0.3);
+      transform: translateY(-4px);
     }
-    .deliverable p {
-      font-size:1.05rem;
-      line-height:1.7;
-      color:rgba(225,223,219,0.6);
-      max-width:580px;
+    .service-card-top {
+      padding: 2.5rem 2.5rem 2rem;
+      border-bottom: 1px solid rgba(225,223,219,0.06);
+    }
+    .service-diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .sd-label-top {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(225,223,219,0.3);
+      margin-bottom: 4px;
+    }
+    .sd-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .sd-node {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .sd-node.muted {
+      color: rgba(225,223,219,0.5);
+      border: 1px solid rgba(225,223,219,0.1);
+      background: rgba(225,223,219,0.03);
+    }
+    .sd-node.highlight-you {
+      color: #ff5930;
+      border: 1px solid rgba(255,89,48,0.3);
+      background: rgba(255,89,48,0.06);
+      font-weight: 700;
+    }
+    .sd-node-main {
+      font-size: 12px;
+      font-weight: 700;
+      color: #291001;
+      background: #ff5930;
+      padding: 8px 20px;
+      border-radius: 8px;
+      letter-spacing: 0.02em;
+    }
+    .sd-connector {
+      width: 1px;
+      height: 16px;
+      background: rgba(225,223,219,0.15);
+    }
+    .service-card-body {
+      padding: 2rem 2.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      flex: 1;
+    }
+    .service-card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 2vw, 1.8rem);
+      color: #e1dfdb;
+      line-height: 1.2;
+    }
+    .service-card-body p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(225,223,219,0.6);
+    }
+    .service-cta {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ff5930;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+    .service-cta:hover { opacity: 0.7; }
+    @media (max-width: 768px) {
+      .services-grid { grid-template-columns: 1fr; }
     }
 
 
@@ -804,9 +889,9 @@
 
   <section class="hero" id="home">
     <div class="hero-content">
-      <span class="hero-label">Clay-Powered GTM Engineering</span>
-      <h1>We build your<br>outbound<br>engine. You keep<br><em>the keys.</em></h1>
-      <p>Signal-based ABM systems for Seed–Series B SaaS. Built in Clay, handed off clean. No retainers, no dependencies — just an engine that runs.</p>
+      <span class="hero-label">Clay-Powered Lead Generation</span>
+      <h1>The <em>keel</em> beneath<br>your GTM.</h1>
+      <p>We build signal-based ABM systems for B2B sales teams. Clay-native, handed off clean — your team runs it from day one.</p>
       <div class="hero-actions">
         <a href="#solution" class="btn-secondary">See the System</a>
       </div>
@@ -854,7 +939,7 @@
   <section id="craft" class="section">
     <div class="section-inner">
       <span class="section-label">The Difference</span>
-      <h2>The <em style="color:#ff5930;">keel</em> beneath<br>your GTM.</h2>
+      <h2>Built in the field.<br>Handed off <em>clean.</em></h2>
       <p class="craft-subhead">Clay-native builds. Signal-driven. Handed off clean.</p>
       <div class="craft-grid">
 
@@ -901,29 +986,68 @@
   <section id="solution" class="section">
     <div class="section-inner">
       <span class="section-label">The System</span>
-      <h2>One service. One deliverable.<br>We build the system, hand you the keys.</h2>
-      <div class="deliverables">
-        <div class="deliverable">
-          <span class="del-num">01</span>
-          <div>
-            <h3>ICP-Mapped Account List</h3>
-            <p>TAM mapped, enriched, zero dirty data. We build your target account list in Clay — precise ICP criteria, clean contacts, ready to work from day one.</p>
+      <h2>One offering.<br>Two ways we <em>build.</em></h2>
+      <div class="services-grid">
+
+        <div class="service-card">
+          <div class="service-card-top">
+            <div class="service-diagram">
+              <div class="sd-row">
+                <span class="sd-node muted">Your Client</span>
+                <span class="sd-node muted">Your Client</span>
+                <span class="sd-node muted">Your Client</span>
+              </div>
+              <div class="sd-connector"></div>
+              <div class="sd-row">
+                <span class="sd-node muted">Strategy</span>
+                <span class="sd-node highlight-you">You</span>
+                <span class="sd-node muted">Outbound</span>
+              </div>
+              <div class="sd-connector"></div>
+              <div class="sd-node-main">keelGTM</div>
+              <div class="sd-connector"></div>
+              <div class="sd-row">
+                <span class="sd-node muted">Clay Tables</span>
+                <span class="sd-node muted">Clean Lists</span>
+              </div>
+            </div>
+          </div>
+          <div class="service-card-body">
+            <h3>White Label Clay Services</h3>
+            <p>We build and manage Clay infrastructure behind the scenes — delivered under your brand. Agencies and consultants only.</p>
+            <a href="https://cal.com/chehan-karunaratne/30min" target="_blank" class="service-cta">Book a Call →</a>
           </div>
         </div>
-        <div class="deliverable">
-          <span class="del-num">02</span>
-          <div>
-            <h3>Enrichment Infrastructure</h3>
-            <p>Tech stack, hiring signals, firmographics, contact data — all wired up and prioritized inside your Clay table. Every column built to trigger the right outreach.</p>
+
+        <div class="service-card">
+          <div class="service-card-top">
+            <div class="service-diagram">
+              <div class="sd-label-top">Data Sources</div>
+              <div class="sd-row">
+                <span class="sd-node muted">Apollo</span>
+                <span class="sd-node muted">LinkedIn</span>
+                <span class="sd-node muted">BuiltWith</span>
+              </div>
+              <div class="sd-connector"></div>
+              <div class="sd-node-main">keelGTM + Clay</div>
+              <div class="sd-connector"></div>
+              <div class="sd-row">
+                <span class="sd-node muted">Qualified Leads</span>
+                <span class="sd-node muted">Enriched Lists</span>
+              </div>
+              <div class="sd-row" style="margin-top:8px;">
+                <span class="sd-node muted">Verified Emails</span>
+                <span class="sd-node muted">Clean Data</span>
+              </div>
+            </div>
+          </div>
+          <div class="service-card-body">
+            <h3>Strategic B2B List Building</h3>
+            <p>ICP-mapped account lists, enriched and verified. Built in Clay, handed off clean. Your team runs it from day one.</p>
+            <a href="https://cal.com/chehan-karunaratne/30min" target="_blank" class="service-cta">Book a Call →</a>
           </div>
         </div>
-        <div class="deliverable">
-          <span class="del-num">03</span>
-          <div>
-            <h3>Handoff-Ready System</h3>
-            <p>Clean documentation, a full walkthrough, and a system your team can run from day one. No retainer. No dependency on us. You own it entirely.</p>
-          </div>
-        </div>
+
       </div>
     </div>
   </section>
@@ -1349,6 +1473,14 @@
 
     // Craft cards
     gsap.utils.toArray('.craft-card').forEach((el, i) => {
+      gsap.fromTo(el, {opacity:0, y:40}, {
+        opacity:1, y:0, duration:0.8, delay:i*0.15, ease:'power3.out',
+        scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
+      });
+    });
+
+    // Service cards
+    gsap.utils.toArray('.service-card').forEach((el, i) => {
       gsap.fromTo(el, {opacity:0, y:40}, {
         opacity:1, y:0, duration:0.8, delay:i*0.15, ease:'power3.out',
         scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
