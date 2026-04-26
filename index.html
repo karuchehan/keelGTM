@@ -626,11 +626,9 @@
     }
 
     /* ORBIT PROCESS */
-    .process-orbit-section { padding-bottom: 0; overflow: hidden; }
-    .orbit-scroll-wrapper {
-      positn: relative;
-      height: 300vh;
-    }
+    .process-orbit-section { padding-bottom: 0; }
+    .orbit-scroll-wrapper { position: relative; height: 280vh; }
+    .orbit-spacer { height: 0; }
     .orbit-sticky {
       position: sticky;
       top: 0;
@@ -638,107 +636,143 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
     }
-    .orbit-scroll-spacer { height: 0; }
-    .orbit-stage {
+    .orbit-layout {
+      display: grid;
+      grid-template-columns: 440px 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1100px;
+      width: 100%;
+      padding: 0 6vw;
+    }
+    .orbit-circle-wrap {
       position: relative;
-      width: min(520px, 80vw);
-      height: min(520px, 80vw);
+      width: 400px;
+      height: 400px;
+      flex-shrink: 0;
     }
-    .orbit-ring {
+    .orbit-svg {
       position: absolute;
       inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .orbit-btn {
+      position: absolute;
+      left: var(--ax);
+      top: var(--ay);
+      transform: translate(-50%, -50%);
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
     }
-    .orbit-track {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      border: 1px solid rgba(255,89,48,0.15);
+    .orbit-btn span {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(225,223,219,0.35);
+      white-space: nowrap;
+      transition: color 0.3s ease;
     }
-    .orbit-center-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #ff5930;
-      box-shadow: 0 0 20px rgba(255,89,48,0.6), 0 0 40px rgba(255,89,48,0.3);
-      animation: keel-pulse 3s ease-in-out infinite;
-    }
-    .orbit-node {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      transform-origin: center center;
-      transition: none;
-    }
-    .orbit-node-dot {
-      position: absolute;
+    .orbit-btn-dot {
       width: 10px;
       height: 10px;
       border-radius: 50%;
+      background: rgba(255,89,48,0.25);
+      border: 2px solid rgba(255,89,48,0.3);
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    .orbit-btn.active .orbit-btn-dot {
       background: #ff5930;
-      border: 2px solid rgba(255,89,48,0.4);
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 10px rgba(255,89,48,0.5);
-      opacity: 0;
-      transition: opacity 0.4s ease;
+      border-color: #ff5930;
+      box-shadow: 0 0 14px rgba(255,89,48,0.7);
+      transform: scale(1.4);
     }
-    .orbit-node.active .orbit-node-dot { opacity: 1; }
-    .orbit-node-card {
+    .orbit-btn.active span { color: #ff5930; }
+    .orbit-center-label {
       position: absolute;
-      opacity: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
       pointer-events: none;
-      transition: opacity 0.5s ease, transform 0.5s ease;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,89,48,0.2);
-      border-radius: 12px;
-      padding: 1.5rem;
-      width: 200px;
-      transform: scale(0.9);
     }
-    .orbit-node.active .orbit-node-card {
-      opacity: 1;
-      pointer-events: auto;
-      transform: scale(1);
+    .orbit-center-num {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      color: rgba(255,89,48,0.15);
+      line-height: 1;
+      transition: color 0.4s ease;
     }
-    .orbit-step-num {
+    .orbit-center-word {
+      display: block;
       font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(225,223,219,0.2);
+    }
+    .orbit-content-wrap { position: relative; min-height: 280px; }
+    .orbit-content {
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+    }
+    .orbit-content.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      position: relative;
+    }
+    .orbit-step-label {
+      display: block;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.14em;
       color: #ff5930;
-      display: block;
-      margin-bottom: 0.4rem;
+      margin-bottom: 1rem;
     }
-    .orbit-node-card h3 {
+    .orbit-content h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
+      font-size: clamp(3rem, 5vw, 5rem);
       color: #e1dfdb;
-      margin-bottom: 0.5rem;
-      line-height: 1.1;
+      line-height: 1.05;
+      margin-bottom: 1.2rem;
     }
-    .orbit-node-card p {
-      font-size: 0.88rem;
-      line-height: 1.65;
-      color: rgba(225,223,219,0.55);
+    .orbit-content p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(225,223,219,0.6);
+      max-width: 460px;
+      margin-bottom: 1.5rem;
     }
-
-    /* Card position offsets from orbit dot — adjusted per quadrant */
-    #orbit-1 .orbit-node-card { top: -20px; left: 20px; }
-    #orbit-2 .orbit-node-card { top: -20px; right: 20px; left: auto; }
-    #orbit-3 .orbit-node-card { bottom: -20px; top: auto; left: 20px; }
-
-    @media (max-width: 768px) {
-      .orbit-scroll-wrapper { height: 250vh; }
-      .orbit-stage { width: 85vw; height: 85vw; }
-      .orbit-node-card { width: 160px; padding: 1rem; }
-      .orbit-node-card h3 { font-size: 1.3rem; }
-      .orbit-node-card p { font-size: 0.82rem; }
+    .orbit-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .orbit-tags span {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(225,223,219,0.4);
+      border: 1px solid rgba(225,223,219,0.12);
+      border-radius: 999px;
+      padding: 4px 12px;
+    }
+    @media (max-width: 900px) {
+      .orbit-layout { grid-template-columns: 1fr; gap: 40px; }
+      .orbit-circle-wrap { width: 300px; height: 300px; margin: 0 auto; }
+      .orbit-scroll-wrapper { height: 220vh; }
     }
 
     /* TEAM */
@@ -1042,43 +1076,72 @@
   </div>
   <div class="orbit-scroll-wrapper">
     <div class="orbit-sticky">
-      <div class="orbit-stage">
+      <div class="orbit-layout">
 
-        <div class="orbit-ring">
-          <div class="orbit-center-dot"></div>
-          <div class="orbit-track"></div>
+        <div class="orbit-circle-wrap">
+          <svg class="orbit-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="200" cy="200" r="140" fill="none" stroke="rgba(255,89,48,0.12)" stroke-width="1"/>
+            <circle cx="200" cy="200" r="4" fill="#ff5930" opacity="0.6"/>
+            <circle class="orbit-ring-glow" cx="200" cy="200" r="140" fill="none" stroke="rgba(255,89,48,0.06)" stroke-width="40"/>
+          </svg>
+
+          <div class="orbit-btn" id="ob-1" data-step="1" style="--ax:200px; --ay:36px;">
+            <div class="orbit-btn-dot"></div>
+            <span>01 Scope</span>
+          </div>
+
+          <div class="orbit-btn" id="ob-2" data-step="2" style="--ax:355px; --ay:260px;">
+            <div class="orbit-btn-dot"></div>
+            <span>02 Build</span>
+          </div>
+
+          <div class="orbit-btn" id="ob-3" data-step="3" style="--ax:46px; --ay:260px;">
+            <div class="orbit-btn-dot"></div>
+            <span>03 Hand Off</span>
+          </div>
+
+          <div class="orbit-center-label">
+            <span class="orbit-center-num" id="orbit-active-num">01</span>
+            <span class="orbit-center-word">Process</span>
+          </div>
         </div>
 
-        <div class="orbit-node" id="orbit-1">
-          <div class="orbit-node-dot"></div>
-          <div class="orbit-node-card">
-            <span class="orbit-step-num">01</span>
+        <div class="orbit-content-wrap">
+          <div class="orbit-content active" data-content="1">
+            <span class="orbit-step-label">Step 01</span>
             <h3>Scope.</h3>
-            <p>We map your ICP, audit your data sources, and define exactly what your Clay table needs to do.</p>
+            <p>We map your ICP, audit your data sources, and define exactly what your Clay table needs to do. No assumptions, no guesswork — just a clean blueprint.</p>
+            <div class="orbit-tags">
+              <span>ICP Mapping</span>
+              <span>Data Audit</span>
+              <span>Clay Blueprint</span>
+            </div>
           </div>
-        </div>
-
-        <div class="orbit-node" id="orbit-2">
-          <div class="orbit-node-dot"></div>
-          <div class="orbit-node-card">
-            <span class="orbit-step-num">02</span>
+          <div class="orbit-content" data-content="2">
+            <span class="orbit-step-label">Step 02</span>
             <h3>Build.</h3>
-            <p>We construct your enrichment infrastructure in Clay. Waterfalls, signals, contact data — everything wired up and tested.</p>
+            <p>We construct your enrichment infrastructure in Clay. Waterfalls, signals, contact data, firmographics — everything wired up, tested, and running clean.</p>
+            <div class="orbit-tags">
+              <span>Clay Table</span>
+              <span>Enrichment Waterfall</span>
+              <span>Signal Wiring</span>
+            </div>
           </div>
-        </div>
-
-        <div class="orbit-node" id="orbit-3">
-          <div class="orbit-node-dot"></div>
-          <div class="orbit-node-card">
-            <span class="orbit-step-num">03</span>
+          <div class="orbit-content" data-content="3">
+            <span class="orbit-step-label">Step 03</span>
             <h3>Hand Off.</h3>
-            <p>You receive a fully operational Clay system with clean documentation. You own it from day one. No retainer required.</p>
+            <p>You receive a fully operational Clay system, clean documentation, and a live walkthrough. You own it entirely from day one. No retainer. No dependency.</p>
+            <div class="orbit-tags">
+              <span>Full Handoff</span>
+              <span>Documentation</span>
+              <span>You Own It</span>
+            </div>
           </div>
         </div>
 
       </div>
     </div>
-    <div class="orbit-scroll-spacer"></div>
+    <div class="orbit-spacer"></div>
   </div>
 </section>
 
@@ -1473,67 +1536,41 @@
     // Orbit animation
     (function() {
       const wrapper = document.querySelector('.orbit-scroll-wrapper');
-      const sticky = document.querySelector('.orbit-sticky');
-      const stage = document.querySelector('.orbit-stage');
-      const nodes = document.querySelectorAll('.orbit-node');
-      if (!wrapper || !stage) return;
+      if (!wrapper) return;
+      const btns = document.querySelectorAll('.orbit-btn');
+      const contents = document.querySelectorAll('.orbit-content');
+      const centerNum = document.getElementById('orbit-active-num');
+      let current = 1;
 
-      const R = stage.offsetWidth / 2;
-
-      // Angles for each step at each scroll phase (in degrees, 0 = top)
-      // Phase 0: only step 1 visible at top (270deg = top of circle)
-      // Phase 1: step 1 moves to top-left, step 2 appears at top
-      // Phase 2: step 1 bottom-left, step 2 left, step 3 top
-      const phases = [
-        [270, null, null],
-        [225, 270, null],
-        [180, 225, 270],
-      ];
-
-      function setNode(node, angleDeg, radius) {
-        const rad = (angleDeg * Math.PI) / 180;
-        const x = Math.cos(rad) * radius;
-        const y = Math.sin(rad) * radius;
-        node.style.transform = `translate(calc(${x}px - 0px), calc(${y}px - 0px))`;
+      function activate(step) {
+        if (step === current) return;
+        current = step;
+        btns.forEach(b => b.classList.toggle('active', parseInt(b.dataset.step) === step));
+        contents.forEach(c => c.classList.toggle('active', parseInt(c.dataset.content) === step));
+        if (centerNum) centerNum.textContent = step.toString().padStart(2, '0');
       }
 
-      function update() {
+      // Scroll-driven: divide scroll into 3 equal phases
+      function onScroll() {
         const rect = wrapper.getBoundingClientRect();
         const scrolled = -rect.top;
         const total = rect.height - window.innerHeight;
         const progress = Math.max(0, Math.min(1, scrolled / total));
-
-        // 3 phases: 0-0.33, 0.33-0.66, 0.66-1
-        const phaseIndex = Math.min(2, Math.floor(progress * 3));
-        const phaseProgress = (progress * 3) - phaseIndex;
-
-        nodes.forEach((node, i) => {
-          const currentPhase = phases[phaseIndex];
-          const nextPhase = phases[Math.min(2, phaseIndex + 1)];
-
-          if (currentPhase[i] === null) {
-            node.classList.remove('active');
-            return;
-          }
-
-          node.classList.add('active');
-
-          const startAngle = currentPhase[i];
-          const endAngle = nextPhase[i] !== null ? nextPhase[i] : startAngle;
-          const angle = startAngle + (endAngle - startAngle) * phaseProgress;
-
-          const radius = stage.offsetWidth / 2 - 10;
-          const rad = (angle * Math.PI) / 180;
-          const x = Math.cos(rad) * radius;
-          const y = Math.sin(rad) * radius;
-
-          node.style.transform = `translate(${x}px, ${y}px)`;
-        });
+        const step = progress < 0.33 ? 1 : progress < 0.66 ? 2 : 3;
+        activate(step);
       }
 
-      window.addEventListener('scroll', update, { passive: true });
-      window.addEventListener('resize', update);
-      update();
+      // Also allow click
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => activate(parseInt(btn.dataset.step)));
+      });
+
+      // Set initial state
+      btns[0].classList.add('active');
+      contents[0].classList.add('active');
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
     })();
 
   </script>
