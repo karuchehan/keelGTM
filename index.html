@@ -620,32 +620,30 @@
     }
     .marquee-inner {
       display: flex;
-      gap: 56px;
+      gap: 100px;
       width: max-content;
-      animation: marquee-scroll 28s linear infinite;
+      animation: marquee-scroll 18s linear infinite;
       align-items: center;
+    }
+    .marquee-inner:hover {
+      animation-play-state: paused;
     }
     .marquee-logo-pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 8px 16px;
+      padding: 12px 24px;
       border: 2px solid #ff5930;
       border-radius: 999px;
       background: rgba(41,16,1,0.5);
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
       white-space: nowrap;
-    }
-    .marquee-logo-pill:hover {
-      transform: translateY(-2px);
-      border-color: #ff5930;
-      box-shadow: 0 4px 16px rgba(255,89,48,0.25);
+      flex-shrink: 0;
     }
     .marquee-logo {
       display: block;
-      height: 24px;
+      height: 48px;
       width: auto;
-      max-width: 120px;
+      max-width: 240px;
       object-fit: contain;
     }
     @keyframes marquee-scroll {
