@@ -625,22 +625,28 @@
       animation: marquee-scroll 28s linear infinite;
       align-items: center;
     }
-    .marquee-inner span {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: rgba(225,223,219,0.25);
-      white-space: nowrap;
-      padding: 6px 18px;
-      border: 1px solid rgba(225,223,219,0.08);
+    .marquee-logo-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      border: 2px solid #ff5930;
       border-radius: 999px;
-      transition: color 0.3s ease, border-color 0.3s ease;
+      background: rgba(41,16,1,0.5);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      white-space: nowrap;
     }
-    .marquee-inner span:hover {
-      color: rgba(225,223,219,0.7);
-      border-color: rgba(225,223,219,0.2);
+    .marquee-logo-pill:hover {
+      transform: translateY(-2px);
+      border-color: #ff5930;
+      box-shadow: 0 4px 16px rgba(255,89,48,0.25);
+    }
+    .marquee-logo {
+      display: block;
+      height: 24px;
+      width: auto;
+      max-width: 120px;
+      object-fit: contain;
     }
     @keyframes marquee-scroll {
       0%   { transform: translateX(0); }
@@ -1167,26 +1173,16 @@
   <section id="tools" class="section" style="padding: 6vh 0; overflow: hidden;">
     <div class="marquee-track">
       <div class="marquee-inner">
-        <span>Clay</span>
-        <span>Apollo.io</span>
-        <span>LinkedIn</span>
-        <span>Clearbit</span>
-        <span>Hunter.io</span>
-        <span>Instantly</span>
-        <span>Smartlead</span>
-        <span>BuiltWith</span>
-        <span>Phantombuster</span>
-        <span>OpenAI</span>
-        <span>Clay</span>
-        <span>Apollo.io</span>
-        <span>LinkedIn</span>
-        <span>Clearbit</span>
-        <span>Hunter.io</span>
-        <span>Instantly</span>
-        <span>Smartlead</span>
-        <span>BuiltWith</span>
-        <span>Phantombuster</span>
-        <span>OpenAI</span>
+        <span class="marquee-logo-pill"><img src="keel logos/tools/clay-logo.svg" alt="Clay" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="keel logos/tools/apollo-logo.svg" alt="Apollo.io" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="keel logos/tools/linkedin-logo.svg" alt="LinkedIn" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="keel logos/tools/instantly-logo.svg" alt="Instantly" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="keel logos/tools/phantombuster-logo.svg" alt="Phantombuster" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="keel logos/tools/clay-logo.svg" alt="Clay" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="keel logos/tools/apollo-logo.svg" alt="Apollo.io" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="keel logos/tools/linkedin-logo.svg" alt="LinkedIn" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="keel logos/tools/instantly-logo.svg" alt="Instantly" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="keel logos/tools/phantombuster-logo.svg" alt="Phantombuster" class="marquee-logo"></span>
       </div>
     </div>
   </section>
