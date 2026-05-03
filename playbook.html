@@ -206,7 +206,7 @@
 
     /* ABM SERIES SECTION */
     .abm-series {
-      padding: 10vh 6vw;
+      padding: 7vh 6vw;
       border-top: 1px solid rgba(225,223,219,0.08);
       position: relative;
       z-index: 2;
@@ -222,12 +222,12 @@
     }
     .abm-series h2 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 4.5rem);
+      font-size: clamp(1.8rem, 2.8vw, 3rem);
       line-height: 1.1;
       letter-spacing: -0.025em;
       color: #e1dfdb;
       max-width: 700px;
-      margin-bottom: 60px;
+      margin-bottom: 48px;
     }
 
     /* CARD GRID */
@@ -246,13 +246,18 @@
       padding: 32px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      min-height: 320px;
       transition: background 0.3s ease;
-      cursor: pointer;
       position: relative;
     }
 
     .abm-card.coming-soon {
       cursor: default;
+    }
+
+    .abm-card:not(.coming-soon) {
+      cursor: pointer;
     }
 
     .abm-card:not(.coming-soon):hover {
@@ -262,7 +267,7 @@
     .abm-card-number {
       font-family: 'Playfair Display', serif;
       font-size: clamp(4rem, 7vw, 8rem);
-      color: rgba(225,223,219,0.05);
+      color: rgba(225,223,219,0.08);
       line-height: 0.9;
       margin-bottom: 24px;
       font-weight: 700;
@@ -428,7 +433,7 @@
 
     <div class="abm-grid">
       <!-- Card 1: Live -->
-      <a href="#" class="abm-card" data-card-id="1">
+      <div class="abm-card" data-card-id="1">
         <div class="abm-card-number">01</div>
         <span class="abm-card-tag">ABM</span>
         <h3 class="abm-card-title">You're reaching out to accounts that aren't ready to buy. That's why nothing is working.</h3>
@@ -436,7 +441,7 @@
         <div class="abm-card-footer">
           <a href="#" class="abm-card-read">Read <span>→</span></a>
         </div>
-      </a>
+      </div>
 
       <!-- Card 2: Coming Soon -->
       <div class="abm-card coming-soon" data-card-id="2">
