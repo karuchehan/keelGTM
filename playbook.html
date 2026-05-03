@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>keelGTM | The Playbook</title>
+  <title>keelGTM | Play Books</title>
   <link rel="icon" href="keel logos/2.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -168,7 +168,14 @@
     }
 
     /* Playbook Hero */
-    .playbook-hero { min-height: 52vh; padding-top: 140px; padding-bottom: 6vh; justify-content: flex-start; }
+    .playbook-hero {
+      min-height: 48vh;
+      padding-top: 140px;
+      padding-bottom: 6vh;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding-right: 0;
+    }
     .playbook-hero h1 { font-size: clamp(3rem, 6vw, 7rem); }
 
     /* SECTIONS */
@@ -197,84 +204,145 @@
       margin-bottom:7vh;
     }
 
-    /* PLAYBOOK GRID */
-    .playbook-grid {
+    /* ABM SERIES SECTION */
+    .abm-series {
+      padding: 10vh 6vw;
+      border-top: 1px solid rgba(225,223,219,0.08);
+      position: relative;
+      z-index: 2;
+    }
+    .abm-series .section-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(225,223,219,0.35);
+      margin-bottom: 1.2rem;
+    }
+    .abm-series h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 4.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: #e1dfdb;
+      max-width: 700px;
+      margin-bottom: 60px;
+    }
+
+    /* CARD GRID */
+    .abm-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 2px;
-    }
-    .playbook-card {
-      border: 1px solid rgba(225,223,219,0.08);
-      border-radius: 12px;
-      margin-bottom: 16px;
-      background: rgba(255,255,255,0.015);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      border: 1px solid rgba(225,223,219,0.07);
+      border-radius: 16px;
       overflow: hidden;
-      transition: border-color 0.3s ease;
+      background: rgba(225,223,219,0.07);
     }
-    .playbook-card:hover { border-color: rgba(255,89,48,0.25); }
-    .playbook-card-top {
-      padding: 2.5rem;
+
+    .abm-card {
+      background: #291001;
+      padding: 32px;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-    }
-    .playbook-tag {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: #ff5930;
-    }
-    .playbook-card h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.4rem, 2vw, 1.9rem);
-      color: #e1dfdb;
-      line-height: 1.2;
-    }
-    .playbook-card p {
-      font-size: 1rem;
-      color: rgba(225,223,219,0.55);
-      line-height: 1.7;
-      max-width: 640px;
-    }
-    .playbook-read-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 0.5rem;
-      background: none;
-      border: 1px solid rgba(225,223,219,0.2);
-      color: #e1dfdb;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 10px 22px;
-      border-radius: 999px;
+      transition: background 0.3s ease;
       cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .abm-card.coming-soon {
+      cursor: default;
+    }
+
+    .abm-card:not(.coming-soon):hover {
+      background: rgba(255,89,48,0.025);
+    }
+
+    .abm-card-number {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(4rem, 7vw, 8rem);
+      color: rgba(225,223,219,0.05);
+      line-height: 0.9;
+      margin-bottom: 24px;
+      font-weight: 700;
+      transition: color 0.3s ease;
+    }
+
+    .abm-card:not(.coming-soon):hover .abm-card-number {
+      color: rgba(255,89,48,0.08);
+    }
+
+    .abm-card-tag {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #ff5930;
+      margin-bottom: 16px;
+      display: inline-block;
       width: fit-content;
     }
-    .playbook-read-btn:hover { border-color: #ff5930; background: rgba(255,89,48,0.06); }
-    .read-arrow { transition: transform 0.3s ease; display: inline-block; }
-    .playbook-card.open .read-arrow { transform: rotate(180deg); }
-    .playbook-card-body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1);
+
+    .abm-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+      color: #e1dfdb;
+      line-height: 1.3;
+      margin-bottom: 10px;
+      transition: color 0.3s ease;
     }
-    .playbook-card.open .playbook-card-body { max-height: 600px; }
-    .playbook-card-content {
-      padding: 0 2.5rem 2.5rem;
+
+    .abm-card.coming-soon .abm-card-title {
+      color: rgba(225,223,219,0.2);
+    }
+
+    .abm-card-description {
+      font-size: 0.85rem;
+      color: rgba(225,223,219,0.45);
+      line-height: 1.65;
+      margin-bottom: auto;
+    }
+
+    .abm-card.coming-soon .abm-card-description {
+      display: none;
+    }
+
+    .abm-card-footer {
+      margin-top: 24px;
       display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      border-top: 1px solid rgba(225,223,219,0.06);
-      padding-top: 2rem;
+      align-items: center;
     }
-    .playbook-card-content p {
-      font-size: 1rem;
-      color: rgba(225,223,219,0.6);
-      line-height: 1.8;
+
+    .abm-card-read {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(225,223,219,0.35);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.3s ease;
+    }
+
+    .abm-card:not(.coming-soon):hover .abm-card-read {
+      color: #ff5930;
+    }
+
+    .abm-coming-badge {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(225,223,219,0.2);
+      background: rgba(225,223,219,0.04);
+      border: 1px solid rgba(225,223,219,0.07);
+      border-radius: 999px;
+      padding: 4px 12px;
+      display: inline-block;
+      width: fit-content;
     }
 
     /* FOOTER */
@@ -319,6 +387,9 @@
       .hero { flex-direction:column; justify-content:center; padding:0 6vw; padding-top:100px; }
       .hero-content { max-width:100%; }
       .playbook-hero { padding-top: 100px; }
+      .abm-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -337,7 +408,7 @@
       </a>
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="playbook.html" style="color:#e1dfdb;">Playbook</a>
+        <a href="playbook.html" style="color:#e1dfdb;">Play Books</a>
       </div>
       <a href="https://cal.com/chehan-karunaratne/30min" class="btn-nav" target="_blank">Book a Call</a>
     </div>
@@ -345,63 +416,116 @@
 
   <section class="hero playbook-hero">
     <div class="hero-content">
-      <span class="hero-label">The Playbook</span>
+      <span class="hero-label">Play Books</span>
       <h1>What we know.<br>How we <em>build.</em></h1>
-      <p>Methodology, frameworks, and real builds — from inside the Clay table.</p>
+      <p>Frameworks, principles, and real thinking from inside the work.</p>
     </div>
   </section>
 
-  <section id="entries" class="section">
-    <div class="section-inner">
-      <span class="section-label">The Entries</span>
-      <h2>Three frameworks.<br>Built in the field.</h2>
-      <div class="playbook-grid">
+  <section class="abm-series">
+    <span class="section-label">The Series</span>
+    <h2>ABM principles that make high-volume outbound actually work.</h2>
 
-        <div class="playbook-card" data-card="1">
-          <div class="playbook-card-top">
-            <span class="playbook-tag">Enrichment</span>
-            <h3>Clay Enrichment Waterfall</h3>
-            <p>How we structure data waterfalls in Clay — column logic, fallback chains, and prioritization that keeps your data clean.</p>
-            <button class="playbook-read-btn" onclick="toggleCard(1)">Read <span class="read-arrow">↓</span></button>
-          </div>
-          <div class="playbook-card-body" id="card-body-1">
-            <div class="playbook-card-content">
-              <p>Placeholder content — full methodology writeup goes here. This section will explain the exact column structure, fallback logic, and waterfall prioritization we use when building enrichment tables in Clay.</p>
-              <p>Topics covered: primary data sources, fallback chains, deduplication logic, field validation, and output formatting.</p>
-            </div>
-          </div>
+    <div class="abm-grid">
+      <!-- Card 1: Live -->
+      <a href="#" class="abm-card" data-card-id="1">
+        <div class="abm-card-number">01</div>
+        <span class="abm-card-tag">ABM</span>
+        <h3 class="abm-card-title">You're reaching out to accounts that aren't ready to buy. That's why nothing is working.</h3>
+        <p class="abm-card-description">Most outbound fails because of timing, not copy. Here is what ABM figured out about buying windows that high-volume outbound has never caught up to.</p>
+        <div class="abm-card-footer">
+          <a href="#" class="abm-card-read">Read <span>→</span></a>
         </div>
+      </a>
 
-        <div class="playbook-card" data-card="2">
-          <div class="playbook-card-top">
-            <span class="playbook-tag">Signals</span>
-            <h3>Tech Stack Identification at Scale</h3>
-            <p>How we surface what tools a company runs and wire it as an enrichment signal — built with BuiltWith and Clearbit inside Clay.</p>
-            <button class="playbook-read-btn" onclick="toggleCard(2)">Read <span class="read-arrow">↓</span></button>
-          </div>
-          <div class="playbook-card-body" id="card-body-2">
-            <div class="playbook-card-content">
-              <p>Placeholder content — full methodology writeup goes here. This section will cover how we query BuiltWith and Clearbit via Clay, normalize the output, and use tech stack data as an enrichment and signal trigger.</p>
-              <p>Topics covered: data sources, Clay column setup, signal logic, and how to use this for outbound targeting.</p>
-            </div>
-          </div>
+      <!-- Card 2: Coming Soon -->
+      <div class="abm-card coming-soon" data-card-id="2">
+        <div class="abm-card-number">02</div>
+        <span class="abm-card-tag">ABM</span>
+        <h3 class="abm-card-title">You're asking for a meeting from someone who has never heard of you. That is a sequencing problem.</h3>
+        <div class="abm-card-footer">
+          <span class="abm-coming-badge">Coming Soon</span>
         </div>
+      </div>
 
-        <div class="playbook-card" data-card="3">
-          <div class="playbook-card-top">
-            <span class="playbook-tag">ABM</span>
-            <h3>Shopify ANZ ABM Build</h3>
-            <p>The full build walkthrough — ICP criteria, enrichment layers, and account scoring for an enterprise ANZ GTM motion.</p>
-            <button class="playbook-read-btn" onclick="toggleCard(3)">Read <span class="read-arrow">↓</span></button>
-          </div>
-          <div class="playbook-card-body" id="card-body-3">
-            <div class="playbook-card-content">
-              <p>Placeholder content — full build walkthrough goes here. This section will cover how we defined the ICP, built the enrichment layers, scored accounts, and delivered a handoff-ready Clay table for Shopify ANZ.</p>
-              <p>Topics covered: ICP mapping, enrichment column structure, scoring logic, and final output format.</p>
-            </div>
-          </div>
+      <!-- Card 3: Coming Soon -->
+      <div class="abm-card coming-soon" data-card-id="3">
+        <div class="abm-card-number">03</div>
+        <span class="abm-card-tag">ABM</span>
+        <h3 class="abm-card-title">Volume is not a strategy. It is what you do when you do not have a strategy.</h3>
+        <div class="abm-card-footer">
+          <span class="abm-coming-badge">Coming Soon</span>
         </div>
+      </div>
 
+      <!-- Card 4: Coming Soon -->
+      <div class="abm-card coming-soon" data-card-id="4">
+        <div class="abm-card-number">04</div>
+        <span class="abm-card-tag">ABM</span>
+        <h3 class="abm-card-title">You found the right company. You found the wrong person. And you only reached out to one of them.</h3>
+        <div class="abm-card-footer">
+          <span class="abm-coming-badge">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- Card 5: Coming Soon -->
+      <div class="abm-card coming-soon" data-card-id="5">
+        <div class="abm-card-number">05</div>
+        <span class="abm-card-tag">ABM</span>
+        <h3 class="abm-card-title">You are leading with your product. The buyer has not even agreed they have a problem yet.</h3>
+        <div class="abm-card-footer">
+          <span class="abm-coming-badge">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- Card 6: Coming Soon -->
+      <div class="abm-card coming-soon" data-card-id="6">
+        <div class="abm-card-number">06</div>
+        <span class="abm-card-tag">ABM</span>
+        <h3 class="abm-card-title">Your ICP has criteria in it that you cannot actually filter for. That is why your list is full of the wrong accounts.</h3>
+        <div class="abm-card-footer">
+          <span class="abm-coming-badge">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- Card 7: Coming Soon -->
+      <div class="abm-card coming-soon" data-card-id="7">
+        <div class="abm-card-number">07</div>
+        <span class="abm-card-tag">ABM</span>
+        <h3 class="abm-card-title">Dropping the company name into a template is not personalization. It is a variable. There is a difference.</h3>
+        <div class="abm-card-footer">
+          <span class="abm-coming-badge">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- Card 8: Coming Soon -->
+      <div class="abm-card coming-soon" data-card-id="8">
+        <div class="abm-card-number">08</div>
+        <span class="abm-card-tag">ABM</span>
+        <h3 class="abm-card-title">Your SDRs are not personalizing. They are copying and pasting. You built a system that made that inevitable.</h3>
+        <div class="abm-card-footer">
+          <span class="abm-coming-badge">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- Card 9: Coming Soon -->
+      <div class="abm-card coming-soon" data-card-id="9">
+        <div class="abm-card-number">09</div>
+        <span class="abm-card-tag">ABM</span>
+        <h3 class="abm-card-title">You are measuring the wrong things. By the time your metrics tell you the campaign failed, it already failed weeks ago.</h3>
+        <div class="abm-card-footer">
+          <span class="abm-coming-badge">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- Card 10: Coming Soon -->
+      <div class="abm-card coming-soon" data-card-id="10">
+        <div class="abm-card-number">10</div>
+        <span class="abm-card-tag">ABM</span>
+        <h3 class="abm-card-title">You keep changing the list mid-campaign. That is why you never know what is actually working.</h3>
+        <div class="abm-card-footer">
+          <span class="abm-coming-badge">Coming Soon</span>
+        </div>
       </div>
     </div>
   </section>
@@ -592,12 +716,6 @@
       document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
     });
 
-    // ── TOGGLE CARD FUNCTION ──────────────────────────────────────
-    function toggleCard(id) {
-      const card = document.querySelector('[data-card="' + id + '"]');
-      card.classList.toggle('open');
-    }
-
     // ── GSAP ANIMATIONS ───────────────────────────────────────────
     gsap.registerPlugin(ScrollTrigger);
 
@@ -611,18 +729,28 @@
     gsap.fromTo(".hero h1",      {opacity:0, y:60}, {opacity:1, y:0, duration:1.2, ease:"power3.out", delay:0.5});
     gsap.fromTo(".hero p",       {opacity:0, y:30}, {opacity:1, y:0, duration:1,   ease:"power3.out", delay:0.8});
 
-    // Section headings
-    gsap.utils.toArray('.section h2').forEach(el => {
-      gsap.fromTo(el, {opacity:0, y:50}, {
-        opacity:1, y:0, duration:1, ease:'power3.out',
-        scrollTrigger: {trigger:el, start:'top 85%', toggleActions:'play none none none'}
+    // Section headlines fade up
+    gsap.fromTo(".abm-series h2", {opacity:0, y:40}, {
+      opacity:1, y:0, duration:1, ease:'power3.out',
+      scrollTrigger: {trigger:'.abm-series h2', start:'top 85%', toggleActions:'play none none none'}
+    });
+
+    // ABM cards fade up with stagger
+    gsap.utils.toArray('.abm-card').forEach((el, i) => {
+      gsap.fromTo(el, {opacity:0, y:30}, {
+        opacity:1, y:0, duration:0.7, delay:i*0.08, ease:'power3.out',
+        scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
       });
     });
 
-    // Playbook cards
-    gsap.utils.toArray('.playbook-card').forEach((el, i) => {
-      gsap.fromTo(el, {opacity:0, y:40}, {
-        opacity:1, y:0, duration:0.8, delay:i*0.12, ease:'power3.out',
+    // Card numbers animate from opacity 0
+    gsap.utils.toArray('.abm-card-number').forEach((el) => {
+      gsap.fromTo(el, {opacity:0}, {
+        opacity: () => {
+          const card = el.closest('.abm-card');
+          return card.classList.contains('coming-soon') ? 0.05 : 0.05;
+        },
+        duration:0.7, ease:'power3.out',
         scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
       });
     });
