@@ -204,150 +204,97 @@
       margin-bottom:7vh;
     }
 
-    /* ABM SERIES SECTION */
-    .abm-series {
-      padding: 7vh 6vw;
+    /* COLLECTIONS SECTION */
+    .collections {
+      padding: 6vh 6vw;
       border-top: 1px solid rgba(225,223,219,0.08);
       position: relative;
       z-index: 2;
     }
-    .abm-series .section-label {
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: rgba(225,223,219,0.35);
-      margin-bottom: 1.2rem;
-    }
-    .abm-series h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 2.8vw, 3rem);
-      line-height: 1.1;
-      letter-spacing: -0.025em;
-      color: #e1dfdb;
-      max-width: 700px;
-      margin-bottom: 48px;
+    .collections-inner {
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    /* CARD GRID */
-    .abm-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      border: 1px solid rgba(225,223,219,0.07);
-      border-radius: 16px;
-      overflow: hidden;
-      background: rgba(225,223,219,0.07);
-    }
-
-    .abm-card {
-      background: #291001;
-      padding: 32px;
+    .collection-item {
       display: flex;
-      flex-direction: column;
+      align-items: center;
       justify-content: space-between;
-      min-height: 320px;
-      transition: background 0.3s ease;
-      position: relative;
-    }
-
-    .abm-card.coming-soon {
-      cursor: default;
-    }
-
-    .abm-card:not(.coming-soon) {
+      padding: 40px 0;
+      border-top: 1px solid rgba(225,223,219,0.08);
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.25s ease;
       cursor: pointer;
     }
 
-    .abm-card:not(.coming-soon):hover {
-      background: rgba(255,89,48,0.025);
+    .collection-item:hover {
+      background: rgba(255,89,48,0.02);
     }
 
-    .abm-card-number {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(4rem, 7vw, 8rem);
-      color: rgba(225,223,219,0.08);
-      line-height: 0.9;
-      margin-bottom: 24px;
-      font-weight: 700;
-      transition: color 0.3s ease;
+    .collection-left {
+      flex: 1;
     }
 
-    .abm-card:not(.coming-soon):hover .abm-card-number {
-      color: rgba(255,89,48,0.08);
-    }
-
-    .abm-card-tag {
+    .collection-label {
       font-size: 10px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.16em;
       color: #ff5930;
-      margin-bottom: 16px;
-      display: inline-block;
-      width: fit-content;
+      margin-bottom: 0.8rem;
+      display: block;
     }
 
-    .abm-card-title {
+    .collection-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+      font-size: clamp(1.8rem, 3vw, 3.2rem);
       color: #e1dfdb;
-      line-height: 1.3;
-      margin-bottom: 10px;
-      transition: color 0.3s ease;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+      transition: color 0.25s ease;
     }
 
-    .abm-card.coming-soon .abm-card-title {
-      color: rgba(225,223,219,0.2);
+    .collection-item:hover .collection-title {
+      color: #fff;
     }
 
-    .abm-card-description {
-      font-size: 0.85rem;
+    .collection-descriptor {
+      font-size: 0.9rem;
       color: rgba(225,223,219,0.45);
-      line-height: 1.65;
-      margin-bottom: auto;
+      line-height: 1.6;
+      max-width: 600px;
     }
 
-    .abm-card.coming-soon .abm-card-description {
-      display: none;
-    }
-
-    .abm-card-footer {
-      margin-top: 24px;
+    .collection-right {
       display: flex;
       align-items: center;
+      gap: 60px;
+      margin-left: 40px;
     }
 
-    .abm-card-read {
+    .collection-count {
+      text-align: right;
       font-size: 11px;
-      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: rgba(225,223,219,0.35);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.3s ease;
+      letter-spacing: 0.14em;
+      color: rgba(225,223,219,0.25);
+      line-height: 1.6;
     }
 
-    .abm-card:not(.coming-soon):hover .abm-card-read {
+    .collection-count-sub {
+      font-size: 9px;
+      letter-spacing: 0.14em;
+    }
+
+    .collection-arrow {
+      font-size: 1.2rem;
+      color: rgba(225,223,219,0.25);
+      transition: color 0.25s ease;
+    }
+
+    .collection-item:hover .collection-arrow {
       color: #ff5930;
-    }
-
-    .abm-coming-badge {
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: rgba(225,223,219,0.2);
-      background: rgba(225,223,219,0.04);
-      border: 1px solid rgba(225,223,219,0.07);
-      border-radius: 999px;
-      padding: 4px 12px;
-      display: inline-block;
-      width: fit-content;
     }
 
     /* FOOTER */
@@ -392,8 +339,9 @@
       .hero { flex-direction:column; justify-content:center; padding:0 6vw; padding-top:100px; }
       .hero-content { max-width:100%; }
       .playbook-hero { padding-top: 100px; }
-      .abm-grid {
-        grid-template-columns: 1fr;
+      .collection-right {
+        gap: 24px;
+        margin-left: 24px;
       }
     }
   </style>
@@ -427,111 +375,21 @@
     </div>
   </section>
 
-  <section class="abm-series">
-    <span class="section-label">The Series</span>
-    <h2>ABM principles that make high-volume outbound actually work.</h2>
-
-    <div class="abm-grid">
-      <!-- Card 1: Live -->
-      <div class="abm-card" data-card-id="1">
-        <div class="abm-card-number">01</div>
-        <span class="abm-card-tag">ABM</span>
-        <h3 class="abm-card-title">You're reaching out to accounts that aren't ready to buy. That's why nothing is working.</h3>
-        <p class="abm-card-description">Most outbound fails because of timing, not copy. Here is what ABM figured out about buying windows that high-volume outbound has never caught up to.</p>
-        <div class="abm-card-footer">
-          <a href="#" class="abm-card-read">Read <span>→</span></a>
+  <section class="collections">
+    <div class="collections-inner">
+      <a href="abm-series.html" class="collection-item">
+        <div class="collection-left">
+          <span class="collection-label">The Series</span>
+          <h2 class="collection-title">ABM principles that make high-volume outbound actually work.</h2>
+          <p class="collection-descriptor">How ABM thinks about targeting, timing, and messaging — and what it means for anyone running outbound at scale.</p>
         </div>
-      </div>
-
-      <!-- Card 2: Coming Soon -->
-      <div class="abm-card coming-soon" data-card-id="2">
-        <div class="abm-card-number">02</div>
-        <span class="abm-card-tag">ABM</span>
-        <h3 class="abm-card-title">You're asking for a meeting from someone who has never heard of you. That is a sequencing problem.</h3>
-        <div class="abm-card-footer">
-          <span class="abm-coming-badge">Coming Soon</span>
+        <div class="collection-right">
+          <div class="collection-count">
+            10 entries<br><span class="collection-count-sub">1 live</span>
+          </div>
+          <span class="collection-arrow">→</span>
         </div>
-      </div>
-
-      <!-- Card 3: Coming Soon -->
-      <div class="abm-card coming-soon" data-card-id="3">
-        <div class="abm-card-number">03</div>
-        <span class="abm-card-tag">ABM</span>
-        <h3 class="abm-card-title">Volume is not a strategy. It is what you do when you do not have a strategy.</h3>
-        <div class="abm-card-footer">
-          <span class="abm-coming-badge">Coming Soon</span>
-        </div>
-      </div>
-
-      <!-- Card 4: Coming Soon -->
-      <div class="abm-card coming-soon" data-card-id="4">
-        <div class="abm-card-number">04</div>
-        <span class="abm-card-tag">ABM</span>
-        <h3 class="abm-card-title">You found the right company. You found the wrong person. And you only reached out to one of them.</h3>
-        <div class="abm-card-footer">
-          <span class="abm-coming-badge">Coming Soon</span>
-        </div>
-      </div>
-
-      <!-- Card 5: Coming Soon -->
-      <div class="abm-card coming-soon" data-card-id="5">
-        <div class="abm-card-number">05</div>
-        <span class="abm-card-tag">ABM</span>
-        <h3 class="abm-card-title">You are leading with your product. The buyer has not even agreed they have a problem yet.</h3>
-        <div class="abm-card-footer">
-          <span class="abm-coming-badge">Coming Soon</span>
-        </div>
-      </div>
-
-      <!-- Card 6: Coming Soon -->
-      <div class="abm-card coming-soon" data-card-id="6">
-        <div class="abm-card-number">06</div>
-        <span class="abm-card-tag">ABM</span>
-        <h3 class="abm-card-title">Your ICP has criteria in it that you cannot actually filter for. That is why your list is full of the wrong accounts.</h3>
-        <div class="abm-card-footer">
-          <span class="abm-coming-badge">Coming Soon</span>
-        </div>
-      </div>
-
-      <!-- Card 7: Coming Soon -->
-      <div class="abm-card coming-soon" data-card-id="7">
-        <div class="abm-card-number">07</div>
-        <span class="abm-card-tag">ABM</span>
-        <h3 class="abm-card-title">Dropping the company name into a template is not personalization. It is a variable. There is a difference.</h3>
-        <div class="abm-card-footer">
-          <span class="abm-coming-badge">Coming Soon</span>
-        </div>
-      </div>
-
-      <!-- Card 8: Coming Soon -->
-      <div class="abm-card coming-soon" data-card-id="8">
-        <div class="abm-card-number">08</div>
-        <span class="abm-card-tag">ABM</span>
-        <h3 class="abm-card-title">Your SDRs are not personalizing. They are copying and pasting. You built a system that made that inevitable.</h3>
-        <div class="abm-card-footer">
-          <span class="abm-coming-badge">Coming Soon</span>
-        </div>
-      </div>
-
-      <!-- Card 9: Coming Soon -->
-      <div class="abm-card coming-soon" data-card-id="9">
-        <div class="abm-card-number">09</div>
-        <span class="abm-card-tag">ABM</span>
-        <h3 class="abm-card-title">You are measuring the wrong things. By the time your metrics tell you the campaign failed, it already failed weeks ago.</h3>
-        <div class="abm-card-footer">
-          <span class="abm-coming-badge">Coming Soon</span>
-        </div>
-      </div>
-
-      <!-- Card 10: Coming Soon -->
-      <div class="abm-card coming-soon" data-card-id="10">
-        <div class="abm-card-number">10</div>
-        <span class="abm-card-tag">ABM</span>
-        <h3 class="abm-card-title">You keep changing the list mid-campaign. That is why you never know what is actually working.</h3>
-        <div class="abm-card-footer">
-          <span class="abm-coming-badge">Coming Soon</span>
-        </div>
-      </div>
+      </a>
     </div>
   </section>
 
@@ -733,32 +591,6 @@
     gsap.fromTo(".hero-label",   {opacity:0, y:20}, {opacity:1, y:0, duration:0.8, ease:"power3.out", delay:0.3});
     gsap.fromTo(".hero h1",      {opacity:0, y:60}, {opacity:1, y:0, duration:1.2, ease:"power3.out", delay:0.5});
     gsap.fromTo(".hero p",       {opacity:0, y:30}, {opacity:1, y:0, duration:1,   ease:"power3.out", delay:0.8});
-
-    // Section headlines fade up
-    gsap.fromTo(".abm-series h2", {opacity:0, y:40}, {
-      opacity:1, y:0, duration:1, ease:'power3.out',
-      scrollTrigger: {trigger:'.abm-series h2', start:'top 85%', toggleActions:'play none none none'}
-    });
-
-    // ABM cards fade up with stagger
-    gsap.utils.toArray('.abm-card').forEach((el, i) => {
-      gsap.fromTo(el, {opacity:0, y:30}, {
-        opacity:1, y:0, duration:0.7, delay:i*0.08, ease:'power3.out',
-        scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
-      });
-    });
-
-    // Card numbers animate from opacity 0
-    gsap.utils.toArray('.abm-card-number').forEach((el) => {
-      gsap.fromTo(el, {opacity:0}, {
-        opacity: () => {
-          const card = el.closest('.abm-card');
-          return card.classList.contains('coming-soon') ? 0.05 : 0.05;
-        },
-        duration:0.7, ease:'power3.out',
-        scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
-      });
-    });
   </script>
 
 </body>
