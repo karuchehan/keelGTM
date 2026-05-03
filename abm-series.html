@@ -242,6 +242,10 @@
       position: relative;
     }
 
+    .abm-card[data-link] {
+      cursor: pointer;
+    }
+
     .abm-card.coming-soon {
       cursor: default;
     }
@@ -425,7 +429,7 @@
   <section class="abm-series">
     <div class="abm-grid">
       <!-- Card 1: Live -->
-      <div class="abm-card" data-card-id="1">
+      <div class="abm-card" data-card-id="1" data-link="post-01.html">
         <div class="abm-card-number">01</div>
         <span class="abm-card-tag">ABM</span>
         <h3 class="abm-card-title">You're reaching out to accounts that aren't ready to buy. That's why nothing is working.</h3>
@@ -743,6 +747,15 @@
         },
         duration:0.7, ease:'power3.out',
         scrollTrigger: {trigger:el, start:'top 88%', toggleActions:'play none none none'}
+      });
+    });
+
+    // Card click navigation
+    document.querySelectorAll('.abm-card[data-link]').forEach(card => {
+      card.addEventListener('click', function(e) {
+        if (!e.target.closest('a')) {
+          window.location.href = this.getAttribute('data-link');
+        }
       });
     });
   </script>
