@@ -130,160 +130,110 @@
 
     /* HERO */
     .hero {
-      position:relative;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:0 6vw;
-      padding-top:110px;
-      z-index:2;
-      overflow:hidden;
-    }
-    .hero-inner {
-      max-width:1200px;
-      width:100%;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:60px;
-      align-items:center;
-    }
-    .hero-content { position:relative; z-index:2; }
-    .hero-label {
-      display:block;
-      font-size:11px;
-      font-weight:600;
-      text-transform:uppercase;
-      letter-spacing:0.16em;
-      color:#ff5930;
-      margin-bottom:1.2rem;
-    }
-    .clay-expert-badge {
-      display:inline-block;
-      height:60px;
-      width:auto;
-      vertical-align:middle;
-      transform:rotate(-3deg) translateY(4px);
-      margin-right:6px;
-      transition:transform 0.3s ease;
-    }
-    .clay-expert-badge:hover {
-      transform:rotate(-3deg) translateY(-1px) scale(1.05);
-    }
-    .hero h1 {
-      font-family:'Playfair Display',serif;
-      font-size:clamp(3.2rem, 5.5vw, 7rem);
-      line-height:1.08;
-      letter-spacing:-0.02em;
-      color:#e1dfdb;
-      margin-bottom:1.5rem;
-    }
-    .hero h1 em { color:#ff5930; font-style:italic; }
-    .hero p {
-      font-size:clamp(1rem,1.3vw,1.15rem);
-      line-height:1.75;
-      color:rgba(225,223,219,0.65);
-      max-width:460px;
-      margin-bottom:1.8rem;
-    }
-    .hero p:nth-of-type(2) {
-      margin-bottom:2.4rem;
-    }
-    .hero p:nth-of-type(3) {
-      margin-bottom:3rem;
-    }
-    .hero-actions { display:flex; gap:14px; align-items:center; margin-bottom:3rem; }
-    .btn-primary {
-      background:#ff5930;
-      color:#291001;
-      font-family:'Inter',sans-serif;
-      font-size:14px;
-      font-weight:700;
-      padding:16px 40px;
-      border-radius:12px;
-      text-decoration:none;
-      transition:transform 0.2s, box-shadow 0.2s;
-    }
-    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(255,89,48,0.35); }
-    .btn-secondary {
-      border:1px solid rgba(225,223,219,0.3);
-      color:#e1dfdb;
-      font-family:'Inter',sans-serif;
-      font-size:15px;
-      font-weight:500;
-      padding:18px 48px;
-      border-radius:4px;
-      text-decoration:none;
-      transition:border-color 0.2s, color 0.2s;
-    }
-    .btn-secondary:hover { border-color:rgba(225,223,219,0.7); color:#fff; }
-    .hero-symbol {
       position: relative;
-      width: 100%;
-      max-width: 500px;
-      pointer-events: none;
-      z-index: 1;
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 140px 6vw 0;
+      z-index: 2;
+      gap: 32px;
+      text-align: center;
     }
-    .keel-diagram {
-      position: relative;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .keel-logo-img {
-      width: 100%;
-      height: auto;
-      opacity: 1;
-      display: block;
-    }
-    .keel-annotation {
-      position: absolute;
-      bottom: 5%;
-      right: -6%;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      max-width: 200px;
-    }
-    .keel-annotation-line {
-      flex-shrink: 0;
-      width: 1px;
-      height: 52px;
-      background: linear-gradient(to bottom, transparent, rgba(255,89,48,0.6));
-      margin-top: 4px;
-    }
-    .keel-annotation-text {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .keel-annotation-label {
-      font-size: 12px;
-      font-weight: 700;
+    .hero-pill {
+      display: inline-block;
+      border: 1px solid rgba(225,223,219,0.15);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 11px;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #ff5930;
+      letter-spacing: 0.14em;
+      color: rgba(225,223,219,0.5);
     }
-    .keel-annotation-desc {
-      font-size: 13px;
-      line-height: 1.6;
-      color: rgba(225,223,219,0.35);
-      font-style: italic;
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 6vw, 7rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #e1dfdb;
     }
-    .hero-keel-bulb {
-      display: none;
+    .hero h1 em { color: #ff5930; font-style: italic; }
+    .hero h1 .muted { color: rgba(225,223,219,0.4); }
+    .hero-subtext {
+      font-size: 1.05rem;
+      color: rgba(225,223,219,0.45);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
     }
-    @keyframes keel-pulse {
-      0%, 100% {
-        box-shadow: 0 0 6px 3px rgba(255,89,48,0.85), 0 0 18px 8px rgba(255,89,48,0.5), 0 0 40px 16px rgba(255,89,48,0.25);
-      }
-      50% {
-        box-shadow: 0 0 10px 5px rgba(255,89,48,1), 0 0 28px 12px rgba(255,89,48,0.65), 0 0 60px 24px rgba(255,89,48,0.35);
-      }
+    .hero-form {
+      display: flex;
+      gap: 10px;
+      max-width: 640px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .hero-form input {
+      flex: 1;
+      background: rgba(225,223,219,0.05);
+      border: 1px solid rgba(225,223,219,0.12);
+      border-radius: 8px;
+      padding: 14px 20px;
+      color: #e1dfdb;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .hero-form input::placeholder { color: rgba(225,223,219,0.3); }
+    .hero-form .btn-form {
+      background: #ff5930;
+      color: #291001;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 14px 28px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .hero-form .btn-form:hover { background: #ffffff; }
+    .hero-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0 6vw 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .hero-chip {
+      border: 1px solid rgba(225,223,219,0.12);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+      color: rgba(225,223,219,0.4);
+    }
+    .hero-social-proof { display: flex; align-items: center; gap: 12px; }
+    .hero-avatars { display: flex; }
+    .hero-avatar {
+      width: 36px;
+      height: 36px;
+      background: rgba(225,223,219,0.1);
+      border: 2px solid #291001;
+      border-radius: 50%;
+      margin-left: -8px;
+    }
+    .hero-avatars .hero-avatar:first-child { margin-left: 0; }
+    .hero-social-proof span {
+      font-size: 0.8rem;
+      color: rgba(225,223,219,0.4);
     }
 
 
@@ -867,10 +817,10 @@
     @media (max-width: 768px) {
       .nav-links { display:none; }
       .nav-inner { padding:0 8px 0 16px; }
-      .hero { padding:0 6vw; padding-top:100px; }
-      .hero-inner { grid-template-columns:1fr; gap:40px; }
-      .hero-content { max-width:100%; }
-      .hero-symbol { display:none; }
+      .hero { padding: 140px 6vw 0; }
+      .hero-form { flex-direction: column; }
+      .hero-form input, .hero-form .btn-form { width: 100%; }
+      .hero-bottom { position: static; padding: 0; flex-direction: column; gap: 16px; text-align: center; }
       .split-layout { grid-template-columns:1fr; gap:40px; }
       .split-left h2 { position:static; }
       .steps { grid-template-columns:1fr; }
@@ -904,31 +854,27 @@
   </nav>
 
   <section class="hero" id="home">
-    <div class="hero-inner">
-      <div class="hero-content">
-        <span class="hero-label">
-    <img src="keel logos/clay-badge.svg" alt="CLAY" class="clay-expert-badge">-Powered Lead Generation
-  </span>
-        <h1>The <em>keel</em> beneath<br>your GTM.</h1>
-        <p>We build Clay-powered lead generation systems for B2B sales teams.</p>
-        <p>Precision account lists, enriched data, and a fully operational table handed off clean.</p>
-        <p>Your team owns it from day one.</p>
-        <div class="hero-actions">
-          <a href="#solution" class="btn-secondary">See the System</a>
-        </div>
+    <div class="hero-pill">Clay-Powered GTM Engineering</div>
+    <h1>The <em>keel</em> beneath<br>your <span class="muted">GTM.</span></h1>
+    <p class="hero-subtext">We build Clay-powered lead generation systems for B2B sales teams. Precision lists, enriched data, handed off clean.</p>
+    <form class="hero-form" onsubmit="return false;">
+      <input type="text" placeholder="Name">
+      <input type="email" placeholder="Email">
+      <button type="submit" class="btn-form">Book a Call</button>
+    </form>
+    <div class="hero-bottom">
+      <div class="hero-chips">
+        <span class="hero-chip">ABM Systems</span>
+        <span class="hero-chip">Clay Infrastructure</span>
+        <span class="hero-chip">Signal-Based Outbound</span>
       </div>
-      <div class="hero-symbol">
-        <div class="keel-diagram">
-          <img src="keel logos/new-cropped.svg" alt="" class="keel-logo-img" aria-hidden="true">
-          <div class="keel-annotation">
-            <div class="keel-annotation-line"></div>
-            <div class="keel-annotation-text">
-              <span class="keel-annotation-label">The Keel</span>
-              <span class="keel-annotation-desc">The structural fin beneath a ship's hull. Invisible to everyone above deck — responsible for everything below.</span>
-            </div>
-          </div>
-          <span class="hero-keel-bulb"></span>
+      <div class="hero-social-proof">
+        <div class="hero-avatars">
+          <div class="hero-avatar"></div>
+          <div class="hero-avatar"></div>
+          <div class="hero-avatar"></div>
         </div>
+        <span>Trusted by B2B sales teams</span>
       </div>
     </div>
   </section>
@@ -1466,12 +1412,11 @@
     });
 
     // Hero entrance
-    gsap.fromTo(".hero-label",   {opacity:0, y:20}, {opacity:1, y:0, duration:0.8, ease:"power3.out", delay:0.3});
-    gsap.fromTo(".hero h1",      {opacity:0, y:60}, {opacity:1, y:0, duration:1.2, ease:"power3.out", delay:0.5});
-    gsap.fromTo(".hero p",       {opacity:0, y:30}, {opacity:1, y:0, duration:1,   ease:"power3.out", delay:0.8});
-    gsap.fromTo(".hero-actions", {opacity:0, y:20}, {opacity:1, y:0, duration:0.8, ease:"power3.out", delay:1});
-    gsap.fromTo(".hero-symbol",  {opacity:0, scale:0.9}, {opacity:1, scale:1, duration:2, ease:"power3.out", delay:0.6});
-    gsap.to(".hero-symbol", {y:-20, duration:4, ease:"sine.inOut", repeat:-1, yoyo:true, delay:2});
+    gsap.fromTo(".hero-pill",    {opacity:0, y:-10}, {opacity:1, y:0, duration:0.6, ease:"power3.out", delay:0.2});
+    gsap.fromTo(".hero h1",      {opacity:0, y:40},  {opacity:1, y:0, duration:1,   ease:"power3.out", delay:0.4});
+    gsap.fromTo(".hero-subtext", {opacity:0, y:20},  {opacity:1, y:0, duration:0.8, ease:"power3.out", delay:0.6});
+    gsap.fromTo(".hero-form",    {opacity:0, y:20},  {opacity:1, y:0, duration:0.8, ease:"power3.out", delay:0.8});
+    gsap.fromTo(".hero-bottom",  {opacity:0},        {opacity:1,       duration:0.6, ease:"power3.out", delay:1.0});
 
     // Section headings
     gsap.utils.toArray('.section h2').forEach(el => {
