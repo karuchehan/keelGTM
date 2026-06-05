@@ -168,46 +168,51 @@
     }
     .hero h1 em { color: #ff5930; font-style: italic; }
     .hero h1 .muted { color: rgba(225,223,219,0.4); }
-    .hero-subtext {
-      font-size: 1.05rem;
+    .hero-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+      font-weight: 400;
       color: rgba(225,223,219,0.45);
-      max-width: 480px;
-      margin: 0 auto;
+      white-space: nowrap;
       line-height: 1.7;
     }
     .hero-form {
       display: flex;
-      gap: 10px;
-      max-width: 640px;
+      align-items: center;
+      background: rgba(225,223,219,0.05);
+      border: 1px solid rgba(225,223,219,0.14);
+      border-radius: 999px;
+      padding: 7px 7px 7px 24px;
+      max-width: 480px;
       width: 100%;
       margin: 0 auto;
     }
-    .hero-form input {
+    .hero-input {
       flex: 1;
-      background: rgba(225,223,219,0.05);
-      border: 1px solid rgba(225,223,219,0.12);
-      border-radius: 8px;
-      padding: 14px 20px;
+      background: transparent;
+      border: none;
+      outline: none;
       color: #e1dfdb;
       font-family: 'Inter', sans-serif;
       font-size: 0.9rem;
-      outline: none;
+      min-width: 0;
     }
-    .hero-form input::placeholder { color: rgba(225,223,219,0.3); }
+    .hero-input::placeholder { color: rgba(225,223,219,0.3); }
     .hero-form .btn-form {
       background: #ff5930;
       color: #291001;
       font-family: 'Inter', sans-serif;
       font-weight: 700;
-      font-size: 0.9rem;
-      padding: 14px 28px;
-      border-radius: 8px;
+      font-size: 0.875rem;
+      padding: 12px 22px;
+      border-radius: 999px;
       border: none;
       cursor: pointer;
       white-space: nowrap;
       transition: background 0.2s;
+      flex-shrink: 0;
     }
-    .hero-form .btn-form:hover { background: #ffffff; }
+    .hero-form .btn-form:hover { background: #e1dfdb; }
     .hero-bottom {
       position: absolute;
       bottom: 0;
@@ -227,21 +232,48 @@
       font-family: 'Inter', sans-serif;
       color: rgba(225,223,219,0.4);
     }
+    .hero-watch { display: flex; align-items: center; gap: 12px; }
+    .hero-watch-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      color: rgba(225,223,219,0.45);
+      border-bottom: 1px solid rgba(225,223,219,0.2);
+      padding-bottom: 1px;
+      letter-spacing: 0.01em;
+    }
+    .hero-play-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #ff5930;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .hero-play-btn:hover { background: #e1dfdb; }
     .hero-social-proof { display: flex; align-items: center; gap: 12px; }
     .hero-avatars { display: flex; }
     .hero-avatar {
       width: 36px;
       height: 36px;
-      background: rgba(225,223,219,0.1);
-      border: 2px solid #291001;
       border-radius: 50%;
-      margin-left: -8px;
+      border: 2px solid #291001;
+      margin-left: -10px;
+      object-fit: cover;
+      object-position: center top;
     }
     .hero-avatars .hero-avatar:first-child { margin-left: 0; }
     .hero-social-proof span {
       font-size: 0.8rem;
       color: rgba(225,223,219,0.4);
+      max-width: 160px;
+      line-height: 1.4;
     }
+    .hero-proof-arrow { color: rgba(225,223,219,0.3); font-size: 0.9rem; }
 
 
     /* SECTIONS */
@@ -861,27 +893,33 @@
   </nav>
 
   <section class="hero" id="home">
-    <div class="hero-pill"><img src="assets/logos/new-cropped.svg" alt="keelGTM">For B2B Companies</div>
+    <div class="hero-pill"><img src="assets/logos/2.svg" alt="keelGTM">For B2B Companies</div>
     <h1>The <em>keel</em> beneath<br>your <em>GTM.</em></h1>
-    <p class="hero-subtext">We build Clay-powered lead generation systems for B2B sales teams. Precision lists, enriched data, handed off clean.</p>
+    <p class="hero-subtitle">The right accounts. The right people. Built fast, handed off clean.</p>
     <form class="hero-form" onsubmit="return false;">
-      <input type="text" placeholder="Name">
-      <input type="email" placeholder="Email">
-      <button type="submit" class="btn-form">Book a Call</button>
+      <input type="email" id="hero-input" class="hero-input" placeholder="" autocomplete="off">
+      <button type="submit" class="btn-form">Book a Call →</button>
     </form>
     <div class="hero-bottom">
       <div class="hero-chips">
-        <span class="hero-chip">ABM Systems</span>
-        <span class="hero-chip">Clay Infrastructure</span>
-        <span class="hero-chip">Signal-Based Outbound</span>
+        <span class="hero-chip">Lead Infrastructure</span>
+        <span class="hero-chip">Signal Intelligence</span>
+        <span class="hero-chip">Prospect Validation Engine</span>
+      </div>
+      <div class="hero-watch">
+        <span class="hero-watch-label">Watch Video</span>
+        <button class="hero-play-btn" aria-label="Watch video">
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M1 0.5L9.5 6L1 11.5V0.5Z" fill="#291001"/></svg>
+        </button>
       </div>
       <div class="hero-social-proof">
         <div class="hero-avatars">
-          <div class="hero-avatar"></div>
-          <div class="hero-avatar"></div>
-          <div class="hero-avatar"></div>
+          <img src="assets/images/chehan.png" class="hero-avatar" alt="Chehan">
+          <img src="assets/images/hiruni.png" class="hero-avatar" alt="Hiruni">
+          <img src="assets/images/gimhan final.png" class="hero-avatar" alt="Gimhan">
         </div>
-        <span>Trusted by B2B sales teams</span>
+        <span>Built for B2B sales teams</span>
+        <span class="hero-proof-arrow">→</span>
       </div>
     </div>
   </section>
@@ -1236,6 +1274,28 @@
   </footer>
 
   <script>
+    // ── HERO INPUT TYPEWRITER ──────────────────────────────────────
+    (function() {
+      const input = document.getElementById('hero-input');
+      if (!input) return;
+      const phrases = ['your@company.com', 'Enter your email', 'Ready to build your list?'];
+      let pi = 0, ci = 0, deleting = false, speed = 90;
+      function tick() {
+        const phrase = phrases[pi];
+        if (!deleting) {
+          input.placeholder = phrase.slice(0, ++ci);
+          if (ci === phrase.length) { deleting = true; speed = 2200; }
+          else speed = 90;
+        } else {
+          input.placeholder = phrase.slice(0, --ci);
+          if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; speed = 400; }
+          else speed = 45;
+        }
+        setTimeout(tick, speed);
+      }
+      setTimeout(tick, 800);
+    })();
+
     // ── SVG WAVE GRID ─────────────────────────────────────────────
     (function() {
       const svg = document.getElementById('wave-svg');
