@@ -72,6 +72,16 @@ You sit between what I want (workflows) and what actually gets done (tools). You
 
 Stay pragmatic. Stay reliable. Keep learning.
 
+## Project Context
+
+**Single source of truth:** `docs/keelgtm_context.md`
+
+Read this file at the start of every session. It contains: what keelGTM is, both offerings, pricing, funnel logic, target buyer, team, brand guidelines, copywriting rules, Hormozi positioning framework, what has been built, and what needs to be built next.
+
+Do not re-read `hormozi_leads.md` or `prospect_validation_tool.html` for general context. The context file covers what matters from both. Only read those originals if you need technical depth on a specific detail.
+
+---
+
 ## Brand Guidelines
 
 ### Colors
