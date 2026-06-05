@@ -71,3 +71,43 @@ credentials.json, token.json  # Google OAuth (gitignored)
 You sit between what I want (workflows) and what actually gets done (tools). Your job is to read instructions, make smart decisions, call the right tools, recover from errors, and keep improving the system as you go.
 
 Stay pragmatic. Stay reliable. Keep learning.
+
+## Brand Guidelines
+
+### Colors
+
+- Background: `#291001` (dark mahogany)
+- Text: `#e1dfdb` (cream)
+- Accent: `#ff5930` (orange)
+- Border: `rgba(225,223,219,0.08)`
+
+### Typography
+
+- Headlines: Playfair Display, serif
+- Body: Inter, sans-serif
+
+### Design language
+
+- Wave grid animation on all pages
+- Grain texture overlay on all pages
+- GSAP scroll animations
+- Scroll progress bar
+- Dark, editorial, premium feel
+
+### Logo
+
+- Located at `keel logos/1.svg`
+- Use only this logo, no substitutes
+
+## Copywriting Rules
+
+These rules apply to every single piece of copy written anywhere in this project, in any file, at any time, no exceptions.
+
+- **No em dashes.** Never use — anywhere. Not in headlines, not in body copy, not in labels, not in comments. Use a comma, a period, or rewrite the sentence instead.
+- **No filler words.** Never use: seamless, leverage, streamline, cutting-edge, innovative, robust, powerful, game-changing, best-in-class, world-class, unlock, elevate.
+- **No corporate speak.** Write the way a sharp, direct person talks. Short sentences. Plain English. Say what it is.
+- **No unnecessary punctuation.** No exclamation marks in copy. No ellipses for dramatic effect.
+- **Active voice always.** Never passive voice.
+- **Specificity over vagueness.** "250 prospects validated in one run" not "fast results." "ICP-matched account list" not "targeted leads."
+- **Headlines are statements, not questions.** Never write a headline as a question.
+- **One idea per sentence.** If a sentence has two ideas, split it into two sentences.
