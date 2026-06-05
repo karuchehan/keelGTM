@@ -1,0 +1,399 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;background:#0d0020}
+#deck{width:100%;min-height:780px;position:relative;background:#0d0020}
+.slide{width:100%;min-height:780px;padding:56px 64px 80px;display:none;flex-direction:column;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(150deg,#0d0020 0%,#130030 100%)}
+.slide.active{display:flex}
+.orb{position:absolute;border-radius:50%;pointer-events:none}
+.si{position:relative;z-index:2;width:100%;max-width:960px;margin:0 auto}
+#nav{width:100%;display:flex;justify-content:center;align-items:center;gap:20px;padding:20px 0 32px;background:#0d0020}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all .2s}
+.dot.on{background:#E8002D;width:22px;border-radius:3px}
+#prev,#next{background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.15);color:#fff;padding:8px 20px;border-radius:20px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;letter-spacing:.02em;transition:background .2s}
+#prev:hover,#next:hover{background:rgba(255,255,255,0.13)}
+.snum{position:absolute;top:24px;right:32px;font-size:11px;letter-spacing:.12em;color:rgba(255,255,255,.28);font-family:'Syne',sans-serif}
+.kicker{font-family:'Syne',sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#E8002D;font-weight:600;margin-bottom:18px}
+.small-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:600;font-family:'Syne',sans-serif;margin-bottom:10px}
+h1{font-family:'Syne',sans-serif;font-size:60px;font-weight:800;line-height:1.04;letter-spacing:-.03em;color:#fff}
+h2{font-family:'Syne',sans-serif;font-size:36px;font-weight:700;line-height:1.1;letter-spacing:-.02em;color:#fff;margin-bottom:6px}
+h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:600;color:#fff}
+p{font-size:14px;line-height:1.7;color:rgba(255,255,255,.65)}
+.accent{color:#E8002D}
+.muted{color:rgba(255,255,255,.38);font-size:13px}
+.tag{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;font-family:'Syne',sans-serif}
+.tag-red{background:rgba(232,0,45,.16);color:#ff6680;border:.5px solid rgba(232,0,45,.28)}
+.card{background:rgba(255,255,255,.045);border:.5px solid rgba(255,255,255,.1);border-radius:16px;padding:20px 24px}
+.card-red{background:rgba(232,0,45,.06);border:.5px solid rgba(232,0,45,.22)}
+.card-green{background:rgba(0,200,100,.06);border:.5px solid rgba(0,200,100,.18)}
+.card-hi{background:rgba(255,255,255,.07);border:.5px solid rgba(255,255,255,.14)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.col{display:flex;flex-direction:column;gap:8px}
+.flex{display:flex;align-items:center;gap:12px}
+.bignum{font-family:'Syne',sans-serif;font-size:46px;font-weight:800;line-height:1;letter-spacing:-.03em;color:#fff}
+.bignum.red{color:#E8002D}
+.bignum.green{color:#4dffa0}
+.bignum-label{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-top:5px}
+.div{height:.5px;background:rgba(255,255,255,.1);margin:16px 0}
+.step{display:flex;gap:14px;align-items:flex-start}
+.sn{width:28px;height:28px;border-radius:50%;background:#E8002D;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;color:#fff}
+.step h4{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;margin-bottom:3px;color:#fff}
+.step p{font-size:13px;color:rgba(255,255,255,.52);line-height:1.5}
+.ctable{width:100%;border-collapse:collapse;font-size:13px}
+.ctable th{text-align:left;padding:10px 16px;font-family:'Syne',sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.38);font-weight:600;border-bottom:.5px solid rgba(255,255,255,.1)}
+.ctable td{padding:11px 16px;border-bottom:.5px solid rgba(255,255,255,.06);vertical-align:top;color:rgba(255,255,255,.75);line-height:1.5}
+.ctable tr:last-child td{border-bottom:none}
+.bad{color:#ff6680}
+.good{color:#4dffa0}
+.blocker{display:flex;gap:14px;padding:16px 18px;border-radius:12px;background:rgba(255,200,0,.05);border:.5px solid rgba(255,200,0,.2)}
+.b-icon{font-size:16px;flex-shrink:0;margin-top:2px}
+.b-body h4{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:#ffd166;margin-bottom:4px}
+.b-body p{font-size:12px;color:rgba(255,255,255,.48);line-height:1.55}
+.hbar{display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:10px;background:rgba(232,0,45,.1);border-left:3px solid #E8002D}
+.hbar p{font-size:13px;color:rgba(255,255,255,.75);margin:0}
+</style>
+
+<div id="deck">
+
+<div class="slide active" id="s0">
+  <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(232,0,45,.13) 0%,transparent 70%);top:-120px;right:-100px"></div>
+  <div class="orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(30,0,80,.9) 0%,transparent 70%);bottom:-80px;left:0"></div>
+  <div class="si">
+    <div class="kicker">xGrowth Internal — Prospect List Building</div>
+    <h1>Prospect Validation<br><span class="accent">System 2.0</span></h1>
+    <p style="margin-top:18px;font-size:16px;max-width:600px;color:rgba(255,255,255,.55);line-height:1.65">Integrating the Prospect Validation Tool into the list building workflow — eliminating manual bottlenecks, cutting timeline from 2 weeks to 1 day, and scaling across 20 concurrent campaigns.</p>
+    <div style="margin-top:36px;display:flex;gap:20px;align-items:center">
+      <span class="tag tag-red">For Lead Strategist Review</span>
+      <span class="muted">June 2026</span>
+    </div>
+  </div>
+  <span class="snum">01 / 10</span>
+</div>
+
+<div class="slide" id="s1">
+  <div class="orb" style="width:380px;height:380px;background:radial-gradient(circle,rgba(232,0,45,.08) 0%,transparent 70%);bottom:-60px;right:-60px"></div>
+  <div class="si">
+    <div class="small-label">The Problem</div>
+    <h2>The current process doesn't scale</h2>
+    <p style="margin-bottom:24px;font-size:13px">With 20 campaigns running simultaneously and only 3 people on the Insights Team, the manual bottleneck compounds across every active client.</p>
+    <div class="g2" style="gap:20px">
+      <div class="card card-red col">
+        <div class="small-label" style="color:rgba(255,100,128,.7)">Current Timeline</div>
+        <div class="bignum red" style="font-size:42px">2 Weeks</div>
+        <div class="bignum-label">Full prospect list build</div>
+        <div class="div"></div>
+        <div class="bignum red" style="font-size:30px">5 Days</div>
+        <div class="bignum-label">Sample list build</div>
+        <div class="div"></div>
+        <div class="bignum red" style="font-size:30px">2–3 Days</div>
+        <div class="bignum-label">Strategist review & feedback</div>
+      </div>
+      <div class="col" style="gap:12px">
+        <div class="card col" style="gap:8px">
+          <h3>Insights Team</h3>
+          <p>2–3 mins per prospect to manually validate, profile by profile. 1,000 prospects = weeks of work across multiple concurrent campaigns.</p>
+        </div>
+        <div class="card col" style="gap:8px">
+          <h3>Strategist</h3>
+          <p>1–2 mins per prospect for review. Entire feedback loop takes 2–3 days. Revision rounds add delay before enrichment can begin.</p>
+        </div>
+        <div class="hbar">
+          <p><strong style="color:#fff">20 campaigns simultaneously</strong> — the bottleneck compounds across every active client.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="snum">02 / 10</span>
+</div>
+
+<div class="slide" id="s2">
+  <div class="orb" style="width:300px;height:300px;background:radial-gradient(circle,rgba(100,0,255,.1) 0%,transparent 70%);top:0;left:-60px"></div>
+  <div class="si">
+    <div class="small-label">The Solution</div>
+    <h2>What the Prospect Validation Tool does</h2>
+    <p style="font-size:13px;margin-bottom:22px">An internal xGrowth web tool. Upload prospect CSV + client brief → AI scrapes each LinkedIn profile → validates against target personas → writes verdict + sales note back into the CSV.</p>
+    <div class="g3" style="margin-bottom:20px">
+      <div class="card card-hi col" style="gap:10px">
+        <div style="font-size:22px" aria-hidden="true"><i class="ti ti-upload"></i></div>
+        <h3>Input</h3>
+        <p style="font-size:12px">Prospect CSV + client brief (.md) + value prop PDF. Uploaded through the web interface.</p>
+      </div>
+      <div class="card card-hi col" style="gap:10px">
+        <div style="font-size:22px" aria-hidden="true"><i class="ti ti-cpu"></i></div>
+        <h3>Process</h3>
+        <p style="font-size:12px">Scrapes LinkedIn via Apify. 20 concurrent validation threads. Claude Sonnet judges each profile against the directive.</p>
+      </div>
+      <div class="card card-hi col" style="gap:10px">
+        <div style="font-size:22px" aria-hidden="true"><i class="ti ti-file-check"></i></div>
+        <h3>Output</h3>
+        <p style="font-size:12px">Verdict (Persona / EXCLUDE) + assessed persona + 12-word strategist note per row, back into CSV.</p>
+      </div>
+    </div>
+    <div class="card card-green flex" style="gap:28px;padding:22px 28px">
+      <div>
+        <div class="bignum green" style="font-size:36px">20 min</div>
+        <div class="bignum-label">500 prospects validated</div>
+      </div>
+      <div style="height:44px;width:.5px;background:rgba(255,255,255,.1)"></div>
+      <div>
+        <div class="bignum green" style="font-size:36px">15 min</div>
+        <div class="bignum-label">Strategist full list review</div>
+      </div>
+      <div style="height:44px;width:.5px;background:rgba(255,255,255,.1)"></div>
+      <div>
+        <div class="bignum green" style="font-size:36px">1 Day</div>
+        <div class="bignum-label">End-to-end list build</div>
+      </div>
+    </div>
+  </div>
+  <span class="snum">03 / 10</span>
+</div>
+
+<div class="slide" id="s3">
+  <div class="si">
+    <div class="small-label">Time Comparison</div>
+    <h2 style="margin-bottom:20px">Before vs. After</h2>
+    <table class="ctable">
+      <thead>
+        <tr>
+          <th style="width:28%">Stage</th>
+          <th style="width:36%;background:rgba(232,0,45,.04)"><span class="bad">Current Process</span></th>
+          <th style="width:36%;background:rgba(0,200,100,.04)"><span class="good">New System</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Prospect pull</td>
+          <td style="background:rgba(232,0,45,.03)"><span class="bad">Manual per-profile evaluation during pull. Slow, prone to gaps.</span></td>
+          <td style="background:rgba(0,200,100,.03)"><span class="good">Bulk pull, no evaluation during pull. Faster, wider net.</span></td>
+        </tr>
+        <tr>
+          <td>Validation</td>
+          <td style="background:rgba(232,0,45,.03)"><span class="bad">2–3 mins each — Insights Team manual</span></td>
+          <td style="background:rgba(0,200,100,.03)"><span class="good">500 prospects in 20 mins — fully automated</span></td>
+        </tr>
+        <tr>
+          <td>Strategist review</td>
+          <td style="background:rgba(232,0,45,.03)"><span class="bad">1–2 mins per prospect · 2–3 days total</span></td>
+          <td style="background:rgba(0,200,100,.03)"><span class="good">5–15 mins for entire list</span></td>
+        </tr>
+        <tr>
+          <td>Revision loop</td>
+          <td style="background:rgba(232,0,45,.03)"><span class="bad">Back to Insights Team for rework. Multiple rounds possible.</span></td>
+          <td style="background:rgba(0,200,100,.03)"><span class="good">Reserve sheet (green-flagged) ready to pull from immediately</span></td>
+        </tr>
+        <tr>
+          <td>Sample list</td>
+          <td style="background:rgba(232,0,45,.03)"><span class="bad">5 days</span></td>
+          <td style="background:rgba(0,200,100,.03)"><span class="good">Same day</span></td>
+        </tr>
+        <tr>
+          <td>Full list</td>
+          <td style="background:rgba(232,0,45,.03)"><span class="bad">2 weeks</span></td>
+          <td style="background:rgba(0,200,100,.03)"><span class="good">1 day</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <span class="snum">04 / 10</span>
+</div>
+
+<div class="slide" id="s4">
+  <div class="orb" style="width:280px;height:280px;background:radial-gradient(circle,rgba(232,0,45,.07) 0%,transparent 70%);bottom:0;right:0"></div>
+  <div class="si">
+    <div class="small-label">New Workflow</div>
+    <h2 style="margin-bottom:18px">The integrated process — step by step</h2>
+    <div class="col" style="gap:12px">
+      <div class="step"><div class="sn">1</div><div><h4>Strategist writes the list building brief</h4><p>Tight, contextual directive with personas, keywords, exclusion signals, and seniority rules. This is the upstream input that determines tool output quality.</p></div></div>
+      <div class="step"><div class="sn">2</div><div><h4>Insights Team bulk-pulls from Sales Navigator via Evaboot</h4><p>No per-profile evaluation during pull. Get everyone matching broad keyword and seniority filters. Volume is fine — the tool handles it.</p></div></div>
+      <div class="step"><div class="sn">3</div><div><h4>Run through Prospect Validation Tool</h4><p>Upload CSV + brief. Tool scrapes LinkedIn, validates each profile, returns verdict + persona + strategist note per row. ~20 mins for 500 prospects.</p></div></div>
+      <div class="step"><div class="sn">4</div><div><h4>Insights Team review — build final list + reserve sheet</h4><p>Move validated includes to final list. Green-highlight marginal excludes into a separate reserve Google Sheet. Hard excludes are done. ~1 hour total.</p></div></div>
+      <div class="step"><div class="sn">5</div><div><h4>Strategist review</h4><p>Top-to-bottom scan of final list. 5–15 mins. Any gaps → Insights Team checks reserve sheet first before going back to Sales Navigator.</p></div></div>
+      <div class="step"><div class="sn">6</div><div><h4>Enrichment via Clay → Delivery Manager → Client</h4><p>Existing Steps 6–8 process unchanged. Email, phone, quality check, handoff. Nothing downstream changes.</p></div></div>
+    </div>
+  </div>
+  <span class="snum">05 / 10</span>
+</div>
+
+<div class="slide" id="s5">
+  <div class="si">
+    <div class="small-label">Architecture Detail</div>
+    <h2 style="margin-bottom:8px">The reserve sheet system</h2>
+    <p style="font-size:13px;margin-bottom:20px">How flagged prospects are stored, accessed, and actioned — without creating overhead for the Insights Team.</p>
+    <div class="g2" style="gap:16px;margin-bottom:16px">
+      <div class="card col" style="gap:10px">
+        <div class="small-label">Final List Sheet</div>
+        <p style="font-size:13px">All tool-validated <span class="good">✓ includes</span>. Clean, ready for Strategist review. Verdict + persona + note populated per row.</p>
+      </div>
+      <div class="card col" style="gap:10px">
+        <div class="small-label">Reserve Sheet</div>
+        <p style="font-size:13px">All <span style="color:#ffd166">⚠ marginal excludes</span> highlighted green by Insights Team during first pass. Hard excludes are not carried over.</p>
+      </div>
+    </div>
+    <div class="card card-hi col" style="gap:14px">
+      <h3>How the reserve sheet gets used</h3>
+      <div class="step"><div class="sn" style="width:24px;height:24px;font-size:11px">1</div><div><p style="font-size:13px">Strategist flags gaps in final list ("need 2 more IT Ops contacts for ANZ")</p></div></div>
+      <div class="step"><div class="sn" style="width:24px;height:24px;font-size:11px">2</div><div><p style="font-size:13px">Insights Team opens reserve sheet, reviews only green-highlighted prospects — seconds, not hours</p></div></div>
+      <div class="step"><div class="sn" style="width:24px;height:24px;font-size:11px">3</div><div><p style="font-size:13px">If reserve has no suitable options → only then return to Sales Navigator for new prospects</p></div></div>
+    </div>
+    <div class="hbar" style="margin-top:14px">
+      <p>Each Insights Team member maintains their own reserve sheet per campaign. Owned, structured, instantly accessible.</p>
+    </div>
+  </div>
+  <span class="snum">06 / 10</span>
+</div>
+
+<div class="slide" id="s6">
+  <div class="si">
+    <div class="small-label">Known Exception</div>
+    <h2 style="margin-bottom:8px">Private profiles & thin LinkedIn presence</h2>
+    <p style="font-size:13px;margin-bottom:20px">The tool scrapes LinkedIn. Private profiles and low-presence accounts can't be fully scraped — a known, bounded exception, not a system failure. Senior leaders are often the least active on LinkedIn.</p>
+    <div class="g2" style="gap:16px;margin-bottom:16px">
+      <div class="card card-red col" style="gap:10px">
+        <h3 style="color:#ff8899">What happens</h3>
+        <p style="font-size:13px">Private profiles → Evaboot cannot download. Thin profiles → tool flags with ⚠ or returns scrape error. Disproportionately affects senior security and IT leaders.</p>
+      </div>
+      <div class="card card-green col" style="gap:10px">
+        <h3 style="color:#4dffa0">How it's handled</h3>
+        <p style="font-size:13px">Insights Team manually reviews these during the initial build pass. Validate against brief manually. Same old procedure, applied only to the exception cases — not the full list.</p>
+      </div>
+    </div>
+    <div class="card card-hi col" style="gap:8px">
+      <h3>The rule</h3>
+      <p style="font-size:13px">If a profile cannot be scraped or returns insufficient data → Insights Team handles manually, flagged in the sheet with a note. This preserves coverage for high-value contacts who are deliberately low-profile — often the most important ones to capture.</p>
+    </div>
+    <div class="hbar" style="margin-top:14px">
+      <p>Private profiles are a small minority. This does not materially affect the overall timeline.</p>
+    </div>
+  </div>
+  <span class="snum">07 / 10</span>
+</div>
+
+<div class="slide" id="s7">
+  <div class="orb" style="width:320px;height:320px;background:radial-gradient(circle,rgba(232,0,45,.09) 0%,transparent 70%);top:-40px;left:-60px"></div>
+  <div class="si">
+    <div class="small-label">Critical Dependency</div>
+    <h2 style="margin-bottom:8px">Brief quality determines tool quality</h2>
+    <p style="font-size:13px;margin-bottom:20px">The tool's judgment is only as good as the directive it operates against. A weak brief produces confident-sounding wrong answers at scale. This is the single most important upstream input.</p>
+    <div class="card card-hi col" style="gap:14px;margin-bottom:16px">
+      <h3>What a good brief must include</h3>
+      <div class="g2" style="gap:8px">
+        <div class="col" style="gap:7px">
+          <div class="flex" style="gap:8px"><span class="good" style="font-size:14px">✓</span><p style="font-size:13px;margin:0">Precise persona descriptions per bucket</p></div>
+          <div class="flex" style="gap:8px"><span class="good" style="font-size:14px">✓</span><p style="font-size:13px;margin:0">Explicit example titles (primary + secondary)</p></div>
+          <div class="flex" style="gap:8px"><span class="good" style="font-size:14px">✓</span><p style="font-size:13px;margin:0">Domain keywords for functional background check</p></div>
+          <div class="flex" style="gap:8px"><span class="good" style="font-size:14px">✓</span><p style="font-size:13px;margin:0">Hard exclusion signals (role types, career patterns)</p></div>
+        </div>
+        <div class="col" style="gap:7px">
+          <div class="flex" style="gap:8px"><span class="good" style="font-size:14px">✓</span><p style="font-size:13px;margin:0">Seniority floor (Head / Director / VP minimum)</p></div>
+          <div class="flex" style="gap:8px"><span class="good" style="font-size:14px">✓</span><p style="font-size:13px;margin:0">Industry context (APRA, regulated, ASX, etc.)</p></div>
+          <div class="flex" style="gap:8px"><span class="good" style="font-size:14px">✓</span><p style="font-size:13px;margin:0">Federated structure notes (group vs divisional)</p></div>
+          <div class="flex" style="gap:8px"><span class="good" style="font-size:14px">✓</span><p style="font-size:13px;margin:0">Wiggle room guidance for borderline profiles</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="hbar">
+      <p><strong style="color:#fff">This becomes a formal Strategist deliverable.</strong> The brief is not optional context — it is the system's operating instructions. Brief quality = output quality.</p>
+    </div>
+  </div>
+  <span class="snum">08 / 10</span>
+</div>
+
+<div class="slide" id="s8">
+  <div class="si">
+    <div class="small-label">Open for Discussion</div>
+    <h2 style="margin-bottom:20px">Blockers to resolve on this call</h2>
+    <div class="col" style="gap:10px">
+      <div class="blocker">
+        <div class="b-icon">⚠</div>
+        <div class="b-body">
+          <h4>Brief quality ownership & standardisation</h4>
+          <p>Who is responsible for writing and QA-ing the directive brief per campaign? Does this add time to the Strategist's pre-build workload, and how is that absorbed across 20 concurrent campaigns?</p>
+        </div>
+      </div>
+      <div class="blocker">
+        <div class="b-icon">⚠</div>
+        <div class="b-body">
+          <h4>Tool confidence threshold — when to override</h4>
+          <p>The tool is accurate but not perfect on borderline cases. What is the agreed protocol when the Insights Team or Strategist disagrees with a verdict? How are corrections fed back to improve the directive?</p>
+        </div>
+      </div>
+      <div class="blocker">
+        <div class="b-icon">⚠</div>
+        <div class="b-body">
+          <h4>Reserve sheet ownership at scale</h4>
+          <p>Each Insights Team member managing reserve sheets per campaign — how is this structured, named, and filed so it remains accessible and doesn't become disorganised across 20 campaigns?</p>
+        </div>
+      </div>
+      <div class="blocker">
+        <div class="b-icon">⚠</div>
+        <div class="b-body">
+          <h4>Rollout sequence</h4>
+          <p>Do we pilot on one campaign before full rollout? Who manages the transition for in-progress builds already mid-process under the old workflow?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="snum">09 / 10</span>
+</div>
+
+<div class="slide" id="s9" style="background:linear-gradient(135deg,#0d0020 0%,#1a0040 60%,#0d0020 100%)">
+  <div class="orb" style="width:450px;height:450px;background:radial-gradient(circle,rgba(232,0,45,.1) 0%,transparent 70%);top:-80px;right:-80px"></div>
+  <div class="si">
+    <div class="small-label">Summary</div>
+    <h2 style="margin-bottom:20px">What we're proposing</h2>
+    <div class="g2" style="gap:16px;margin-bottom:20px">
+      <div class="card card-green col" style="gap:16px">
+        <div class="small-label" style="color:rgba(77,255,160,.6)">Time saved</div>
+        <div class="flex" style="gap:14px;align-items:flex-end">
+          <div><div class="bignum red" style="font-size:28px;text-decoration:line-through;opacity:.5">2 Weeks</div><div class="bignum-label">old full list</div></div>
+          <div style="font-size:20px;color:rgba(255,255,255,.25);margin-bottom:4px">→</div>
+          <div><div class="bignum green" style="font-size:28px">1 Day</div><div class="bignum-label">new full list</div></div>
+        </div>
+        <div class="flex" style="gap:14px;align-items:flex-end">
+          <div><div class="bignum red" style="font-size:28px;text-decoration:line-through;opacity:.5">5 Days</div><div class="bignum-label">old sample list</div></div>
+          <div style="font-size:20px;color:rgba(255,255,255,.25);margin-bottom:4px">→</div>
+          <div><div class="bignum green" style="font-size:28px">Same Day</div><div class="bignum-label">new sample list</div></div>
+        </div>
+      </div>
+      <div class="col" style="gap:10px">
+        <div class="card col" style="gap:6px">
+          <h3 style="font-size:13px">What changes</h3>
+          <p style="font-size:12px">Bulk pull → tool validates → Insights Team reviews output → Strategist scans in 15 mins → reserve sheet covers gaps. Manual fallback for private profiles only.</p>
+        </div>
+        <div class="card col" style="gap:6px">
+          <h3 style="font-size:13px">What stays the same</h3>
+          <p style="font-size:12px">Enrichment via Clay. Delivery Manager review. Client submission. Quality standards. Nothing downstream changes.</p>
+        </div>
+        <div class="card col" style="gap:6px">
+          <h3 style="font-size:13px">The one requirement</h3>
+          <p style="font-size:12px">Brief quality is the upstream dependency. Strategist-owned, precise, per-campaign. The tool is only as good as its directive.</p>
+        </div>
+      </div>
+    </div>
+    <div class="hbar">
+      <p><strong style="color:#fff">3 people. 20 campaigns. 1 day per list.</strong> — The capacity unlocked by this system is the real headline.</p>
+    </div>
+  </div>
+  <span class="snum">10 / 10</span>
+</div>
+
+</div>
+
+<div id="nav">
+  <button id="prev" onclick="go(-1)">← Prev</button>
+  <div id="dots"></div>
+  <button id="next" onclick="go(1)">Next →</button>
+</div>
+
+<script>
+const slides=document.querySelectorAll('.slide');
+const dotsEl=document.getElementById('dots');
+let cur=0;const n=slides.length;
+for(let i=0;i<n;i++){const d=document.createElement('div');d.className='dot'+(i===0?' on':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);}
+function goTo(i){slides[cur].classList.remove('active');document.querySelectorAll('.dot')[cur].classList.remove('on');cur=(i+n)%n;slides[cur].classList.add('active');document.querySelectorAll('.dot')[cur].classList.add('on');}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')go(1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);});
+</script>

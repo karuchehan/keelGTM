@@ -96,7 +96,7 @@ Stay pragmatic. Stay reliable. Keep learning.
 
 ### Logo
 
-- Located at `keel logos/1.svg`
+- Located at `assets/logos/1.svg`
 - Use only this logo, no substitutes
 
 ## Copywriting Rules

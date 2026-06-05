@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>keelGTM | Play Books</title>
-  <link rel="icon" href="keel logos/2.svg">
+  <title>keelGTM | Timing is your strategy.</title>
+  <link rel="icon" href="../assets/logos/2.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -110,6 +110,7 @@
       transition:color 0.2s;
     }
     .nav-links a:hover { color:#e1dfdb; }
+    .nav-links a.active { color:#e1dfdb; }
     .btn-nav {
       background:#e1dfdb;
       color:#291001;
@@ -128,173 +129,164 @@
       box-shadow:0 8px 32px rgba(0,0,0,0.4);
     }
 
-    /* HERO */
-    .hero {
-      position:relative;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:0 6vw;
-      padding-top:110px;
-      z-index:2;
-      overflow:hidden;
-    }
-    .hero-content { max-width:58%; position:relative; z-index:2; }
-    .hero-label {
-      display:block;
-      font-size:11px;
-      font-weight:600;
-      text-transform:uppercase;
-      letter-spacing:0.16em;
-      color:#ff5930;
-      margin-bottom:2rem;
-    }
-    .hero h1 {
-      font-family:'Playfair Display',serif;
-      font-size:clamp(4rem,7vw,8.5rem);
-      line-height:1.02;
-      letter-spacing:-0.03em;
-      color:#e1dfdb;
-      margin-bottom:2rem;
-    }
-    .hero h1 em { color:#ff5930; font-style:italic; }
-    .hero p {
-      font-size:clamp(1rem,1.3vw,1.15rem);
-      line-height:1.75;
-      color:rgba(225,223,219,0.65);
-      max-width:460px;
-      margin-bottom:2.5rem;
-    }
-
-    /* Playbook Hero */
-    .playbook-hero {
-      min-height: 48vh;
+    /* POST HEADER */
+    .post-header {
       padding-top: 140px;
-      padding-bottom: 6vh;
-      justify-content: flex-start;
-      align-items: flex-start;
-      padding-right: 0;
-    }
-    .playbook-hero h1 { font-size: clamp(3rem, 6vw, 7rem); }
-
-    /* SECTIONS */
-    .section {
-      padding:12vh 6vw;
-      border-top:1px solid rgba(225,223,219,0.08);
-      position:relative;
-      z-index:2;
-    }
-    .section-inner { max-width:1200px; margin:0 auto; }
-    .section-label {
-      display:block;
-      font-size:11px;
-      font-weight:600;
-      text-transform:uppercase;
-      letter-spacing:0.16em;
-      color:rgba(225,223,219,0.35);
-      margin-bottom:1.2rem;
-    }
-    .section h2 {
-      font-family:'Playfair Display',serif;
-      font-size:clamp(2.5rem,5vw,5.5rem);
-      line-height:1.08;
-      letter-spacing:-0.025em;
-      color:#e1dfdb;
-      margin-bottom:7vh;
-    }
-
-    /* COLLECTIONS SECTION */
-    .collections {
-      padding: 6vh 6vw;
-      border-top: 1px solid rgba(225,223,219,0.08);
+      padding-left: 6vw;
+      padding-right: 6vw;
+      padding-bottom: 4vh;
+      max-width: 1200px;
+      margin: 0 auto;
       position: relative;
       z-index: 2;
     }
-    .collections-inner {
+
+    .post-back {
+      display: block;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(225,223,219,0.35);
+      text-decoration: none;
+      margin-bottom: 48px;
+      transition: color 0.2s;
+    }
+
+    .post-back:hover {
+      color: #ff5930;
+    }
+
+    .post-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5vw, 6rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      color: #e1dfdb;
+      margin-bottom: 16px;
+    }
+
+    .post-title em {
+      font-style: italic;
+      color: #ff5930;
+    }
+
+    .post-subtitle {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: rgba(225,223,219,0.45);
+      max-width: 640px;
+      margin-bottom: 40px;
+    }
+
+    .post-divider {
+      height: 1px;
+      background: rgba(225,223,219,0.08);
+      width: 100%;
+    }
+
+    /* POST BODY */
+    .post-body {
+      padding: 6vh 6vw;
       max-width: 1200px;
       margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 65% 30%;
+      gap: 5%;
     }
 
-    .collection-item {
+    .post-left {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 40px 0;
-      border-top: 1px solid rgba(225,223,219,0.08);
-      text-decoration: none;
-      color: inherit;
-      transition: background 0.25s ease;
-      cursor: pointer;
+      flex-direction: column;
+      gap: 0;
     }
 
-    .collection-item:hover {
-      background: rgba(255,89,48,0.02);
+    .post-left p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: rgba(225,223,219,0.75);
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 1.6rem;
     }
 
-    .collection-left {
-      flex: 1;
+    .post-close {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 2vw, 1.8rem);
+      color: #e1dfdb;
+      font-style: italic;
+      margin-top: 2.4rem;
     }
 
-    .collection-label {
+    .post-right {
+      position: sticky;
+      top: 120px;
+    }
+
+    .sidebar-label {
       font-size: 10px;
-      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #ff5930;
-      margin-bottom: 0.8rem;
+      color: rgba(225,223,219,0.25);
+      letter-spacing: 0.14em;
+      margin-bottom: 12px;
       display: block;
     }
 
-    .collection-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 3vw, 3.2rem);
-      color: #e1dfdb;
-      line-height: 1.1;
-      margin-bottom: 0.8rem;
-      transition: color 0.25s ease;
+    .sidebar-series {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: rgba(225,223,219,0.5);
+      margin-bottom: 32px;
     }
 
-    .collection-item:hover .collection-title {
-      color: #fff;
+    .next-post-title {
+      font-size: 0.85rem;
+      color: rgba(225,223,219,0.3);
+      line-height: 1.5;
+      margin-bottom: 8px;
     }
 
-    .collection-descriptor {
-      font-size: 0.9rem;
-      color: rgba(225,223,219,0.45);
-      line-height: 1.6;
-      max-width: 600px;
-    }
-
-    .collection-right {
-      display: flex;
-      align-items: center;
-      gap: 60px;
-      margin-left: 40px;
-    }
-
-    .collection-count {
-      text-align: right;
-      font-size: 11px;
+    .coming-soon-badge {
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: rgba(225,223,219,0.25);
-      line-height: 1.6;
+      letter-spacing: 0.12em;
+      color: rgba(225,223,219,0.2);
+      background: rgba(225,223,219,0.04);
+      border: 1px solid rgba(225,223,219,0.07);
+      border-radius: 999px;
+      padding: 4px 12px;
+      display: inline-block;
     }
 
-    .collection-count-sub {
-      font-size: 9px;
-      letter-spacing: 0.14em;
+    .sidebar-divider {
+      height: 1px;
+      background: rgba(225,223,219,0.08);
+      margin: 24px 0;
     }
 
-    .collection-arrow {
-      font-size: 1.2rem;
-      color: rgba(225,223,219,0.25);
-      transition: color 0.25s ease;
+    .sidebar-cta-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(225,223,219,0.35);
+      margin-bottom: 12px;
+      display: block;
+      margin-top: 24px;
     }
 
-    .collection-item:hover .collection-arrow {
-      color: #ff5930;
+    .sidebar-button {
+      background: #ff5930;
+      color: #291001;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 999px;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+
+    .sidebar-button:hover {
+      background: #ffffff;
     }
 
     /* FOOTER */
@@ -336,12 +328,16 @@
     @media (max-width: 768px) {
       .nav-links { display:none; }
       .nav-inner { padding:0 8px 0 16px; }
-      .hero { flex-direction:column; justify-content:center; padding:0 6vw; padding-top:100px; }
-      .hero-content { max-width:100%; }
-      .playbook-hero { padding-top: 100px; }
-      .collection-right {
-        gap: 24px;
-        margin-left: 24px;
+      .post-body {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .post-right {
+        position: static;
+        top: auto;
+      }
+      .post-header {
+        padding-top: 100px;
       }
     }
   </style>
@@ -356,46 +352,59 @@
 
   <nav id="navbar">
     <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="keel logos/1.svg" alt="keelGTM" height="24" width="auto">
+      <a href="../index.html" class="nav-logo">
+        <img src="../assets/logos/1.svg" alt="keelGTM" height="24" width="auto">
       </a>
       <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="playbook.html" style="color:#e1dfdb;">Playbook</a>
+        <a href="../index.html">Home</a>
+        <a href="playbook.html" class="active">Playbook</a>
       </div>
       <a href="https://cal.com/chehan-karunaratne/30min" class="btn-nav" target="_blank">Book a Call</a>
     </div>
   </nav>
 
-  <section class="hero playbook-hero">
-    <div class="hero-content">
-      <span class="hero-label">Play Books</span>
-      <h1>What we know.<br>How we <em>build.</em></h1>
-      <p>Frameworks, principles, and real thinking from inside the work.</p>
-    </div>
+  <section class="post-header">
+    <a href="abm-series.html" class="post-back">← ABM Series</a>
+    <h1 class="post-title">Timing is your <em>strategy.</em></h1>
+    <p class="post-subtitle">You're reaching out to accounts that aren't ready to buy. That's why nothing is working.</p>
+    <div class="post-divider"></div>
   </section>
 
-  <section class="collections">
-    <div class="collections-inner">
-      <a href="abm-series.html" class="collection-item">
-        <div class="collection-left">
-          <span class="collection-label">The Series</span>
-          <h2 class="collection-title">ABM principles that make high-volume outbound actually work.</h2>
-          <p class="collection-descriptor">How ABM thinks about targeting, timing, and messaging — and what it means for anyone running outbound at scale.</p>
-        </div>
-        <div class="collection-right">
-          <div class="collection-count">
-            10 entries<br><span class="collection-count-sub">1 live</span>
-          </div>
-          <span class="collection-arrow">→</span>
-        </div>
-      </a>
+  <section class="post-body">
+    <div class="post-left">
+      <p>Your copy is fine. Your targeting is fine. Your list quality is fine. The real problem is timing, and it's invisible until you look for it.</p>
+
+      <p>You are reaching out to accounts that have no reason to buy right now. Some are in the middle of their annual budget cycle. Some are six weeks before a contract renewal and have no budget allocated. Some just went through an executive change and everything inside is chaos. A company in any of these states is not thinking about new software. The best email ever written lands flat because the account has no reason to care.</p>
+
+      <p>Buying windows are real. They happen when a company raises funding. When they hire someone new in a key role. When they lose a major customer. When they change their tech stack. When a contract comes up for renewal. When a regulation forces their hand. These are moments when decision-makers are actually thinking about change. High-volume outbound does not track any of this. It never does. You send the same message to every account the same way regardless of where they are in their business cycle. ABM solved this by doing what outbound never does: identifying the signal before reaching out. Not guessing what might work. Knowing what is.</p>
+
+      <p>Most teams do not see the timing problem because the data hides it. You send 1,000 emails and book 40 meetings. The metrics look passable. The open rate is decent. The click rate is acceptable. What you do not see is that 800 of those emails landed in accounts that had no reason to listen. The 200 that landed in accounts with an actual signal converted at three times the rate. You never measure it because you never track the difference. You never separate the noise from the signal.</p>
+
+      <p>Look at your outreach list right now. You have accounts on it where no one is hiring. You have accounts that just completed a major purchase. You have accounts where the key decision-maker just left. You are still sending sequences to these places anyway because your list is static and your trigger detection does not exist. You send because you have the names. Not because they have a reason to listen.</p>
+
+      <p>Start with one signal, not five. Not a complicated system with multiple variables. Just one. Find accounts that had a Series A or Series B funding round in the last 90 days. Or find accounts where you can verify a relevant new hire appeared on LinkedIn. Build a separate email sequence just for those accounts. Send it. Measure the response rate. Compare it to your average. You will not have to guess whether timing matters. You will see it in the data.</p>
+
+      <p class="post-close">Timing isn't a factor you add to your strategy. It is your strategy.</p>
+    </div>
+
+    <div class="post-right">
+      <span class="sidebar-label">Part of</span>
+      <div class="sidebar-series">ABM Series</div>
+
+      <span class="sidebar-label">Next in the series</span>
+      <p class="next-post-title">You're asking for a meeting from someone who has never heard of you. That is a sequencing problem.</p>
+      <span class="coming-soon-badge">Coming Soon</span>
+
+      <div class="sidebar-divider"></div>
+
+      <span class="sidebar-cta-label">Want this built for you?</span>
+      <a href="https://cal.com/chehan-karunaratne/30min" class="sidebar-button" target="_blank">Book a Free Call</a>
     </div>
   </section>
 
   <footer>
     <div class="footer-inner">
-      <img src="keel logos/1.svg" alt="keelGTM" height="38" width="auto">
+      <img src="../assets/logos/1.svg" alt="keelGTM" height="38" width="auto">
       <span class="footer-tagline">Just keel it<span class="orange-dot">.</span></span>
       <div class="footer-links">
         <a href="https://www.linkedin.com/company/keelgtm/" target="_blank">LinkedIn</a>
@@ -413,7 +422,6 @@
       let paths = [];
       let lines = [];
 
-      // Simple 2D noise using sine permutation (no library needed)
       function noise2D(x, y) {
         const X = Math.floor(x) & 255;
         const Y = Math.floor(y) & 255;
@@ -438,7 +446,6 @@
       }
 
       function setLines() {
-        // Clear old paths
         paths.forEach(p => p.remove());
         paths = [];
         lines = [];
@@ -450,7 +457,6 @@
         const xStart = (W - xGap * cols) / 2;
         const yStart = (H - yGap * rows) / 2;
 
-        // Line colors — all warm mahogany tones matching #291001 palette
         const colors = [
           'rgba(80, 35, 8, 0.55)',
           'rgba(65, 28, 6, 0.45)',
@@ -587,10 +593,43 @@
       y: -40, opacity: 0, duration: 1, ease: "power3.out", delay: 0.1
     });
 
-    // Hero entrance
-    gsap.fromTo(".hero-label",   {opacity:0, y:20}, {opacity:1, y:0, duration:0.8, ease:"power3.out", delay:0.3});
-    gsap.fromTo(".hero h1",      {opacity:0, y:60}, {opacity:1, y:0, duration:1.2, ease:"power3.out", delay:0.5});
-    gsap.fromTo(".hero p",       {opacity:0, y:30}, {opacity:1, y:0, duration:1,   ease:"power3.out", delay:0.8});
+    // Back link
+    gsap.fromTo(".post-back",
+      {opacity: 0, y: -10},
+      {opacity: 1, y: 0, duration: 0.6, delay: 0.2, ease: "power3.out"}
+    );
+
+    // Primary title
+    gsap.fromTo(".post-title",
+      {opacity: 0, y: 40},
+      {opacity: 1, y: 0, duration: 1, delay: 0.4, ease: "power3.out"}
+    );
+
+    // Secondary title
+    gsap.fromTo(".post-subtitle",
+      {opacity: 0, y: 20},
+      {opacity: 1, y: 0, duration: 0.8, delay: 0.6, ease: "power3.out"}
+    );
+
+    // Paragraphs with scroll trigger
+    gsap.utils.toArray('.post-left p').forEach((el, i) => {
+      gsap.fromTo(el,
+        {opacity: 0, y: 20},
+        {
+          opacity: 1, y: 0, duration: 0.7, delay: i * 0.1, ease: "power3.out",
+          scrollTrigger: {trigger: el, start: "top 88%", toggleActions: "play none none none"}
+        }
+      );
+    });
+
+    // Sidebar
+    gsap.fromTo(".post-right",
+      {opacity: 0, x: 20},
+      {
+        opacity: 1, x: 0, duration: 0.8, ease: "power3.out",
+        scrollTrigger: {trigger: ".post-right", start: "top 88%", toggleActions: "play none none none"}
+      }
+    );
   </script>
 
 </body>
