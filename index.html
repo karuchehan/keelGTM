@@ -142,15 +142,23 @@
       text-align: center;
     }
     .hero-pill {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       border: 1px solid rgba(225,223,219,0.15);
       border-radius: 999px;
-      padding: 6px 16px;
+      padding: 6px 14px 6px 8px;
       font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.14em;
       color: rgba(225,223,219,0.5);
+    }
+    .hero-pill img {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      flex-shrink: 0;
     }
     .hero h1 {
       font-family: 'Playfair Display', serif;
@@ -854,7 +862,7 @@
   </nav>
 
   <section class="hero" id="home">
-    <div class="hero-pill">Clay-Powered GTM Engineering</div>
+    <div class="hero-pill"><img src="assets/logos/1.svg" alt="keelGTM">For B2B Companies</div>
     <h1>The <em>keel</em> beneath<br>your <em>GTM.</em></h1>
     <p class="hero-subtext">We build Clay-powered lead generation systems for B2B sales teams. Precision lists, enriched data, handed off clean.</p>
     <form class="hero-form" onsubmit="return false;">
