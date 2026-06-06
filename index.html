@@ -333,9 +333,10 @@
       justify-content: center;
     }
     .pain-point:hover {
-      background: rgba(255,89,48,0.04);
-      border-color: rgba(255,89,48,0.22);
-      transform: translateX(6px);
+      background: rgba(255,255,255,0.015);
+      border-color: rgba(225,223,219,0.12);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
     .pain-point h3 {
       font-family: 'Playfair Display', serif;
@@ -345,7 +346,6 @@
       line-height: 1.12;
       transition: color 0.3s ease;
     }
-    .pain-point:hover h3 { color: #ff5930; }
     .pain-point p {
       font-size: 1.1rem;
       line-height: 1.8;
@@ -487,16 +487,35 @@
       border-radius: 12px;
       background: rgba(255,255,255,0.02);
       transition: border-color 0.3s ease, transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      --mouse-x: -400px;
+      --mouse-y: -400px;
     }
+    .craft-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,89,48,0.06), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: inherit;
+    }
+    .craft-card:hover::before { opacity: 1; }
     .craft-card:hover {
-      border-color: rgba(255,89,48,0.35);
+      border-color: rgba(225,223,219,0.12);
       transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
     .craft-card-inner {
       padding: 2rem;
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
+      position: relative;
+      z-index: 1;
     }
     .craft-tag {
       font-size: 10px;
@@ -551,14 +570,32 @@
       transition: border-color 0.3s ease, transform 0.3s ease;
       display: flex;
       flex-direction: column;
+      position: relative;
+      --mouse-x: -400px;
+      --mouse-y: -400px;
     }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,89,48,0.06), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: inherit;
+    }
+    .service-card:hover::before { opacity: 1; }
     .service-card:hover {
-      border-color: rgba(255,89,48,0.3);
+      border-color: rgba(225,223,219,0.12);
       transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
     .service-card-top {
       padding: 2.5rem 2.5rem 2rem;
       border-bottom: 1px solid rgba(225,223,219,0.06);
+      position: relative;
+      z-index: 1;
     }
     .service-diagram {
       display: flex;
@@ -619,6 +656,8 @@
       flex-direction: column;
       gap: 0.75rem;
       flex: 1;
+      position: relative;
+      z-index: 1;
     }
     .service-card-body h3 {
       font-family: 'Playfair Display', serif;
@@ -772,7 +811,22 @@
       background: #291001;
       z-index: calc(var(--i) + 1);
       transition: box-shadow 0.3s ease;
+      overflow: hidden;
+      --mouse-x: -400px;
+      --mouse-y: -400px;
     }
+    .stack-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,89,48,0.06), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: inherit;
+    }
+    .stack-card:hover::before { opacity: 1; }
     .stack-card:nth-child(1) { background: #2e1302; }
     .stack-card:nth-child(2) { background: #321503; box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
     .stack-card:nth-child(3) { background: #361704; box-shadow: 0 -8px 40px rgba(0,0,0,0.5); }
@@ -783,6 +837,8 @@
       padding: 4rem 0;
       align-items: center;
       min-height: 60vh;
+      position: relative;
+      z-index: 1;
     }
     .stack-card-left {
       display: flex;
@@ -1029,40 +1085,75 @@
     #offerings { padding: 120px 6vw; }
     .offerings-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.58fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 24px;
-      align-items: start;
+      align-items: stretch;
     }
     .offering-card {
-      border: 1px solid rgba(225,223,219,0.1);
+      border: 1px solid rgba(225,223,219,0.07);
       border-radius: 20px;
       padding: 3rem;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
       gap: 1.8rem;
+      position: relative;
+      overflow: hidden;
+      min-height: 540px;
+      --mouse-x: -400px;
+      --mouse-y: -400px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      box-shadow: inset 0 1px 0 rgba(225,223,219,0.06), 0 2px 12px rgba(0,0,0,0.28);
+      transition:
+        transform 0.5s cubic-bezier(0.16,1,0.3,1),
+        box-shadow 0.5s cubic-bezier(0.16,1,0.3,1),
+        border-color 0.4s ease;
     }
-    .offering-card.primary { background: rgba(255,255,255,0.02); }
+    .offering-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgba(255,89,48,0.07), transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .offering-card:hover::before { opacity: 1; }
+    .offering-card > *:not(.offering-watermark):not(.offering-cta-overlay) { position: relative; z-index: 1; }
+    .offering-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(225,223,219,0.12);
+      box-shadow: inset 0 1px 0 rgba(225,223,219,0.09), 0 24px 64px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .offering-card.primary {
+      background: rgba(255,255,255,0.02);
+      padding-bottom: 100px;
+    }
+    .offering-card.primary:hover {
+      border-color: rgba(225,223,219,0.12);
+      box-shadow: inset 0 1px 0 rgba(225,223,219,0.08), 0 24px 64px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.3);
+    }
     .offering-card.secondary {
       background: rgba(225,223,219,0.03);
-      margin-top: 40px;
+      padding-bottom: 100px;
     }
-    .offering-tag {
-      display: inline-flex;
-      align-items: center;
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: rgba(225,223,219,0.4);
-      border: 1px solid rgba(225,223,219,0.1);
-      border-radius: 999px;
-      padding: 4px 12px;
-      width: fit-content;
-    }
-    .offering-card.primary .offering-tag {
-      color: #ff5930;
-      border-color: rgba(255,89,48,0.25);
-      background: rgba(255,89,48,0.06);
+    .offering-watermark {
+      position: absolute;
+      bottom: 16px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 5rem);
+      color: rgba(225,223,219,0.04);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      z-index: 0;
     }
     .offering-card h3 {
       font-family: 'Playfair Display', serif;
@@ -1085,6 +1176,7 @@
       display: flex;
       align-items: center;
       gap: 1.2rem;
+      cursor: default;
     }
     .offering-row-num {
       font-family: 'Inter', sans-serif;
@@ -1092,11 +1184,18 @@
       color: rgba(225,223,219,0.3);
       flex-shrink: 0;
       width: 18px;
+      transition: color 0.25s ease, text-shadow 0.25s ease;
+    }
+    .offering-row:hover .offering-row-num {
+      color: rgba(255,89,48,0.85);
+      text-shadow: 0 0 8px rgba(255,89,48,0.35);
     }
     .offering-row-text {
       font-size: 0.95rem;
       color: #e1dfdb;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
     }
+    .offering-row:hover .offering-row-text { transform: translateX(2px); }
     .offering-divider { height: 1px; background: rgba(225,223,219,0.08); }
     .offering-addon-row { display: flex; align-items: center; gap: 12px; }
     .offering-addon-pill {
@@ -1105,28 +1204,120 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: #ff5930;
-      background: rgba(255,89,48,0.08);
-      border: 1px solid rgba(255,89,48,0.2);
+      background: linear-gradient(135deg, rgba(255,89,48,0.15) 0%, rgba(255,89,48,0.06) 100%);
+      border: 1px solid rgba(255,89,48,0.22);
       border-radius: 999px;
       padding: 3px 10px;
       flex-shrink: 0;
+      box-shadow: inset 0 1px 0 rgba(255,89,48,0.2);
     }
     .offering-addon-text { font-size: 0.9rem; color: rgba(225,223,219,0.55); }
-    .offering-cta-link {
-      display: inline-flex;
+    .btn-offering-cta {
+      display: inline-block;
+      background: #e1dfdb;
+      color: #291001;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 32px;
+      border-radius: 999px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .btn-offering-cta:hover { background: #ff5930; color: #291001; }
+    .offering-cta-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(to top, rgba(41,16,1,0.97) 60%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1);
+      z-index: 2;
+    }
+    .offering-card.primary:hover .offering-cta-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .flow-diagram {
+      margin: 4px 0 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .flow-layer {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+    }
+    .flow-pill {
+      background: rgba(225,223,219,0.06);
+      border: 1px solid rgba(225,223,219,0.1);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(225,223,219,0.6);
+    }
+    .flow-pill-output { color: rgba(225,223,219,0.7); }
+    .flow-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 36px;
+    }
+    .flow-line {
+      width: 1px;
+      flex: 1;
+      background: rgba(225,223,219,0.1);
+    }
+    .flow-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,89,48,0.3);
+      flex-shrink: 0;
+    }
+    .flow-keel-box {
+      background: rgba(225,223,219,0.05);
+      border: 1px solid rgba(225,223,219,0.12);
+      border-radius: 8px;
+      padding: 10px 20px;
+      display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 8px;
-      color: #e1dfdb;
+    }
+    .flow-keel-name {
       font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      text-decoration: none;
+      color: #e1dfdb;
     }
-    .offering-cta-arrow {
-      display: inline-block;
-      transition: transform 0.25s ease;
+    .flow-keel-tags {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .offering-cta-link:hover .offering-cta-arrow { transform: translateX(4px); }
+    .flow-keel-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      color: rgba(225,223,219,0.5);
+    }
+    .flow-keel-divider {
+      width: 1px;
+      height: 10px;
+      background: rgba(225,223,219,0.15);
+      flex-shrink: 0;
+    }
     .tools-pricing-clean { display: flex; flex-direction: column; }
     .pricing-row-clean {
       display: flex;
@@ -1134,7 +1325,16 @@
       justify-content: space-between;
       padding: 1.1rem 0;
     }
-    .pricing-divider-thin { height: 1px; background: rgba(225,223,219,0.08); }
+    @keyframes divider-sweep {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+    .pricing-divider-thin {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(225,223,219,0.04) 0%, rgba(225,223,219,0.22) 50%, rgba(225,223,219,0.04) 100%);
+      background-size: 200% 100%;
+      animation: divider-sweep 3.5s ease-in-out infinite;
+    }
     .pricing-row-left { display: flex; flex-direction: column; gap: 3px; }
     .pricing-tier-name { font-size: 0.9rem; color: #e1dfdb; font-weight: 500; }
     .pricing-tier-sub { font-size: 0.75rem; color: rgba(225,223,219,0.35); }
@@ -1158,21 +1358,115 @@
       background: transparent;
       color: #e1dfdb;
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 0.85rem;
       font-weight: 600;
-      padding: 10px 20px;
+      padding: 12px 28px;
       border-radius: 999px;
       border: 1px solid rgba(225,223,219,0.2);
       cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
+      text-decoration: none;
+      text-align: center;
+      transition:
+        border-color 0.35s cubic-bezier(0.16,1,0.3,1),
+        background 0.35s cubic-bezier(0.16,1,0.3,1);
     }
-    .btn-offering-outline:hover { border-color: rgba(225,223,219,0.4); background: rgba(225,223,219,0.04); }
+    .btn-offering-outline:hover {
+      border-color: rgba(225,223,219,0.5);
+      background: rgba(225,223,219,0.05);
+    }
+    .tools-mockup {
+      background: rgba(225,223,219,0.03);
+      border: 1px solid rgba(225,223,219,0.08);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 0;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+    .tools-mockup-topbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .tmb-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tools-mockup-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      gap: 10px;
+    }
+    .tmr-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,89,48,0.6);
+      flex-shrink: 0;
+    }
+    .tmr-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: #e1dfdb;
+      flex: 1;
+    }
+    .tmr-status {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      color: rgba(255,89,48,0.6);
+      background: rgba(255,89,48,0.06);
+      border: 1px solid rgba(255,89,48,0.15);
+      border-radius: 999px;
+      padding: 2px 8px;
+      flex-shrink: 0;
+    }
+    .tools-mockup-divider {
+      height: 1px;
+      background: rgba(225,223,219,0.06);
+    }
+    .tools-tagline {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: rgba(225,223,219,0.45);
+      line-height: 1.65;
+      max-width: 340px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .keel-tools-caps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .keel-tools-cap-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .keel-tools-cap-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,89,48,0.6);
+      flex-shrink: 0;
+    }
+    .keel-tools-cap-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: rgba(225,223,219,0.7);
+    }
     @media (max-width: 768px) {
       #offerings { padding: 10vh 5vw; }
       .offerings-grid { grid-template-columns: 1fr; }
-      .offering-card { padding: 2rem; }
-      .offering-card.secondary { margin-top: 0; }
+      .offering-card { padding: 2rem; min-height: auto; backdrop-filter: none; -webkit-backdrop-filter: none; }
+      .offering-card.primary { padding-bottom: 2rem; }
       .offering-card h3 { font-size: clamp(1.8rem, 9vw, 2.4rem); }
+      .offering-watermark { font-size: clamp(2rem, 8vw, 3.5rem); }
     }
   </style>
 </head>
@@ -1280,67 +1574,75 @@
   <section id="offerings" class="section">
     <div class="section-inner">
       <span class="section-label">Offerings</span>
-      <h2>What We Build.</h2>
+      <h2>What We <em>Build.</em></h2>
       <div class="offerings-grid">
 
         <div class="offering-card primary" id="offering-left">
-          <span class="offering-tag">Done For You</span>
-          <h3>The Keel Build.</h3>
+          <span class="offering-watermark">Done For You</span>
+          <h3>Keel Build.</h3>
           <p class="offering-desc">We build your full account and prospect list end to end. ICP-matched, enriched, and handed off clean. One engagement. You own it from day one.</p>
-          <div class="offering-rows">
-            <div class="offering-row">
-              <span class="offering-row-num">01</span>
-              <span class="offering-row-text">Account list building</span>
+          <div class="flow-diagram">
+            <div class="flow-layer">
+              <span class="flow-pill">Your ICP</span>
+              <span class="flow-pill">Your Goals</span>
             </div>
-            <div class="offering-row">
-              <span class="offering-row-num">02</span>
-              <span class="offering-row-text">Account enrichment</span>
+            <div class="flow-connector">
+              <div class="flow-line"></div>
+              <div class="flow-dot"></div>
+              <div class="flow-line"></div>
             </div>
-            <div class="offering-row">
-              <span class="offering-row-num">03</span>
-              <span class="offering-row-text">Prospect list building</span>
+            <div class="flow-layer">
+              <div class="flow-keel-box">
+                <span class="flow-keel-name">keelGTM</span>
+                <div class="flow-keel-tags">
+                  <span class="flow-keel-tag">Account List</span>
+                  <span class="flow-keel-divider"></span>
+                  <span class="flow-keel-tag">Enrichment</span>
+                  <span class="flow-keel-divider"></span>
+                  <span class="flow-keel-tag">Prospect List</span>
+                  <span class="flow-keel-divider"></span>
+                  <span class="flow-keel-tag">Validation</span>
+                </div>
+              </div>
             </div>
-            <div class="offering-row">
-              <span class="offering-row-num">04</span>
-              <span class="offering-row-text">Prospect enrichment</span>
+            <div class="flow-connector">
+              <div class="flow-line"></div>
+              <div class="flow-dot"></div>
+              <div class="flow-line"></div>
+            </div>
+            <div class="flow-layer">
+              <span class="flow-pill flow-pill-output">Verified Contacts</span>
+              <span class="flow-pill flow-pill-output">Enriched Data</span>
+              <span class="flow-pill flow-pill-output">Campaign Ready</span>
             </div>
           </div>
-          <div class="offering-divider"></div>
-          <div class="offering-addon-row">
-            <span class="offering-addon-pill">Add-on</span>
-            <span class="offering-addon-text">Signal-based personalization</span>
+          <div class="offering-cta-overlay">
+            <a href="https://cal.com/chehan-karunaratne/30min" class="btn-offering-cta" target="_blank">Book a Call</a>
           </div>
-          <a href="https://cal.com/chehan-karunaratne/30min" class="offering-cta-link" target="_blank">Book a Call <span class="offering-cta-arrow">&#8594;</span></a>
         </div>
 
         <div class="offering-card secondary" id="offering-right">
-          <span class="offering-tag">Self-Serve</span>
+          <span class="offering-watermark">Self Serve</span>
           <h3>Keel Tools.</h3>
-          <p class="offering-desc">Clay-powered GTM tools you can run yourself. Built for in-house ops teams who want to move faster without outsourcing.</p>
-          <div class="tools-pricing-clean">
-            <div class="pricing-row-clean">
-              <div class="pricing-row-left">
-                <span class="pricing-tier-name">Pay per run</span>
-                <span class="pricing-tier-sub">500 prospects</span>
-              </div>
-              <div class="pricing-row-right">
-                <span class="pricing-amt">$49</span>
-              </div>
+          <p class="offering-desc">GTM systems combining AI workflows with human expertise. Built for teams who want to move faster without hiring for it.</p>
+          <div class="tools-mockup">
+            <div class="tools-mockup-row">
+              <span class="tmr-dot"></span>
+              <span class="tmr-label">Prospect Validation</span>
             </div>
-            <div class="pricing-divider-thin"></div>
-            <div class="pricing-row-clean">
-              <div class="pricing-row-left">
-                <span class="pricing-tier-name">Full setup</span>
-                <span class="pricing-tier-sub">Own it and run it forever</span>
-              </div>
-              <div class="pricing-row-right">
-                <span class="pricing-was-small">$999</span>
-                <span class="pricing-amt">$499</span>
-              </div>
+            <div class="tools-mockup-divider"></div>
+            <div class="tools-mockup-row">
+              <span class="tmr-dot"></span>
+              <span class="tmr-label">List Enrichment</span>
             </div>
-            <p class="pricing-deadline-soft">Offer ends June 30</p>
+            <div class="tools-mockup-divider"></div>
+            <div class="tools-mockup-row">
+              <span class="tmr-dot"></span>
+              <span class="tmr-label">Signal Qualification</span>
+            </div>
           </div>
-          <button class="btn-offering-outline">Get Started</button>
+          <p class="tools-tagline">Each system automates a specific part of your go-to-market motion. You run it. You own it.</p>
+          <a href="#" class="btn-offering-outline">Explore Tools</a>
         </div>
 
       </div>
@@ -1933,6 +2235,13 @@
       opacity:1, y:0, duration:0.9, delay:0.15, ease:'power3.out',
       scrollTrigger: {trigger:'#offerings', start:'top 80%', toggleActions:'play none none none'}
     });
+    // Offering rows staggered entrance
+    gsap.utils.toArray('.offering-row').forEach((el, i) => {
+      gsap.fromTo(el, {opacity:0, y:10}, {
+        opacity:1, y:0, duration:0.45, delay:0.35 + i * 0.09, ease:'power3.out',
+        scrollTrigger: {trigger:'#offerings', start:'top 80%', toggleActions:'play none none none'}
+      });
+    });
 
     // Craft cards
     gsap.utils.toArray('.craft-card').forEach((el, i) => {
@@ -1999,6 +2308,16 @@
         scrollTrigger: {trigger:el, start:'top 85%', toggleActions:'play none none none'}
       });
     });
+
+    // Card spotlight — tracks mouse for radial gradient on all card surfaces
+    document.querySelectorAll('.offering-card, .craft-card, .service-card, .stack-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+        card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+      });
+    });
+
 
   </script>
 
