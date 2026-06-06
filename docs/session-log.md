@@ -37,5 +37,36 @@ Running log of all discussions, decisions, and changes made to the website. Upda
 
 ---
 
-### In Discussion
-- Section 2 (The Problem) — redesign approach TBD
+---
+
+#### Commit `24ad1eb` + `2e09ccc` — Add Offerings section (What We Do)
+
+**Decision:** Section 2 (The Problem) left as-is for now. Moving to build remaining sections.
+
+**Product update logged:** Prospect Validation Tool is now the first product in a suite called **Keel Tools**. Pricing updated:
+- Pay-per-run: $49 / 500 prospects (was 250)
+- Full setup: $499 shown as discounted from $999 (was $1,000 from $1,500)
+
+**Section built:** `#offerings` inserted between `#problem` and `#craft` sections.
+
+**Layout:** Two-column side-by-side cards on desktop (`1.35fr 1fr`), stacked on mobile.
+
+**Left card — The Keel Build (primary):**
+- Tag: "Done For You" (orange)
+- Orange accent border
+- Features: account list building, account enrichment, prospect list building, prospect enrichment, signal-based personalization (add-on)
+- CTA: "Book a Call" → cal.com link
+
+**Right card — Keel Tools (secondary):**
+- Tag: "Self-Serve"
+- Tool shown: Prospect Validation Tool
+- Pay-per-run: $49 / 500 prospects
+- Full setup: $499 (shown as discounted from $999) with "Limited offer" badge
+- CTA: "Get Started" (placeholder, no action)
+
+**Bug fixed:** Mobile override was placed before desktop CSS in the cascade, so desktop `1.35fr 1fr` grid overrode the `1fr` mobile rule. Fixed by moving mobile `@media` block after the desktop offerings CSS.
+
+---
+
+### In Progress
+- Remaining sections to build (social proof, other homepage sections)
