@@ -1023,10 +1023,6 @@
       .footer-inner { flex-direction:column; text-align:center; gap: 16px; }
       .footer-links { justify-content:center; }
 
-      /* OFFERINGS */
-      .offerings-grid { grid-template-columns: 1fr; }
-      .offering-card { padding: 2rem; }
-      .offering-card h3 { font-size: clamp(1.8rem, 9vw, 2.4rem); }
     }
 
     /* OFFERINGS */
@@ -1213,6 +1209,11 @@
       background: rgba(255,89,48,0.08);
       border-radius: 4px;
       padding: 2px 7px;
+    }
+    @media (max-width: 768px) {
+      .offerings-grid { grid-template-columns: 1fr; }
+      .offering-card { padding: 2rem; }
+      .offering-card h3 { font-size: clamp(1.8rem, 9vw, 2.4rem); }
     }
   </style>
 </head>
