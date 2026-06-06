@@ -977,17 +977,48 @@
 
     /* MOBILE */
     @media (max-width: 768px) {
+      /* NAV */
       .nav-links { display:none; }
       .nav-inner { padding:0 8px 0 16px; }
-      .hero { padding: 140px 6vw 0; }
-      .hero-form { flex-direction: column; }
-      .hero-form input, .hero-form .btn-form { width: 100%; }
-      .hero-bottom { position: static; padding: 0; flex-direction: column; gap: 16px; text-align: center; }
+
+      /* HERO */
+      .hero { padding: 120px 5vw 80px; min-height: 100svh; }
+      .hero h1 { font-size: clamp(2.8rem, 11vw, 4rem); }
+      .hero-form { flex-direction: column; gap: 10px; max-width: 100%; }
+      .hero-form input, .hero-form .btn-form { width: 100%; border-radius: 12px; }
+      .hero-bottom { position: static; padding: 0; flex-direction: column; gap: 16px; text-align: center; margin-top: 32px; }
+      .hero-social-proof { flex-direction: row; justify-content: center; }
+
+      /* SECTIONS */
+      .section { padding: 10vh 5vw; }
+      .section h2 { margin-bottom: 4vh; }
       .split-layout { grid-template-columns:1fr; gap:40px; }
       .split-left h2 { position:static; }
-      .steps { grid-template-columns:1fr; }
+
+      /* PROBLEM SECTION */
+      .problem-sticky-card { padding: 2rem; }
+      .problem-sticky-card h2 { font-size: clamp(1.8rem, 8vw, 2.4rem); margin-bottom: 0.8rem; }
+      .problem-subtext { font-size: 0.9rem; }
+      .problem-card-divider { margin: 1.5rem 0 1rem; }
+      .pain-point { min-height: auto; padding: 2rem; }
+      .pain-point h3 { font-size: clamp(1.4rem, 6.5vw, 2rem); margin-bottom: 0.8rem; }
+      .pain-point p { font-size: 1rem; }
+      .pain-bg-number { font-size: 5rem; }
+
+      /* STACK CARDS */
+      .stack-card-left { padding-left: 1rem; }
+      .stack-card h3 { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+
+      /* PROOF / CRAFT */
       .craft-grid { grid-template-columns: 1fr; }
-      .footer-inner { flex-direction:column; text-align:center; }
+      .steps { grid-template-columns:1fr; }
+
+      /* CTA */
+      .btn-cta { width: 100%; text-align: center; }
+      .cta-sub { font-size: 0.85rem; }
+
+      /* FOOTER */
+      .footer-inner { flex-direction:column; text-align:center; gap: 16px; }
       .footer-links { justify-content:center; }
     }
   </style>
@@ -1637,37 +1668,38 @@
       });
     });
 
-    // Problem section — pin section, scroll cards up through right column
-    gsap.to('.pain-cards-track', {
-      y: '-200vh',
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#problem',
-        start: 'top top',
-        end: '+=900vh',
-        scrub: 2,
-        pin: true,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          const idx = Math.min(2, Math.floor(self.progress * 3));
-          document.querySelectorAll('.progress-dot').forEach((d, i) => {
-            d.classList.toggle('active', i === idx);
-          });
+    // Problem section — desktop only (pin breaks on mobile touch scroll)
+    if (window.innerWidth > 768) {
+      gsap.to('.pain-cards-track', {
+        y: '-200vh',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#problem',
+          start: 'top top',
+          end: '+=900vh',
+          scrub: 2,
+          pin: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const idx = Math.min(2, Math.floor(self.progress * 3));
+            document.querySelectorAll('.progress-dot').forEach((d, i) => {
+              d.classList.toggle('active', i === idx);
+            });
+          }
         }
-      }
-    });
+      });
 
-    // Problem logo rotation tied to scroll
-    gsap.to('.problem-logo-spin', {
-      rotation: 720,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#problem',
-        start: 'top top',
-        end: '+=900vh',
-        scrub: 2
-      }
-    });
+      gsap.to('.problem-logo-spin', {
+        rotation: 720,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#problem',
+          start: 'top top',
+          end: '+=900vh',
+          scrub: 2
+        }
+      });
+    }
 
     // Craft cards
     gsap.utils.toArray('.craft-card').forEach((el, i) => {
