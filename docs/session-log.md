@@ -68,5 +68,37 @@ Running log of all discussions, decisions, and changes made to the website. Upda
 
 ---
 
+---
+
+#### Commit `2ba3294` — Redesign offerings section completely
+
+**Full redesign from scratch. Previous card layout discarded.**
+
+**Structural changes:**
+- Headline changed from "What We Do." to "What We Build."
+- Section padding: `120px 6vw` (was `12vh 6vw`)
+- Grid: `minmax(0, 1.58fr) minmax(0, 1fr)` — approximately 60/40 split
+- Right card offset: `margin-top: 40px` for asymmetry
+
+**Left card — The Keel Build:**
+- Removed bullet list. Replaced with four numbered rows (01–04): num in Inter 0.7rem rgba(225,223,219,0.3), text in cream 0.95rem
+- Thin divider below rows (rgba 0.08)
+- Add-on row: orange pill "ADD-ON" + "Signal-based personalization" in muted text
+- CTA: text link "Book a Call →" with arrow that translates 4px right on hover (0.25s ease)
+
+**Right card — Keel Tools:**
+- Background: rgba(225,223,219,0.03) — subtly lighter than left
+- Removed heavy bordered pricing boxes. Replaced with two clean rows separated by a thin divider
+- Row 1: Pay per run / 500 prospects left, $49 Playfair 1.4rem right
+- Row 2: Full setup / Own it and run it forever left; $999 struck through + $499 right
+- "Offer ends June 30" in rgba(255,89,48,0.7) 0.72rem below rows
+- "Get Started" outline button: smaller, left-aligned, not full-width
+
+**GSAP:** Left card fades up from y:40 opacity:0. Right card fades up from y:60 opacity:0 with 0.15s delay. Both trigger at `top 80%`.
+
+**Mobile:** Grid collapses to 1fr, right card margin-top reset to 0.
+
+---
+
 ### In Progress
-- Remaining sections to build (social proof, other homepage sections)
+- Remaining homepage sections to build
