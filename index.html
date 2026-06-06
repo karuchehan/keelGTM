@@ -1022,6 +1022,197 @@
       /* FOOTER */
       .footer-inner { flex-direction:column; text-align:center; gap: 16px; }
       .footer-links { justify-content:center; }
+
+      /* OFFERINGS */
+      .offerings-grid { grid-template-columns: 1fr; }
+      .offering-card { padding: 2rem; }
+      .offering-card h3 { font-size: clamp(1.8rem, 9vw, 2.4rem); }
+    }
+
+    /* OFFERINGS */
+    .offerings-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .offering-card {
+      border: 1px solid rgba(225,223,219,0.1);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.02);
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .offering-card.primary {
+      border-color: rgba(255,89,48,0.22);
+      background: rgba(255,89,48,0.03);
+    }
+    .offering-tag {
+      display: inline-flex;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(225,223,219,0.4);
+      border: 1px solid rgba(225,223,219,0.1);
+      border-radius: 999px;
+      padding: 4px 12px;
+      width: fit-content;
+    }
+    .offering-card.primary .offering-tag {
+      color: #ff5930;
+      border-color: rgba(255,89,48,0.25);
+      background: rgba(255,89,48,0.06);
+    }
+    .offering-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      line-height: 1.05;
+      color: #e1dfdb;
+      letter-spacing: -0.02em;
+    }
+    .offering-desc {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: rgba(225,223,219,0.55);
+    }
+    .offering-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      border-top: 1px solid rgba(225,223,219,0.07);
+      padding-top: 1.5rem;
+      margin: 0;
+    }
+    .offering-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: rgba(225,223,219,0.7);
+    }
+    .offering-feature.addon { color: rgba(225,223,219,0.4); }
+    .offering-feature-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #ff5930;
+      flex-shrink: 0;
+    }
+    .offering-feature.addon .offering-feature-dot { background: rgba(225,223,219,0.2); }
+    .offering-addon-label {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(225,223,219,0.3);
+      border: 1px solid rgba(225,223,219,0.1);
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .btn-offering-primary {
+      display: block;
+      background: #ff5930;
+      color: #291001;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.2s, transform 0.2s;
+      margin-top: auto;
+    }
+    .btn-offering-primary:hover { background: #e1dfdb; transform: translateY(-1px); }
+    .btn-offering-secondary {
+      display: block;
+      background: transparent;
+      color: #e1dfdb;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(225,223,219,0.2);
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      margin-top: auto;
+    }
+    .btn-offering-secondary:hover { border-color: rgba(225,223,219,0.4); background: rgba(225,223,219,0.04); }
+    .tools-tool-name {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(225,223,219,0.3);
+      margin-bottom: 0.5rem;
+    }
+    .tools-pricing {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-top: 1px solid rgba(225,223,219,0.07);
+      padding-top: 1.5rem;
+    }
+    .pricing-tier {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(225,223,219,0.08);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.015);
+    }
+    .pricing-tier-label {
+      font-size: 0.82rem;
+      color: rgba(225,223,219,0.55);
+      font-weight: 500;
+    }
+    .pricing-note {
+      font-size: 0.72rem;
+      color: rgba(225,223,219,0.3);
+      margin-top: 3px;
+    }
+    .pricing-tier-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    .pricing-tier-price {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .pricing-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #e1dfdb;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .pricing-was {
+      font-size: 0.78rem;
+      color: rgba(225,223,219,0.25);
+      text-decoration: line-through;
+    }
+    .pricing-deadline {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #ff5930;
+      background: rgba(255,89,48,0.08);
+      border-radius: 4px;
+      padding: 2px 7px;
     }
   </style>
 </head>
@@ -1122,6 +1313,64 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="offerings" class="section">
+    <div class="section-inner">
+      <span class="section-label">Offerings</span>
+      <h2>What We Do.</h2>
+      <div class="offerings-grid">
+
+        <div class="offering-card primary">
+          <span class="offering-tag">Done For You</span>
+          <h3>The Keel Build.</h3>
+          <p class="offering-desc">We build your full account and prospect list end to end. ICP-matched, enriched, and handed off clean. One engagement. You own it from day one.</p>
+          <ul class="offering-features">
+            <li class="offering-feature"><span class="offering-feature-dot"></span>Account list building</li>
+            <li class="offering-feature"><span class="offering-feature-dot"></span>Account enrichment</li>
+            <li class="offering-feature"><span class="offering-feature-dot"></span>Prospect list building</li>
+            <li class="offering-feature"><span class="offering-feature-dot"></span>Prospect enrichment</li>
+            <li class="offering-feature addon"><span class="offering-feature-dot"></span>Signal-based personalization<span class="offering-addon-label">Add-on</span></li>
+          </ul>
+          <a href="https://cal.com/chehan-karunaratne/30min" class="btn-offering-primary" target="_blank">Book a Call</a>
+        </div>
+
+        <div class="offering-card">
+          <span class="offering-tag">Self-Serve</span>
+          <h3>Keel Tools.</h3>
+          <p class="offering-desc">Clay-powered GTM tools you can run yourself. Built for in-house ops teams who want to move faster without outsourcing.</p>
+          <div class="tools-pricing">
+            <p class="tools-tool-name">Prospect Validation Tool</p>
+            <div class="pricing-tier">
+              <div>
+                <p class="pricing-tier-label">Pay per run</p>
+                <p class="pricing-note">500 prospects per run</p>
+              </div>
+              <div class="pricing-tier-right">
+                <div class="pricing-tier-price">
+                  <span class="pricing-amount">$49</span>
+                </div>
+              </div>
+            </div>
+            <div class="pricing-tier">
+              <div>
+                <p class="pricing-tier-label">Full setup</p>
+                <p class="pricing-note">You own it and run it forever</p>
+              </div>
+              <div class="pricing-tier-right">
+                <div class="pricing-tier-price">
+                  <span class="pricing-was">$999</span>
+                  <span class="pricing-amount">$499</span>
+                </div>
+                <span class="pricing-deadline">Limited offer</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn-offering-secondary">Get Started</button>
+        </div>
+
       </div>
     </div>
   </section>
