@@ -100,5 +100,38 @@ Running log of all discussions, decisions, and changes made to the website. Upda
 
 ---
 
+#### Commit `f3cb9d9` — Overhaul offerings section: flow diagram, mockup panel, centered layout, consistent card sizing
+
+**Keel Build card:**
+- Replaced numbered rows + divider + add-on row with a visual flow diagram: input pills (Your ICP, Your Goals) → keelGTM center box (cream, no orange) → output pills (Verified Contacts, Enriched Data, Campaign Ready)
+- Connector lines with subtle orange dots between layers
+- Removed static "Book a Call" button. Added hover-reveal overlay (opacity 0 → 1 on card hover), gradient fades up from bottom 80px
+- Watermark "Done For You" moved to bottom center, reduced to `clamp(2rem, 5vw, 5rem)`
+- Renamed heading from "The Keel Build." to "Keel Build."
+
+**Keel Tools card:**
+- Replaced pricing rows entirely with a tool mockup panel: three rows (Prospect Validation, List Enrichment, Signal Qualification) with orange dot + label, thin dividers
+- New description: "GTM systems combining AI workflows with human expertise. Built for teams who want to move faster without hiring for it."
+- New tagline below panel: "Each system automates a specific part of your go-to-market motion. You run it. You own it."
+- No Clay references anywhere in this card
+- "Explore Tools" outline button (cream border, no underline, hover brightens border)
+- Watermark "Self Serve" centered at bottom
+
+**Layout:**
+- Grid changed from `1.58fr / 1fr` to `1fr / 1fr` (equal 50/50)
+- `align-items: stretch` on grid so both cards always match height
+- Both cards: `min-height: 540px`, `padding-bottom: 100px`
+- All content centered: `text-align: center`, `align-items: center` on base card
+
+**Hover consistency (all cards sitewide):**
+- Removed orange background fill on `.pain-point:hover` and `.pain-point:hover h3` color change
+- All cards now use: `translateY(-4px)`, `border-color: rgba(225,223,219,0.12)`, `box-shadow: 0 20px 60px rgba(0,0,0,0.3)`
+- Spotlight radial gradient hover added to `.craft-card`, `.service-card`, `.stack-card` (was only on offering cards)
+
+**Reverted:**
+- Smooth momentum scroll removed — broke native scroll behavior
+
+---
+
 ### In Progress
 - Remaining homepage sections to build
