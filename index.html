@@ -22,6 +22,71 @@
     html { overflow-x:hidden; scroll-behavior:smooth; }
     body { background:#291001; color:#e1dfdb; font-family:'Inter',sans-serif; overflow-x:hidden; }
 
+    /* Custom cursor — hero section only */
+    .hero.keel-cursor-active, .hero.keel-cursor-active * { cursor: none !important; }
+
+    #keel-cursor {
+      position: fixed;
+      top: 0; left: 0;
+      width: 32px; height: 32px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      transform: translate(-100px, -100px);
+      transition: opacity 0.3s ease;
+      will-change: transform, opacity;
+    }
+    #keel-cursor img {
+      width: 32px; height: 32px;
+      object-fit: contain;
+      display: block;
+    }
+
+    #keel-tooltip {
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      background: rgba(41,16,1,0.92);
+      border: 1px solid rgba(225,223,219,0.1);
+      border-radius: 10px;
+      padding: 14px 18px;
+      max-width: 220px;
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      will-change: transform, opacity;
+    }
+    #keel-tooltip.tt-hidden {
+      transform: translate(var(--tt-x, -100px), var(--tt-y, -100px)) scale(0.94) translateY(4px);
+    }
+    #keel-tooltip.tt-visible {
+      transform: translate(var(--tt-x, -100px), var(--tt-y, -100px)) scale(1) translateY(0px);
+    }
+    #keel-tooltip .tt-title {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    #keel-tooltip .tt-word {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #e1dfdb;
+    }
+    #keel-tooltip .tt-pos {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(225,223,219,0.4);
+    }
+    #keel-tooltip .tt-def {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(225,223,219,0.65);
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
     /* Grain texture */
     body::before {
       content: '';
@@ -255,25 +320,80 @@
       flex-shrink: 0;
     }
     .hero-play-btn:hover { background: #e1dfdb; }
-    .hero-social-proof { display: flex; align-items: center; gap: 12px; }
-    .hero-avatars { display: flex; }
+    .hero-social-proof {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 8px 8px 8px 12px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s ease;
+      --mouse-x: 50%;
+      --mouse-y: 50%;
+    }
+    .hero-social-proof::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 200% 400% at var(--mouse-x) var(--mouse-y), rgba(225,223,219,0.07) 0%, transparent 60%);
+      pointer-events: none;
+      border-radius: inherit;
+      opacity: 0;
+      transform: scale(0.6);
+      transform-origin: var(--mouse-x) var(--mouse-y);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .hero-social-proof:hover {
+      border-color: rgba(225,223,219,0.12);
+    }
+    .hero-social-proof:hover::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .hero-avatars { display: flex; position: relative; z-index: 1; }
     .hero-avatar {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       border: 2px solid #291001;
-      margin-left: -10px;
+      margin-left: -8px;
       object-fit: cover;
       object-position: center top;
     }
     .hero-avatars .hero-avatar:first-child { margin-left: 0; }
-    .hero-social-proof span {
-      font-size: 0.8rem;
-      color: rgba(225,223,219,0.4);
-      max-width: 160px;
+    .hero-proof-text {
+      font-size: 0.78rem;
+      color: rgba(225,223,219,0.45);
       line-height: 1.4;
+      transition: color 0.25s ease;
+      position: relative;
+      z-index: 1;
     }
-    .hero-proof-arrow { color: rgba(225,223,219,0.3); font-size: 0.9rem; }
+    .hero-social-proof:hover .hero-proof-text { color: rgba(225,223,219,0.85); }
+    .hero-proof-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.25s ease, border-radius 0.25s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-social-proof:hover .hero-proof-btn {
+      background: #ff5930;
+    }
+    .hero-proof-btn svg path { stroke: rgba(225,223,219,0.45); transition: stroke 0.25s ease; }
+    .hero-social-proof:hover .hero-proof-btn svg path { stroke: #e1dfdb; }
 
 
     /* SECTIONS */
@@ -1513,15 +1633,15 @@
           <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M1 0.5L9.5 6L1 11.5V0.5Z" fill="#291001"/></svg>
         </button>
       </div>
-      <div class="hero-social-proof">
+      <a href="https://cal.com/chehan-karunaratne/30min" target="_blank" class="hero-social-proof">
         <div class="hero-avatars">
           <img src="assets/images/chehan.png" class="hero-avatar" alt="Chehan">
           <img src="assets/images/hiruni.png" class="hero-avatar" alt="Hiruni">
           <img src="assets/images/gimhan final.png" class="hero-avatar" alt="Gimhan">
         </div>
-        <span>Built for B2B sales teams</span>
-        <span class="hero-proof-arrow">→</span>
-      </div>
+        <span class="hero-proof-text">Trusted by 10+ B2B sales teams</span>
+        <div class="hero-proof-btn"><svg width="17" height="17" viewBox="0 0 14 14" fill="none"><path d="M2 7H12M12 7L8 3M12 7L8 11" stroke="rgba(225,223,219,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
     </div>
   </section>
 
@@ -2313,7 +2433,7 @@
     });
 
     // Card spotlight — tracks mouse for radial gradient on all card surfaces
-    document.querySelectorAll('.offering-card, .craft-card, .service-card, .stack-card').forEach(card => {
+    document.querySelectorAll('.offering-card, .craft-card, .service-card, .stack-card, .hero-social-proof').forEach(card => {
       card.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
         card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
@@ -2322,6 +2442,94 @@
     });
 
 
+  </script>
+
+  <!-- Custom cursor elements -->
+  <div id="keel-cursor"><img src="assets/logos/2.svg" alt=""></div>
+  <div id="keel-tooltip" class="tt-hidden">
+    <div class="tt-title">
+      <span class="tt-word">keel</span>
+      <span class="tt-pos">(n.)</span>
+    </div>
+    <p class="tt-def">The structural fin beneath a ship's hull. The force beneath that holds course and drives everything forward.</p>
+  </div>
+
+  <script>
+    (function() {
+      if (window.matchMedia('(hover: none)').matches) return;
+
+      var cursor = document.getElementById('keel-cursor');
+      var tooltip = document.getElementById('keel-tooltip');
+      var hero = document.querySelector('.hero');
+      var navbar = document.getElementById('navbar');
+      if (!hero) return;
+
+      var mx = -100, my = -100;
+      var rafId = null;
+      var tooltipTimer = null;
+      var tooltipVisible = false;
+      var active = false;
+
+      function moveCursor() {
+        cursor.style.transform = 'translate(' + (mx - 16) + 'px, ' + (my - 16) + 'px)';
+        rafId = null;
+      }
+
+      function activate() {
+        active = true;
+        hero.classList.add('keel-cursor-active');
+        cursor.style.opacity = '1';
+      }
+
+      function deactivate() {
+        active = false;
+        hero.classList.remove('keel-cursor-active');
+        cursor.style.opacity = '0';
+        clearTimeout(tooltipTimer);
+        hideTooltip();
+      }
+
+      function showTooltip() {
+        tooltip.style.setProperty('--tt-x', (mx + 10) + 'px');
+        tooltip.style.setProperty('--tt-y', (my + 20) + 'px');
+        tooltip.classList.remove('tt-hidden');
+        tooltip.classList.add('tt-visible');
+        tooltip.style.opacity = '1';
+        tooltipVisible = true;
+      }
+
+      function hideTooltip() {
+        tooltip.classList.remove('tt-visible');
+        tooltip.classList.add('tt-hidden');
+        tooltip.style.opacity = '0';
+        tooltipVisible = false;
+      }
+
+      function resetTooltipTimer() {
+        clearTimeout(tooltipTimer);
+        if (tooltipVisible) hideTooltip();
+        tooltipTimer = setTimeout(showTooltip, 200);
+      }
+
+      hero.addEventListener('mouseenter', activate);
+      hero.addEventListener('mouseleave', deactivate);
+
+      if (navbar) {
+        navbar.addEventListener('mouseenter', deactivate);
+        navbar.addEventListener('mouseleave', function(e) {
+          var navRect = navbar.getBoundingClientRect();
+          if (e.clientY > navRect.bottom) activate();
+        });
+      }
+
+      hero.addEventListener('mousemove', function(e) {
+        mx = e.clientX;
+        my = e.clientY;
+        if (!rafId) rafId = requestAnimationFrame(moveCursor);
+        resetTooltipTimer();
+      });
+
+    })();
   </script>
 
 </body>
