@@ -2195,14 +2195,17 @@
 
     // Problem section — desktop only (pin breaks on mobile touch scroll)
     if (window.innerWidth > 768) {
+      // Timeline with explicit hold periods so each card sits centred long enough
+      // Durations (unitless): hold-1(2) | slide-to-2(1) | hold-2(3) | slide-to-3(1) | hold-3(3) = 10 total
+      // Scroll budget: 1200vh → each unit ≈ 120vh of scroll
       gsap.to('.pain-cards-track', {
         y: '-200vh',
         ease: 'none',
         scrollTrigger: {
           trigger: '#problem',
           start: 'top top',
-          end: '+=900vh',
-          scrub: 2,
+          end: '+=1500vh',
+          scrub: true,
           pin: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
@@ -2220,8 +2223,8 @@
         scrollTrigger: {
           trigger: '#problem',
           start: 'top top',
-          end: '+=900vh',
-          scrub: 2
+          end: '+=1500vh',
+          scrub: true
         }
       });
     }
