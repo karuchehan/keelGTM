@@ -133,5 +133,15 @@ Running log of all discussions, decisions, and changes made to the website. Upda
 
 ---
 
+#### Commit `d2b0e41` — Fix Problem section scroll timing: pure linear scrub
+
+**Problem:** Cards snapped through too fast. Timeline hold periods created dead zones where page was pinned but nothing moved (felt like double-scroll required). `scrub` lag values (0.6–2) added settling delay at transitions.
+
+**Fix:** Removed timeline entirely. Single `gsap.to('.pain-cards-track')` tween, `y: '-200vh'`, `ease: 'none'`, `scrub: true` (1:1), `end: '+=1500vh'`. Each card gets ~500vh of natural scroll distance. Motion tracks finger directly with zero lag.
+
+**Key learning:** Hold periods = bad UX on pinned sections. Users interpret no visual change during scroll as broken. Natural hold comes from slow continuous motion over long scroll distance, not explicit paused keyframes.
+
+---
+
 ### In Progress
 - Remaining homepage sections to build
