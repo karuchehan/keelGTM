@@ -297,7 +297,7 @@
       font-family: 'Inter', sans-serif;
       color: rgba(225,223,219,0.4);
     }
-    .hero-watch { display: flex; align-items: center; gap: 12px; }
+    .hero-watch { display: flex; align-items: center; gap: 12px; cursor: pointer; }
     .hero-watch-label {
       font-family: 'Inter', sans-serif;
       font-size: 0.82rem;
@@ -305,21 +305,28 @@
       border-bottom: 1px solid rgba(225,223,219,0.2);
       padding-bottom: 1px;
       letter-spacing: 0.01em;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .hero-watch:hover .hero-watch-label {
+      color: #e1dfdb;
+      border-color: rgba(225,223,219,0.6);
     }
     .hero-play-btn {
       width: 38px;
       height: 38px;
       border-radius: 50%;
-      background: #ff5930;
+      background: #e1dfdb;
       border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s;
+      transition: background 0.2s ease;
       flex-shrink: 0;
     }
-    .hero-play-btn:hover { background: #e1dfdb; }
+    .hero-play-btn svg path { transition: fill 0.2s ease; }
+    .hero-watch:hover .hero-play-btn { background: #ff5930; }
+    .hero-watch:hover .hero-play-btn svg path { fill: #e1dfdb; }
     .hero-social-proof {
       display: flex;
       align-items: center;
@@ -2505,10 +2512,14 @@
         tooltipVisible = false;
       }
 
-      function resetTooltipTimer() {
+      var NO_TOOLTIP = '.hero-watch, .hero-social-proof';
+
+      function resetTooltipTimer(e) {
         clearTimeout(tooltipTimer);
         if (tooltipVisible) hideTooltip();
-        tooltipTimer = setTimeout(showTooltip, 200);
+        if (!e.target.closest(NO_TOOLTIP)) {
+          tooltipTimer = setTimeout(showTooltip, 200);
+        }
       }
 
       hero.addEventListener('mouseenter', activate);
@@ -2526,7 +2537,7 @@
         mx = e.clientX;
         my = e.clientY;
         if (!rafId) rafId = requestAnimationFrame(moveCursor);
-        resetTooltipTimer();
+        resetTooltipTimer(e);
       });
 
     })();
