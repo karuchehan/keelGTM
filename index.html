@@ -661,6 +661,8 @@
       padding: 2rem;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
       gap: 0.75rem;
       position: relative;
       z-index: 1;
@@ -675,9 +677,75 @@
     }
     .craft-card h3 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.2rem, 1.6vw, 1.5rem);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
       color: #e1dfdb;
-      line-height: 1.2;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .craft-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: rgba(225,223,219,0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+    .craft-logo {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .craft-logo img {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
+    }
+    .craft-logo--shopify img { height: 60px; }
+    .craft-logo--nerdio img { height: 56px; }
+    .craft-logo-fallback {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(225,223,219,0.3);
+    }
+    .craft-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      color: rgba(225,223,219,0.55);
+      line-height: 1.7;
+    }
+    .craft-hover-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      background: linear-gradient(to top, rgba(41,16,1,0.97) 60%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1);
+      pointer-events: none;
+    }
+    .craft-hover-overlay button {
+      background: #e1dfdb;
+      color: #291001;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 10px 28px;
+      border: none;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+    .craft-card:hover .craft-hover-overlay {
+      opacity: 1;
+      transform: translateY(0);
     }
     .craft-problem {
       font-size: 0.9rem;
@@ -1799,45 +1867,47 @@
 
   <section id="craft" class="section">
     <div class="section-inner">
-      <span class="section-label">The Difference</span>
-      <h2>Built in the field.<br>Handed off <em>clean.</em></h2>
-      <p class="craft-subhead">Clay-native builds. Signal-driven. Handed off clean.</p>
+      <span class="section-label">The Standard</span>
+      <h2>Charted. Built. <em style="color:#ff5930;">Delivered.</em></h2>
       <div class="craft-grid">
 
         <div class="craft-card">
           <div class="craft-card-inner">
             <span class="craft-tag">ABM</span>
-            <h3>Enterprise ABM List — Shopify ANZ</h3>
-            <p class="craft-problem">Problem: No precision account list for an enterprise ANZ GTM motion.</p>
-            <p class="craft-solution">Built a fully enriched, ICP-mapped account list targeting ANZ enterprise accounts in Clay.</p>
+            <div class="craft-logo craft-logo--shopify"><img src="assets/images/shopify-logo.svg" alt="Shopify"></div>
+            <p class="craft-subtitle">Enterprise ABM List</p>
+            <p class="craft-body">Shopify needed a precision account list for an enterprise Australia and New Zealand GTM motion. Built a fully enriched, ICP-mapped account list in Clay targeting enterprise accounts across the region, structured and handed off ready for outbound.</p>
             <div class="craft-tags">
               <span>Clay</span><span>Apollo</span><span>LinkedIn</span>
             </div>
           </div>
+          <div class="craft-hover-overlay"><button>Watch Walkthrough</button></div>
         </div>
 
         <div class="craft-card">
           <div class="craft-card-inner">
             <span class="craft-tag">Signals</span>
-            <h3>Tech Stack Identification — Nerdio</h3>
-            <p class="craft-problem">Problem: No visibility into what tools target accounts were running.</p>
-            <p class="craft-solution">Surfaced tech stack data for target accounts and wired it as an enrichment signal in Clay.</p>
+            <div class="craft-logo craft-logo--nerdio"><img src="assets/images/nerdio-logo.svg" alt="Nerdio"></div>
+            <p class="craft-subtitle">Tech Stack Identification</p>
+            <p class="craft-body">Nerdio had no visibility into what tools their target accounts were running. Surfaced tech stack data across their full target account set and wired it as a live enrichment signal, giving the sales team a buying intent layer they did not have before.</p>
             <div class="craft-tags">
               <span>Clay</span><span>BuiltWith</span><span>Clearbit</span>
             </div>
           </div>
+          <div class="craft-hover-overlay"><button>Watch Walkthrough</button></div>
         </div>
 
         <div class="craft-card">
           <div class="craft-card-inner">
             <span class="craft-tag">ABM</span>
-            <h3>ABM Lead Generation — Epicor ANZ</h3>
-            <p class="craft-problem">Problem: Needed a qualified lead list for distribution & manufacturing vertical in ANZ.</p>
-            <p class="craft-solution">Built a vertically targeted ABM list for an enterprise GTM motion in Clay.</p>
+            <div class="craft-logo"><img src="assets/images/epicor-logo.svg" alt="Epicor"></div>
+            <p class="craft-subtitle">ABM Lead Generation</p>
+            <p class="craft-body">Epicor needed a qualified lead list for the distribution and manufacturing vertical across Australia and New Zealand. Built a vertically targeted ABM list for an enterprise GTM motion, enriched and segmented by sub-vertical.</p>
             <div class="craft-tags">
               <span>Clay</span><span>Apollo</span><span>LinkedIn</span>
             </div>
           </div>
+          <div class="craft-hover-overlay"><button>Watch Walkthrough</button></div>
         </div>
 
       </div>
@@ -2500,15 +2570,15 @@
       if (!hero) return;
 
       var mx = -100, my = -100;
-      var rafId = null;
       var tooltipTimer = null;
       var tooltipVisible = false;
       var active = false;
 
-      function moveCursor() {
+      function loop() {
         cursor.style.transform = 'translate(' + (mx - 16) + 'px, ' + (my - 16) + 'px)';
-        rafId = null;
+        requestAnimationFrame(loop);
       }
+      requestAnimationFrame(loop);
 
       function activate() {
         active = true;
@@ -2561,11 +2631,10 @@
         });
       }
 
-      hero.addEventListener('mousemove', function(e) {
+      document.addEventListener('mousemove', function(e) {
         mx = e.clientX;
         my = e.clientY;
-        if (!rafId) rafId = requestAnimationFrame(moveCursor);
-        resetTooltipTimer(e);
+        if (active) resetTooltipTimer(e);
       });
 
     })();
