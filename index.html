@@ -565,7 +565,7 @@
     .problem-card-footer {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
     }
     .problem-progress {
       display: flex;
@@ -1750,12 +1750,7 @@
           <p class="problem-subtext">Three reasons campaigns fail before the first send.</p>
           <div class="problem-card-divider"></div>
           <div class="problem-card-footer">
-            <div class="problem-progress">
-              <div class="progress-dot active"></div>
-              <div class="progress-dot"></div>
-              <div class="progress-dot"></div>
-            </div>
-            <img src="assets/logos/new-cropped.svg" class="problem-logo-spin" alt="">
+            <img src="assets/logos/2.svg" class="problem-logo-spin" alt="">
           </div>
         </div>
       </div>
@@ -2572,26 +2567,33 @@
       var mx = -100, my = -100;
       var tooltipTimer = null;
       var tooltipVisible = false;
-      var active = false;
+      var insideHero = false;
 
       function loop() {
-        cursor.style.transform = 'translate(' + (mx - 16) + 'px, ' + (my - 16) + 'px)';
+        if (insideHero) {
+          cursor.style.transform = 'translate(' + (mx - 16) + 'px, ' + (my - 16) + 'px)';
+        }
         requestAnimationFrame(loop);
       }
       requestAnimationFrame(loop);
 
       function activate() {
-        active = true;
+        insideHero = true;
         hero.classList.add('keel-cursor-active');
         cursor.style.opacity = '1';
+        document.documentElement.style.cursor = 'none';
+        document.body.style.cursor = 'none';
       }
 
       function deactivate() {
-        active = false;
+        insideHero = false;
         hero.classList.remove('keel-cursor-active');
         cursor.style.opacity = '0';
         clearTimeout(tooltipTimer);
+        tooltipTimer = null;
         hideTooltip();
+        document.documentElement.style.cursor = '';
+        document.body.style.cursor = '';
       }
 
       function showTooltip() {
@@ -2626,15 +2628,25 @@
       if (navbar) {
         navbar.addEventListener('mouseenter', deactivate);
         navbar.addEventListener('mouseleave', function(e) {
-          var navRect = navbar.getBoundingClientRect();
-          if (e.clientY > navRect.bottom) activate();
+          var heroRect = hero.getBoundingClientRect();
+          if (
+            e.clientX >= heroRect.left && e.clientX <= heroRect.right &&
+            e.clientY >= heroRect.top && e.clientY <= heroRect.bottom
+          ) {
+            activate();
+          }
         });
       }
 
       document.addEventListener('mousemove', function(e) {
         mx = e.clientX;
         my = e.clientY;
-        if (active) resetTooltipTimer(e);
+        if (insideHero) {
+          resetTooltipTimer(e);
+        } else {
+          clearTimeout(tooltipTimer);
+          tooltipTimer = null;
+        }
       });
 
     })();
