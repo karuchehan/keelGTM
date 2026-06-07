@@ -143,5 +143,61 @@ Running log of all discussions, decisions, and changes made to the website. Upda
 
 ---
 
+---
+
+## Session: 2026-06-07
+
+### Context at session start
+- Branch: `main`
+- Last commit before session: `8240de5 Update session log: Problem section scroll timing fix details`
+
+---
+
+### Changes Made
+
+#### Commit `109ca32` — Add custom cursor experience and social proof pill to hero section
+
+**Custom cursor:**
+- Replaces default browser cursor within the hero section only. Touch devices skip the entire system (`window.matchMedia('(hover: none)')`).
+- Cursor element: `#keel-cursor`, 32x32px `assets/logos/2.svg`, `position: fixed`, `pointer-events: none`, `z-index: 9999`.
+- Movement: single `requestAnimationFrame` per `mousemove` — instant tracking, no lag.
+- `cursor: none !important` applied to `.hero.keel-cursor-active *` — `!important` required to override `.btn-form { cursor: pointer }` which has equal specificity.
+- Scoped to hero via `mouseenter`/`mouseleave` on `.hero` element. Fixed `<nav>` overlaps hero bounding box so separate `navbar.mouseenter → deactivate` / `navbar.mouseleave (downward) → activate` handlers added.
+- Cursor starts `opacity: 0`, fades to 1 on hero enter (0.3s ease), no native cursor bleed.
+
+**Tooltip:**
+- `#keel-tooltip` card appears after 200ms idle. Fades in with `scale(0.94) translateY(4px) → scale(1) translateY(0)` over 0.25s ease.
+- Positioned at cursor +10px right, +20px down via CSS custom properties `--tt-x` and `--tt-y` with `tt-hidden` / `tt-visible` class swap.
+- Suppressed when cursor is over `.hero-watch` or `.hero-social-proof` (checked via `e.target.closest()`).
+- Copy: *keel* (n.) — "The structural fin beneath a ship's hull. The force beneath that holds course and drives everything forward."
+
+**Social proof pill (`hero-social-proof`):**
+- Changed from dead `<div>` to `<a>` linking to `https://cal.com/chehan-karunaratne/30min`.
+- Text updated: "Trusted by 10+ B2B sales teams".
+- At rest: fully transparent (no border, no background). Arrow button (`hero-proof-btn`) also transparent at rest — arrow SVG at same opacity as body text (`rgba(225,223,219,0.45)`).
+- On hover: pill border fades in (`rgba(225,223,219,0.12)`). `::before` pseudo-element (spotlight radial) scales from 0.6 → 1 at `transform-origin: var(--mouse-x) var(--mouse-y)` over 0.4s — pill appears to grow from cursor entry point. Arrow button gets solid `#ff5930` background with cream arrow icon (matches play button design).
+- Text lifts from 45% to 85% cream on hover.
+- Spotlight `mousemove` tracker added to `.hero-social-proof` in existing card spotlight block.
+- `text-decoration: none; color: inherit` prevents link default styles from showing.
+
+**Key decisions:**
+- Lerp tried at 0.12 and 0.2 but felt laggy and disconnected from click position. Removed entirely in favour of direct single-rAF per mousemove.
+- `cursor: none !important` needed because `.hero-form .btn-form` (0,2,0 specificity) overrides `.hero.keel-cursor-active *` (also 0,2,0) since it appears later in the stylesheet.
+- Hero `mouseleave` does not fire when mouse enters fixed nav (mouse stays within hero bounding box). Fixed with explicit nav listeners.
+
+---
+
+#### Commit `6119751` — Refine hero interactions: Watch Video hover, tooltip suppression, play button style
+
+**Watch Video section:**
+- Hover target expanded from just the play button to the entire `.hero-watch` container.
+- `.hero-watch:hover .hero-watch-label`: color lifts to `#e1dfdb`, border-bottom brightens to `rgba(225,223,219,0.6)`.
+- Play button style flipped: was orange at rest (`#ff5930`), now cream at rest (`#e1dfdb`) to match "Book a Call" button. On `.hero-watch:hover`: background → `#ff5930`, SVG fill → `#e1dfdb`.
+
+**Tooltip suppression:**
+- `resetTooltipTimer(e)` now checks `e.target.closest('.hero-watch, .hero-social-proof')`. If true, timer not started. Tooltip will not appear when cursor idles over these interactive zones.
+
+---
+
 ### In Progress
 - Remaining homepage sections to build
