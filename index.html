@@ -517,18 +517,33 @@
     }
 
     /* PROBLEM SCROLL SECTION */
-    .problem-section { padding: 0; }
+    .problem-section { padding: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
     .problem-header {
-      text-align: center;
-      padding: 8vh 6vw 4vh;
+      flex-shrink: 0;
+      padding: 5vh 6vw 0;
+    }
+    .problem-header-card {
+      max-width: 1200px;
+      margin: 0 auto;
+      border: 1px solid rgba(225,223,219,0.10);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.025);
+      padding: 1.5rem 2.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1.8rem;
+      text-align: center;
+      gap: 0.8rem;
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .problem-header-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      border-color: rgba(225,223,219,0.12);
     }
     .problem-header h2 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-size: clamp(2rem, 3.5vw, 3.5rem);
       line-height: 1.08;
       letter-spacing: -0.025em;
       color: #e1dfdb;
@@ -537,6 +552,11 @@
     .problem-header h2 em {
       color: #ff5930;
       font-style: italic;
+    }
+    .problem-header-divider {
+      border: none;
+      border-top: 1px solid rgba(225,223,219,0.08);
+      margin: 0;
     }
     .section-label em {
       color: #ff5930;
@@ -553,26 +573,54 @@
     .problem-columns {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      gap: 80px;
       max-width: 1200px;
+      width: 100%;
       margin: 0 auto;
-      padding: 0 6vw 6vh;
+      padding: 3vh 6vw 4vh;
       box-sizing: border-box;
-    }
-    .problem-col { display: flex; flex-direction: column; }
-    .problem-col > .section-label { margin-bottom: 1.5rem; }
-    .problem-col-track-wrap {
-      height: 52vh;
-      overflow: hidden;
       position: relative;
       flex: 1;
+      min-height: 0;
     }
-    .pain-cards-track { will-change: transform; }
+    .problem-columns::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(225,223,219,0.08);
+      pointer-events: none;
+    }
+    .problem-col { display: flex; flex-direction: column; min-height: 0; }
+    .problem-col > .section-label { margin-bottom: 1rem; text-align: center; font-size: 13px; }
+    .problem-col-track-wrap {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .pain-cards-track { position: absolute; inset: 0; }
     .pain-point-slot {
-      height: 52vh;
+      position: absolute;
+      inset: 0;
       display: flex;
-      align-items: center;
+      align-items: stretch;
     }
+    .pain-point-slot .pain-point { flex: 1; }
+    #pain-track-left .pain-point-slot:nth-child(1),
+    #pain-track-right .pain-point-slot:nth-child(1) { z-index: 1; }
+    #pain-track-left .pain-point-slot:nth-child(2),
+    #pain-track-right .pain-point-slot:nth-child(2) { z-index: 2; }
+    #pain-track-left .pain-point-slot:nth-child(3),
+    #pain-track-right .pain-point-slot:nth-child(3) { z-index: 3; }
+    #pain-track-left .pain-point-slot:nth-child(1) .pain-point,
+    #pain-track-right .pain-point-slot:nth-child(1) .pain-point { background: #2e1302; }
+    #pain-track-left .pain-point-slot:nth-child(2) .pain-point,
+    #pain-track-right .pain-point-slot:nth-child(2) .pain-point { background: #321503; box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
+    #pain-track-left .pain-point-slot:nth-child(3) .pain-point,
+    #pain-track-right .pain-point-slot:nth-child(3) .pain-point { background: #361704; box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
     .problem-progress {
       display: flex;
       gap: 8px;
@@ -591,15 +639,19 @@
       transform: scale(1.5);
     }
     @media (max-width: 768px) {
-      .problem-header { padding: 8vh 6vw 4vh; gap: 1.2rem; }
+      .problem-header { padding: 6vh 4vw 0; }
+      .problem-header-card { padding: 1.5rem 1.8rem; gap: 1rem; }
       .problem-header h2 { font-size: clamp(2rem, 8vw, 3rem); }
       .problem-columns {
         grid-template-columns: 1fr;
         gap: 0;
-        padding: 0 6vw 8vh;
+        padding: 4vh 6vw 8vh;
       }
-      .problem-col-track-wrap { height: auto; overflow: visible; }
-      .pain-point-slot { height: auto; padding: 2vh 0; }
+      .problem-section { height: auto; overflow: visible; }
+      .problem-columns { flex: none; }
+      .problem-col-track-wrap { flex: none; height: 60vw; overflow: hidden; }
+      .pain-point-slot { position: relative; inset: auto; height: 100%; padding: 0; align-items: stretch; }
+      .pain-point-slot .pain-point { height: auto; }
       .pain-point { padding: 2rem; }
       .pain-point h3 { font-size: clamp(1.4rem, 6.5vw, 2rem); margin-bottom: 0.8rem; }
       .pain-point p { font-size: 0.95rem; }
@@ -1797,9 +1849,12 @@
 
   <section id="problem" class="section problem-section">
     <div class="problem-header">
-      <span class="section-label">The <em>friction.</em></span>
-      <h2>Two things are slowing your <em>revenue.</em></h2>
-      <img src="assets/logos/2.svg" class="problem-logo-spin" alt="">
+      <div class="problem-header-card">
+        <span class="section-label">The friction</span>
+        <h2>Two things are slowing your <em>REVENUE.</em></h2>
+        <hr class="problem-header-divider">
+        <img src="assets/logos/2.svg" class="problem-logo-spin" alt="">
+      </div>
     </div>
     <div class="problem-columns">
       <div class="problem-col">
@@ -1829,11 +1884,6 @@
             </div>
           </div>
         </div>
-        <div class="problem-progress" id="progress-left">
-          <span class="progress-dot active"></span>
-          <span class="progress-dot"></span>
-          <span class="progress-dot"></span>
-        </div>
       </div>
       <div class="problem-col">
         <span class="section-label">GTM Systems</span>
@@ -1861,11 +1911,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="problem-progress" id="progress-right">
-          <span class="progress-dot active"></span>
-          <span class="progress-dot"></span>
-          <span class="progress-dot"></span>
         </div>
       </div>
     </div>
@@ -2557,58 +2602,34 @@
 
     // Problem section — desktop only (pin breaks on mobile touch scroll)
     if (window.innerWidth > 768) {
-      const probEnd = '+=900vh';
+      const leftSlots = gsap.utils.toArray('#pain-track-left .pain-point-slot');
+      const rightSlots = gsap.utils.toArray('#pain-track-right .pain-point-slot');
+      const trackH = document.querySelector('.problem-col-track-wrap').offsetHeight;
 
-      ScrollTrigger.create({
-        trigger: '#problem',
-        start: 'top top',
-        end: probEnd,
-        pin: true,
-        scrub: true,
-        invalidateOnRefresh: true,
-      });
+      gsap.set([leftSlots[1], rightSlots[1], leftSlots[2], rightSlots[2]], { y: trackH });
 
-      gsap.to('#pain-track-left', {
-        y: '-104vh',
-        ease: 'none',
+      const stackTl = gsap.timeline({
         scrollTrigger: {
           trigger: '#problem',
           start: 'top top',
-          end: probEnd,
+          end: '+=1800',
           scrub: true,
-          onUpdate: (self) => {
-            const idx = Math.min(2, Math.floor(self.progress * 3));
-            document.querySelectorAll('#progress-left .progress-dot').forEach((d, i) => {
-              d.classList.toggle('active', i === idx);
-            });
-          }
+          pin: true,
+          pinSpacing: true,
+          invalidateOnRefresh: true,
         }
       });
 
-      gsap.to('#pain-track-right', {
-        y: '-104vh',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '#problem',
-          start: 'top top',
-          end: probEnd,
-          scrub: true,
-          onUpdate: (self) => {
-            const idx = Math.min(2, Math.floor(self.progress * 3));
-            document.querySelectorAll('#progress-right .progress-dot').forEach((d, i) => {
-              d.classList.toggle('active', i === idx);
-            });
-          }
-        }
-      });
+      stackTl.to([leftSlots[1], rightSlots[1]], { y: 0, duration: 1, ease: 'none' });
+      stackTl.to([leftSlots[2], rightSlots[2]], { y: 0, duration: 1, ease: 'none' });
 
       gsap.to('.problem-logo-spin', {
         rotation: 720,
         ease: 'none',
         scrollTrigger: {
           trigger: '#problem',
-          start: 'top top',
-          end: probEnd,
+          start: 'top 80%',
+          end: 'bottom top',
           scrub: true
         }
       });
