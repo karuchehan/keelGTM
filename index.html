@@ -1126,59 +1126,6 @@
       border-radius: 999px;
       padding: 4px 12px;
     }
-    /* Video pile */
-    .video-pile-section {
-      padding: 60px 6vw;
-    }
-    .video-pile-inner {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .video-pile {
-      position: relative;
-      height: 420px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .vid-card {
-      position: absolute;
-      width: 560px;
-      height: 340px;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid rgba(225,223,219,0.1);
-      cursor: pointer;
-      transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s cubic-bezier(0.16,1,0.3,1), border-color 0.45s cubic-bezier(0.16,1,0.3,1);
-      will-change: transform;
-    }
-    .vid-card video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .vid-card:nth-child(1) {
-      transform: rotate(-4deg) translate(-20px, 10px);
-      z-index: 1;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-    }
-    .vid-card:nth-child(2) {
-      transform: rotate(3deg) translate(20px, -10px);
-      z-index: 2;
-      box-shadow: 0 12px 50px rgba(0,0,0,0.6);
-    }
-    .vid-card.vid-active {
-      transform: rotate(0deg) translate(0, -32px) scale(1.1) !important;
-      z-index: 10 !important;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.75) !important;
-      border-color: rgba(225,223,219,0.3) !important;
-    }
-    .vid-card.vid-back {
-      transform: rotate(0deg) translate(0, 8px) scale(0.96) !important;
-      z-index: 1 !important;
-      opacity: 0.55;
-    }
     .stack-visual {
       background: rgba(255,255,255,0.025);
       border: 1px solid rgba(225,223,219,0.08);
@@ -2191,23 +2138,6 @@
     </div>
   </div>
 
-  <div class="video-pile-section">
-    <div class="video-pile-inner">
-      <div class="video-pile">
-        <div class="vid-card">
-          <video autoplay muted loop playsinline>
-            <source src="videos/Clay_Table-1.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="vid-card">
-          <video autoplay muted loop playsinline>
-            <source src="videos/Clay-Table-2.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="keel-tools-band">
     <div class="keel-tools-band-inner">
       <div class="keel-tools-band-text">
@@ -2351,23 +2281,6 @@
       requestAnimationFrame(tick);
     })();
   </script>
-
-  <section id="why" class="section">
-    <div class="section-inner">
-      <div class="split-layout">
-        <div class="split-left">
-          <span class="section-label">The Difference</span>
-          <h2>Why<br>keelGTM.</h2>
-        </div>
-        <div class="split-right why-statements">
-          <h3 class="why-line">We act like engineers, not marketers.</h3>
-          <h3 class="why-line">We build assets you own — not dependencies you rent.</h3>
-          <h3 class="why-line">We charge for the system, not the hours.</h3>
-          <h3 class="why-line">No retainers. No fluff. Just execution.</h3>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section id="team" class="section">
     <div class="section-inner">
@@ -2875,32 +2788,6 @@
             }
           );
         }
-      });
-    }
-
-    // Video pile cards animation + interaction
-    const vidCards = gsap.utils.toArray('.vid-card');
-    if (vidCards.length) {
-      gsap.fromTo(vidCards, {opacity:0, y:40}, {
-        opacity:1, y:0, duration:0.7, stagger:0.15, ease:'power3.out',
-        scrollTrigger: {trigger:'.video-pile', start:'top 85%', toggleActions:'play none none none'}
-      });
-      vidCards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-          // Set z-index immediately before transition so no layer-order flash
-          card.style.zIndex = '10';
-          vidCards.forEach(other => { if (other !== card) other.style.zIndex = '1'; });
-          requestAnimationFrame(() => {
-            card.classList.add('vid-active');
-            vidCards.forEach(other => { if (other !== card) other.classList.add('vid-back'); });
-          });
-        });
-        card.addEventListener('mouseleave', () => {
-          vidCards.forEach(c => {
-            c.classList.remove('vid-active', 'vid-back');
-            c.style.zIndex = '';
-          });
-        });
       });
     }
 
