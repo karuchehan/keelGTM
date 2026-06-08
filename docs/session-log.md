@@ -263,3 +263,50 @@ Running log of all discussions, decisions, and changes made to the website. Upda
 - Orange tint: `background: rgba(255,89,48,0.08)`, `border-top/bottom: 1px solid rgba(255,89,48,0.25)`, `color: rgba(255,89,48,0.7)`.
 - Text: "Set once · Runs weekly" — uppercase, 0.6rem, letter-spacing 0.08em.
 - Added `.tools-corner-ribbon` to the `:not()` exclusion list on `.offering-card > *` so the card's `position: relative; z-index: 1` override does not break the ribbon's absolute positioning.
+
+---
+
+#### Commit `9c3409a` — docs: update session log for 2026-06-08 session
+
+Session log updated to reflect all commits from the 2026-06-08 session.
+
+---
+
+#### Commit `34b45f0` — Update page title to keelGTM
+
+Changed `<title>` from previous value to `keelGTM`.
+
+---
+
+#### Commit `968c23c` — Copy: lowercase revenue in Problem headline, update hero subtitle
+
+- Problem headline: `REVENUE` → `revenue`
+- Hero subtitle: updated to "The right list. The right GTM systems. Built fast, handed off clean."
+
+---
+
+#### Commit `508fdae` — Problem section: redesign header card and implement sticky stacking card animation
+
+**Header card:**
+- Wrapped header content in `.problem-header-card` with border, subtle background, hover lift.
+- `section-label` centered, all-caps, matches OFFERINGS style.
+- Headline font reduced to `clamp(2rem, 3.5vw, 3.5rem)` to fit one line.
+- Logo + divider centered inside card.
+
+**Two-column layout:**
+- Added vertical divider via `.problem-columns::after` pseudo-element.
+- Column labels enlarged and centered.
+- Replaced old `translateY` pin animation with GSAP sticky stacking (same pattern as Process section): `position: absolute; inset: 0` on track, slots stack from below viewport, z-index on `.pain-point-slot` (not inner `.pain-point`).
+- Made `#problem` 100vh flex column so cards slide from below viewport bottom — no cut-off mid-animation.
+- Three background tones per stacking order: `#2e1302`, `#321503`, `#361704`.
+
+---
+
+#### Commit `c0ea079` — Craft section: add three new client cards (Airwallex, Tanium, Nium)
+
+Added cards 4, 5, 6 to `.craft-grid` after existing Shopify, Nerdio, Epicor cards:
+- **Airwallex** — ABM tag, "Account and Prospect List Build", enterprise payments GTM motion, Clay/Apollo/LinkedIn
+- **Tanium** — Signals tag, "Signal Intelligence and List Build", intent + technographic signals, Clay/Apollo/LinkedIn
+- **Nium** — ABM tag, "Account and Prospect List Build", fintech APAC GTM motion, Clay/Apollo/LinkedIn
+
+Logo PNG files not present; used `.craft-logo-fallback` spans with company name text. GSAP animation picks up all 6 cards automatically.
