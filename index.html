@@ -1416,7 +1416,7 @@
       z-index: 0;
     }
     .offering-card:hover::before { opacity: 1; }
-    .offering-card > *:not(.offering-watermark):not(.offering-cta-overlay) { position: relative; z-index: 1; }
+    .offering-card > *:not(.offering-watermark):not(.offering-cta-overlay):not(.tools-corner-ribbon) { position: relative; z-index: 1; }
     .offering-card:hover {
       transform: translateY(-4px);
       border-color: rgba(225,223,219,0.12);
@@ -1675,17 +1675,19 @@
     .tools-scatter {
       position: relative;
       width: 100%;
-      min-height: 230px;
-      padding: 16px;
+      padding: 20px;
       background: rgba(225,223,219,0.02);
       border: 1px solid rgba(225,223,219,0.07);
       border-radius: 16px;
       overflow: hidden;
       box-sizing: border-box;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-content: flex-start;
     }
     .tool-pill {
       display: inline-block;
-      position: absolute;
       background: rgba(225,223,219,0.05);
       border: 1px solid rgba(225,223,219,0.1);
       border-radius: 999px;
@@ -1697,20 +1699,36 @@
       cursor: default;
       transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
     }
+    .tool-pill:nth-child(1) { transform: rotate(-1.5deg); }
+    .tool-pill:nth-child(2) { transform: rotate(1deg); margin-top: 4px; }
+    .tool-pill:nth-child(3) { transform: rotate(-0.8deg); margin-top: -2px; }
+    .tool-pill:nth-child(4) { transform: rotate(1.2deg); margin-top: 6px; }
+    .tool-pill:nth-child(5) { transform: rotate(-1deg); margin-top: 2px; }
     .tool-pill:hover {
       background: rgba(255,89,48,0.08);
       border-color: rgba(255,89,48,0.25);
       color: #e1dfdb;
-      transform: rotate(0deg) scale(1.04) !important;
+      transform: rotate(0deg) scale(1.04);
     }
-    .tools-tagline {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.85rem;
-      color: rgba(225,223,219,0.45);
-      line-height: 1.65;
-      max-width: 340px;
-      margin: 0 auto;
+    .tools-corner-ribbon {
+      position: absolute;
+      top: 24px;
+      right: -36px;
+      width: 170px;
+      padding: 7px 0;
+      background: rgba(255,89,48,0.08);
+      border-top: 1px solid rgba(255,89,48,0.25);
+      border-bottom: 1px solid rgba(255,89,48,0.25);
+      transform: rotate(35deg);
       text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: rgba(255,89,48,0.7);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      z-index: 3;
+      pointer-events: none;
     }
     .keel-tools-caps {
       display: flex;
@@ -1891,17 +1909,17 @@
         </div>
 
         <div class="offering-card secondary" id="offering-right">
+          <div class="tools-corner-ribbon">Set once · Runs weekly</div>
           <span class="offering-watermark">Self Serve</span>
           <h3>Keel Tools.</h3>
           <p class="offering-desc">Pre-built AI systems for the repetitive parts of your GTM and ops. Each tool runs on Claude, n8n, and Clay. Test a single run or integrate it fully with a one-time setup fee.</p>
           <div class="tools-scatter">
-            <span class="tool-pill" style="top:12px;left:8%;transform:rotate(-2deg)">Signal Intelligence Engine</span>
-            <span class="tool-pill" style="top:52px;right:6%;transform:rotate(1.5deg)">ICP Prospect Validator</span>
-            <span class="tool-pill" style="top:100px;left:12%;transform:rotate(-1deg)">Client Reporting Automator</span>
-            <span class="tool-pill" style="top:140px;right:4%;transform:rotate(2deg)">Personalized Opening Line Writer</span>
-            <span class="tool-pill" style="top:178px;left:5%;transform:rotate(-1.5deg)">Podcast Content Repurposing Engine</span>
+            <span class="tool-pill">Signal Intelligence Engine</span>
+            <span class="tool-pill">ICP Prospect Validator</span>
+            <span class="tool-pill">Client Reporting Automator</span>
+            <span class="tool-pill">Personalized Opening Line Writer</span>
+            <span class="tool-pill">Podcast Content Repurposing Engine</span>
           </div>
-          <p class="tools-tagline">Built for founders and ops teams who want to stop doing the same things manually every week.</p>
           <div class="offering-cta-overlay offering-cta-overlay--tools">
             <a href="pages/keel-tools.html" class="btn-offering-cta">Explore Tools</a>
           </div>
