@@ -1672,60 +1672,36 @@
       border-color: rgba(225,223,219,0.5);
       background: rgba(225,223,219,0.05);
     }
-    .tools-mockup {
-      background: rgba(225,223,219,0.03);
-      border: 1px solid rgba(225,223,219,0.08);
-      border-radius: 12px;
-      padding: 20px;
-      margin: 0;
+    .tools-scatter {
+      position: relative;
       width: 100%;
+      min-height: 230px;
+      padding: 16px;
+      background: rgba(225,223,219,0.02);
+      border: 1px solid rgba(225,223,219,0.07);
+      border-radius: 16px;
+      overflow: hidden;
       box-sizing: border-box;
-      text-align: left;
     }
-    .tools-mockup-topbar {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 16px;
-    }
-    .tmb-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .tools-mockup-row {
-      display: flex;
-      align-items: center;
-      padding: 10px 0;
-      gap: 10px;
-    }
-    .tmr-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(255,89,48,0.6);
-      flex-shrink: 0;
-    }
-    .tmr-label {
+    .tool-pill {
+      display: inline-block;
+      position: absolute;
+      background: rgba(225,223,219,0.05);
+      border: 1px solid rgba(225,223,219,0.1);
+      border-radius: 999px;
+      padding: 8px 16px;
       font-family: 'Inter', sans-serif;
       font-size: 0.8rem;
+      color: rgba(225,223,219,0.65);
+      white-space: nowrap;
+      cursor: default;
+      transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .tool-pill:hover {
+      background: rgba(255,89,48,0.08);
+      border-color: rgba(255,89,48,0.25);
       color: #e1dfdb;
-      flex: 1;
-    }
-    .tmr-status {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.65rem;
-      color: rgba(255,89,48,0.6);
-      background: rgba(255,89,48,0.06);
-      border: 1px solid rgba(255,89,48,0.15);
-      border-radius: 999px;
-      padding: 2px 8px;
-      flex-shrink: 0;
-    }
-    .tools-mockup-divider {
-      height: 1px;
-      background: rgba(225,223,219,0.06);
+      transform: rotate(0deg) scale(1.04) !important;
     }
     .tools-tagline {
       font-family: 'Inter', sans-serif;
@@ -1918,31 +1894,12 @@
           <span class="offering-watermark">Self Serve</span>
           <h3>Keel Tools.</h3>
           <p class="offering-desc">Pre-built AI systems for the repetitive parts of your GTM and ops. Each tool runs on Claude, n8n, and Clay. Test a single run or integrate it fully with a one-time setup fee.</p>
-          <div class="tools-mockup">
-            <div class="tools-mockup-row">
-              <span class="tmr-dot"></span>
-              <span class="tmr-label">Signal Intelligence Engine</span>
-            </div>
-            <div class="tools-mockup-divider"></div>
-            <div class="tools-mockup-row">
-              <span class="tmr-dot"></span>
-              <span class="tmr-label">ICP Prospect Validator</span>
-            </div>
-            <div class="tools-mockup-divider"></div>
-            <div class="tools-mockup-row">
-              <span class="tmr-dot"></span>
-              <span class="tmr-label">Client Reporting Automator</span>
-            </div>
-            <div class="tools-mockup-divider"></div>
-            <div class="tools-mockup-row">
-              <span class="tmr-dot"></span>
-              <span class="tmr-label">Personalized Opening Line Writer</span>
-            </div>
-            <div class="tools-mockup-divider"></div>
-            <div class="tools-mockup-row">
-              <span class="tmr-dot"></span>
-              <span class="tmr-label">Podcast Content Repurposing Engine</span>
-            </div>
+          <div class="tools-scatter">
+            <span class="tool-pill" style="top:12px;left:8%;transform:rotate(-2deg)">Signal Intelligence Engine</span>
+            <span class="tool-pill" style="top:52px;right:6%;transform:rotate(1.5deg)">ICP Prospect Validator</span>
+            <span class="tool-pill" style="top:100px;left:12%;transform:rotate(-1deg)">Client Reporting Automator</span>
+            <span class="tool-pill" style="top:140px;right:4%;transform:rotate(2deg)">Personalized Opening Line Writer</span>
+            <span class="tool-pill" style="top:178px;left:5%;transform:rotate(-1.5deg)">Podcast Content Repurposing Engine</span>
           </div>
           <p class="tools-tagline">Built for founders and ops teams who want to stop doing the same things manually every week.</p>
           <div class="offering-cta-overlay offering-cta-overlay--tools">
