@@ -19,7 +19,7 @@
     }
 
     * { margin:0; padding:0; box-sizing:border-box; -webkit-user-select:none; user-select:none; }
-    html { overflow-x:hidden; scroll-behavior:smooth; }
+    html { overflow-x:hidden; }
     body { background:#291001; color:#e1dfdb; font-family:'Inter',sans-serif; overflow-x:hidden; }
 
     /* Custom cursor — hero section only */
@@ -1016,10 +1016,13 @@
       padding-top: 80px;
       display: flex;
       flex-direction: column;
+      transform: translateZ(0);
     }
     .stack-pin-wrap .section-inner {
       flex-shrink: 0;
       padding-bottom: 24px;
+      text-align: left;
+      width: 100%;
     }
     .stack-cards-wrap {
       position: relative;
@@ -1044,6 +1047,7 @@
       --mouse-x: -400px;
       --mouse-y: -400px;
       height: 100%;
+      will-change: transform;
     }
     /* All cards fill the stage; cards 2+3 overlay absolutely */
     .stack-stage .stack-card:nth-child(1) {
@@ -1070,10 +1074,13 @@
     .stack-card:nth-child(2) { background: #321503; box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
     .stack-card:nth-child(3) { background: #361704; box-shadow: 0 -8px 40px rgba(0,0,0,0.5); }
     .stack-card-inner {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
       align-items: center;
       height: 100%;
-      padding: 3rem 3.5rem;
+      padding: 4rem 0;
+      min-height: 60vh;
       position: relative;
       z-index: 1;
     }
@@ -1082,6 +1089,12 @@
       flex-direction: column;
       gap: 1.2rem;
       padding-left: 2rem;
+    }
+    .stack-card-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-right: 3rem;
     }
     .stack-step-num {
       font-family: 'Playfair Display', serif;
@@ -1316,7 +1329,8 @@
     }
 
     @media (max-width: 768px) {
-      .stack-card-inner { padding: 2rem 1.5rem; }
+      .stack-card-inner { padding: 2rem 1.5rem; grid-template-columns: 1fr; gap: 24px; min-height: auto; }
+      .stack-card-right { padding-right: 1.5rem; }
       .stack-step-num { font-size: 3.5rem; }
       .stack-pin-wrap { height: auto; overflow: visible; padding-top: 40px; display: block; }
       .stack-cards-wrap { flex: none; }
@@ -2102,6 +2116,20 @@
                 <span>Signal Definition</span>
               </div>
             </div>
+            <div class="stack-card-right">
+              <div class="process-panel">
+                <div class="process-panel-label">The Scoping Process</div>
+                <div class="mini-step-card"><span class="mini-step-num">01</span><span class="mini-step-label">ICP Brief</span></div>
+                <div class="mini-step-arrow">↓</div>
+                <div class="mini-step-card"><span class="mini-step-num">02</span><span class="mini-step-label">Account Criteria</span></div>
+                <div class="mini-step-arrow">↓</div>
+                <div class="mini-step-card"><span class="mini-step-num">03</span><span class="mini-step-label">Data Sources</span></div>
+                <div class="mini-step-arrow">↓</div>
+                <div class="mini-step-card"><span class="mini-step-num">04</span><span class="mini-step-label">Signal Definition</span></div>
+                <div class="mini-step-arrow">↓</div>
+                <div class="mini-step-card"><span class="mini-step-num">05</span><span class="mini-step-label">Scope Approved</span></div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -2118,6 +2146,20 @@
                 <span>Signal Layer</span>
               </div>
             </div>
+            <div class="stack-card-right">
+              <div class="process-panel">
+                <div class="process-panel-label">The Build Process</div>
+                <div class="mini-step-card"><span class="mini-step-num">01</span><span class="mini-step-label">Account List Built</span></div>
+                <div class="mini-step-arrow">↓</div>
+                <div class="mini-step-card"><span class="mini-step-num">02</span><span class="mini-step-label">Account Enrichment</span></div>
+                <div class="mini-step-arrow">↓</div>
+                <div class="mini-step-card"><span class="mini-step-num">03</span><span class="mini-step-label">Prospect List Built</span></div>
+                <div class="mini-step-arrow">↓</div>
+                <div class="mini-step-card"><span class="mini-step-num">04</span><span class="mini-step-label">Prospect Validation</span></div>
+                <div class="mini-step-arrow">↓</div>
+                <div class="mini-step-card"><span class="mini-step-num">05</span><span class="mini-step-label">Signal Layer Added</span></div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -2131,6 +2173,18 @@
                 <span>Clean Deliverable</span>
                 <span>Documentation</span>
                 <span>You Own It</span>
+              </div>
+            </div>
+            <div class="stack-card-right">
+              <div class="process-panel">
+                <div class="process-panel-label">The Handoff Package</div>
+                <div class="mini-step-card"><span class="mini-step-num">01</span><span class="mini-step-label">Clean File Export</span></div>
+                <div class="mini-step-arrow">↓</div>
+                <div class="mini-step-card"><span class="mini-step-num">02</span><span class="mini-step-label">Full Documentation</span></div>
+                <div class="mini-step-arrow">↓</div>
+                <div class="mini-step-card"><span class="mini-step-num">03</span><span class="mini-step-label">Live Walkthrough</span></div>
+                <div class="mini-step-arrow">↓</div>
+                <div class="mini-step-card"><span class="mini-step-num">04</span><span class="mini-step-label">You Own It</span></div>
               </div>
             </div>
           </div>
@@ -2490,8 +2544,33 @@
       checkNav();
     })();
 
+    // ── SMOOTH ANCHOR SCROLL (replaces CSS scroll-behavior:smooth) ──
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        if (id === '#') return;
+        const target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        const start = window.scrollY;
+        const end = target.getBoundingClientRect().top + window.scrollY;
+        const distance = end - start;
+        const duration = 700;
+        let startTime = null;
+        function easeInOut(t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+        function step(ts) {
+          if (!startTime) startTime = ts;
+          const progress = Math.min((ts - startTime) / duration, 1);
+          window.scrollTo(0, start + distance * easeInOut(progress));
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    });
+
     // ── GSAP ANIMATIONS ───────────────────────────────────────────
     gsap.registerPlugin(ScrollTrigger);
+    gsap.ticker.lagSmoothing(0);
 
     // Nav entrance
     gsap.from("#navbar", {
@@ -2631,20 +2710,65 @@
         const cardH = stackCards[0].offsetHeight;
         gsap.set(stackCards[1], { y: cardH });
         gsap.set(stackCards[2], { y: cardH });
+        let pf2 = false, pf3 = false;
         const stackTl = gsap.timeline({
           scrollTrigger: {
             trigger: '.stack-pin-wrap',
             start: 'top top',
             end: '+=2000',
-            scrub: true,
+            scrub: 0.5,
             pin: true,
             pinSpacing: true,
+            anticipatePin: 1,
             invalidateOnRefresh: true,
+            onUpdate: self => {
+              if (!pf2 && self.progress >= 0.4) {
+                pf2 = true;
+                gsap.fromTo(stackCards[1].querySelectorAll('.mini-step-card'),
+                  { opacity: 0, y: 8 },
+                  { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out' }
+                );
+              }
+              if (!pf3 && self.progress >= 0.9) {
+                pf3 = true;
+                gsap.fromTo(stackCards[2].querySelectorAll('.mini-step-card'),
+                  { opacity: 0, y: 8 },
+                  { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out' }
+                );
+              }
+            }
           }
         });
         stackTl.to(stackCards[1], { y: 0, duration: 1, ease: 'none' });
         stackTl.to(stackCards[2], { y: 0, duration: 1, ease: 'none' });
+
+        // Mini-step card animations: card 1 fires on section enter
+        gsap.set('.mini-step-card', { y: 8 });
+
+        gsap.fromTo(
+          stackCards[0].querySelectorAll('.mini-step-card'),
+          { opacity: 0, y: 8 },
+          {
+            opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out',
+            scrollTrigger: { trigger: '.stack-pin-wrap', start: 'top 70%', toggleActions: 'play none none none' }
+          }
+        );
       }
+    } else {
+      // Mobile: trigger each card's mini-step panel when it scrolls into view
+      gsap.set('.mini-step-card', { y: 8 });
+      gsap.utils.toArray('.stack-card').forEach(card => {
+        const steps = card.querySelectorAll('.mini-step-card');
+        if (steps.length) {
+          gsap.fromTo(steps,
+            { opacity: 0, y: 8 },
+            {
+              opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out',
+              scrollTrigger: { trigger: card, start: 'top 75%', toggleActions: 'play none none none' }
+            }
+          );
+        }
+      });
     }
 
     // Video pile cards animation + interaction
