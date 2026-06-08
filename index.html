@@ -466,7 +466,7 @@
 
     /* PAIN POINTS */
     .pain-point {
-      padding: 4rem;
+      padding: 3rem;
       border: 1px solid rgba(225,223,219,0.07);
       border-radius: 16px;
       background: rgba(255,255,255,0.015);
@@ -475,7 +475,6 @@
       position: relative;
       overflow: hidden;
       width: 100%;
-      min-height: 42vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -488,35 +487,27 @@
     }
     .pain-point h3 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 3vw, 3.2rem);
+      font-size: clamp(1.6rem, 2.2vw, 2.6rem);
       color: #e1dfdb;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
       line-height: 1.12;
       transition: color 0.3s ease;
     }
     .pain-point p {
-      font-size: 1.1rem;
-      line-height: 1.8;
+      font-size: 1rem;
+      line-height: 1.75;
       color: rgba(225,223,219,0.6);
-      max-width: 480px;
     }
     .pain-point h3 em {
       color: #ff5930;
       font-style: italic;
-    }
-    .problem-logo-spin {
-      width: 32px;
-      height: 32px;
-      display: block;
-      will-change: transform;
-      flex-shrink: 0;
     }
     .pain-bg-number {
       position: absolute;
       bottom: -1.5rem;
       right: 1.5rem;
       font-family: 'Playfair Display', serif;
-      font-size: 10rem;
+      font-size: 8rem;
       font-weight: 700;
       color: rgba(225,223,219,0.03);
       line-height: 1;
@@ -527,50 +518,66 @@
 
     /* PROBLEM SCROLL SECTION */
     .problem-section { padding: 0; }
-    .problem-layout {
-      display: grid;
-      grid-template-columns: 1fr 1.8fr;
-      gap: 60px;
-      height: 100vh;
+    .problem-header {
+      text-align: center;
+      padding: 8vh 6vw 4vh;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 6vw;
-      box-sizing: border-box;
+      gap: 1.8rem;
     }
-    .problem-left { display: flex; align-items: center; }
-    .problem-sticky-card {
-      width: 100%;
-      border: 1px solid rgba(225,223,219,0.10);
-      border-radius: 16px;
-      background: rgba(255,255,255,0.025);
-      padding: 3.5rem;
-    }
-    .problem-sticky-card h2 {
-      font-size: clamp(2.2rem, 4vw, 4.5rem);
-      margin-bottom: 1.2rem;
-      line-height: 1.05;
-    }
-    .problem-subtext {
-      font-size: 0.95rem;
-      line-height: 1.65;
-      color: rgba(225,223,219,0.45);
+    .problem-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      color: #e1dfdb;
       margin: 0;
     }
-    .problem-card-divider {
-      height: 1px;
-      background: rgba(225,223,219,0.08);
-      margin: 2.5rem 0 2rem;
+    .problem-header h2 em {
+      color: #ff5930;
+      font-style: italic;
     }
-    .problem-card-footer {
+    .section-label em {
+      color: #ff5930;
+      font-style: italic;
+      text-transform: none;
+    }
+    .problem-logo-spin {
+      width: 32px;
+      height: 32px;
+      display: block;
+      will-change: transform;
+      margin: 0 auto;
+    }
+    .problem-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 6vw 6vh;
+      box-sizing: border-box;
+    }
+    .problem-col { display: flex; flex-direction: column; }
+    .problem-col > .section-label { margin-bottom: 1.5rem; }
+    .problem-col-track-wrap {
+      height: 52vh;
+      overflow: hidden;
+      position: relative;
+      flex: 1;
+    }
+    .pain-cards-track { will-change: transform; }
+    .pain-point-slot {
+      height: 52vh;
       display: flex;
       align-items: center;
-      justify-content: center;
     }
     .problem-progress {
       display: flex;
       gap: 8px;
       align-items: center;
+      margin-top: 1.2rem;
     }
     .progress-dot {
       width: 6px;
@@ -583,39 +590,21 @@
       background: #ff5930;
       transform: scale(1.5);
     }
-    .problem-counter {
-      font-size: 0.82rem;
-      color: rgba(225,223,219,0.35);
-      letter-spacing: 0.08em;
-      font-family: 'Inter', sans-serif;
-    }
-    .counter-current { color: #ff5930; font-weight: 600; }
-    .problem-right {
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-    .pain-cards-track { will-change: transform; }
-    .pain-point-slot {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-    }
     @media (max-width: 768px) {
-      .problem-layout {
+      .problem-header { padding: 8vh 6vw 4vh; gap: 1.2rem; }
+      .problem-header h2 { font-size: clamp(2rem, 8vw, 3rem); }
+      .problem-columns {
         grid-template-columns: 1fr;
-        height: auto;
         gap: 0;
-        padding: 12vh 6vw;
+        padding: 0 6vw 8vh;
       }
-      .problem-right {
-        height: auto;
-        overflow: visible;
-      }
-      .pain-point-slot {
-        height: auto;
-        padding: 4vh 0;
-      }
+      .problem-col-track-wrap { height: auto; overflow: visible; }
+      .pain-point-slot { height: auto; padding: 2vh 0; }
+      .pain-point { padding: 2rem; }
+      .pain-point h3 { font-size: clamp(1.4rem, 6.5vw, 2rem); margin-bottom: 0.8rem; }
+      .pain-point p { font-size: 0.95rem; }
+      .pain-bg-number { font-size: 5rem; }
+      .problem-progress { margin-top: 0.8rem; margin-bottom: 3vh; }
     }
 
     /* PROOF OF CRAFT */
@@ -1347,15 +1336,7 @@
       .split-layout { grid-template-columns:1fr; gap:40px; }
       .split-left h2 { position:static; }
 
-      /* PROBLEM SECTION */
-      .problem-sticky-card { padding: 2rem; }
-      .problem-sticky-card h2 { font-size: clamp(1.8rem, 8vw, 2.4rem); margin-bottom: 0.8rem; }
-      .problem-subtext { font-size: 0.9rem; }
-      .problem-card-divider { margin: 1.5rem 0 1rem; }
-      .pain-point { min-height: auto; padding: 2rem; }
-      .pain-point h3 { font-size: clamp(1.4rem, 6.5vw, 2rem); margin-bottom: 0.8rem; }
-      .pain-point p { font-size: 1rem; }
-      .pain-bg-number { font-size: 5rem; }
+      /* PROBLEM SECTION — handled in main media block above */
 
       /* STACK CARDS */
       .stack-card-left { padding-left: 1rem; }
@@ -1416,7 +1397,8 @@
       z-index: 0;
     }
     .offering-card:hover::before { opacity: 1; }
-    .offering-card > *:not(.offering-watermark):not(.offering-cta-overlay):not(.tools-corner-ribbon) { position: relative; z-index: 1; }
+    .offering-card > *:not(.offering-watermark):not(.offering-cta-overlay):not(.tools-corner-ribbon):not(.tools-corner-sticker) { position: relative; z-index: 1; }
+    .tools-corner-sticker { position: absolute; top: 0; right: 0; width: 160px; height: 160px; overflow: hidden; z-index: 3; pointer-events: none; }
     .offering-card:hover {
       transform: translateY(-4px);
       border-color: rgba(225,223,219,0.12);
@@ -1712,13 +1694,11 @@
     }
     .tools-corner-ribbon {
       position: absolute;
-      top: 24px;
+      top: 28px;
       right: -36px;
       width: 170px;
       padding: 7px 0;
       background: #e1dfdb;
-      border-top: none;
-      border-bottom: none;
       transform: rotate(35deg);
       text-align: center;
       font-family: 'Inter', sans-serif;
@@ -1727,8 +1707,6 @@
       color: #291001;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      z-index: 3;
-      pointer-events: none;
     }
     .keel-tools-caps {
       display: flex;
@@ -1818,41 +1796,76 @@
   </section>
 
   <section id="problem" class="section problem-section">
-    <div class="problem-layout">
-      <div class="problem-left">
-        <div class="problem-sticky-card">
-          <span class="section-label">The Problem</span>
-          <h2>Outbound stalls at the <em>list.</em></h2>
-          <p class="problem-subtext">Three reasons your outbound is not working.</p>
-          <div class="problem-card-divider"></div>
-          <div class="problem-card-footer">
-            <img src="assets/logos/2.svg" class="problem-logo-spin" alt="">
+    <div class="problem-header">
+      <span class="section-label">The <em>friction.</em></span>
+      <h2>Two things are slowing your <em>revenue.</em></h2>
+      <img src="assets/logos/2.svg" class="problem-logo-spin" alt="">
+    </div>
+    <div class="problem-columns">
+      <div class="problem-col">
+        <span class="section-label">List Building</span>
+        <div class="problem-col-track-wrap">
+          <div class="pain-cards-track" id="pain-track-left">
+            <div class="pain-point-slot">
+              <div class="pain-point">
+                <h3>The <em>Niche</em> Problem</h3>
+                <p>You know exactly who you want. But Apollo gives you 10,000 results and none of them are right. The more precise your target, the worse every off-the-shelf tool performs.</p>
+                <span class="pain-bg-number" aria-hidden="true">01</span>
+              </div>
+            </div>
+            <div class="pain-point-slot">
+              <div class="pain-point">
+                <h3>The <em>Quality</em> Problem</h3>
+                <p>You have accounts. You have contacts. But the data is stale, the titles are wrong, and half the emails bounce. A bad list does not just underperform. It burns your domain.</p>
+                <span class="pain-bg-number" aria-hidden="true">02</span>
+              </div>
+            </div>
+            <div class="pain-point-slot">
+              <div class="pain-point">
+                <h3>The <em>Capacity</em> Problem</h3>
+                <p>List building done properly is a full-time job. Your SDRs should be selling, not scrubbing CSVs and cross-referencing LinkedIn.</p>
+                <span class="pain-bg-number" aria-hidden="true">03</span>
+              </div>
+            </div>
           </div>
         </div>
+        <div class="problem-progress" id="progress-left">
+          <span class="progress-dot active"></span>
+          <span class="progress-dot"></span>
+          <span class="progress-dot"></span>
+        </div>
       </div>
-      <div class="problem-right">
-        <div class="pain-cards-track">
-          <div class="pain-point-slot">
-            <div class="pain-point">
-              <h3>The <em>niche</em> Problem</h3>
-              <p>You know exactly who you want. But Apollo gives you 10,000 results and none of them are right. The more precise your target, the worse every off-the-shelf tool performs.</p>
-              <span class="pain-bg-number" aria-hidden="true">01</span>
+      <div class="problem-col">
+        <span class="section-label">GTM Systems</span>
+        <div class="problem-col-track-wrap">
+          <div class="pain-cards-track" id="pain-track-right">
+            <div class="pain-point-slot">
+              <div class="pain-point">
+                <h3>The <em>Repetition</em> Problem</h3>
+                <p>Your team does the same manual tasks every week. Pulling signals, writing personalization, formatting reports. None of it is strategic. All of it is time they could spend closing.</p>
+                <span class="pain-bg-number" aria-hidden="true">01</span>
+              </div>
+            </div>
+            <div class="pain-point-slot">
+              <div class="pain-point">
+                <h3>The <em>Consistency</em> Problem</h3>
+                <p>Manual processes break. Someone forgets a step, uses the wrong template, sends the wrong data. Automation removes the human error that quietly kills your output quality.</p>
+                <span class="pain-bg-number" aria-hidden="true">02</span>
+              </div>
+            </div>
+            <div class="pain-point-slot">
+              <div class="pain-point">
+                <h3>The <em>Scale</em> Problem</h3>
+                <p>You cannot grow your operation without growing your headcount. Every new client means more manual work. The only way to scale without hiring is to automate the repeatable parts.</p>
+                <span class="pain-bg-number" aria-hidden="true">03</span>
+              </div>
             </div>
           </div>
-          <div class="pain-point-slot">
-            <div class="pain-point">
-              <h3>The <em>quality</em> Problem</h3>
-              <p>You have accounts. You have contacts. But the data is stale, the titles are wrong, and half the emails bounce. A bad list does not just underperform. It burns your domain.</p>
-              <span class="pain-bg-number" aria-hidden="true">02</span>
-            </div>
-          </div>
-          <div class="pain-point-slot">
-            <div class="pain-point">
-              <h3>The <em>capacity</em> Problem</h3>
-              <p>List building done properly is a full-time job. Your SDRs should be selling, not scrubbing CSVs and cross-referencing LinkedIn.</p>
-              <span class="pain-bg-number" aria-hidden="true">03</span>
-            </div>
-          </div>
+        </div>
+        <div class="problem-progress" id="progress-right">
+          <span class="progress-dot active"></span>
+          <span class="progress-dot"></span>
+          <span class="progress-dot"></span>
         </div>
       </div>
     </div>
@@ -1909,7 +1922,7 @@
         </div>
 
         <div class="offering-card secondary" id="offering-right">
-          <div class="tools-corner-ribbon">AI-powered GTM.<br>Zero manual work.</div>
+          <div class="tools-corner-sticker"><div class="tools-corner-ribbon">AI-powered GTM.<br>Zero manual work.</div></div>
           <span class="offering-watermark">Self Serve</span>
           <h3>Keel Tools.</h3>
           <p class="offering-desc">Pre-built AI systems for the repetitive parts of your GTM and ops. Each tool runs on Claude, n8n, and Clay. Test a single run or integrate it fully with a one-time setup fee.</p>
@@ -2544,22 +2557,45 @@
 
     // Problem section — desktop only (pin breaks on mobile touch scroll)
     if (window.innerWidth > 768) {
-      // Timeline with explicit hold periods so each card sits centred long enough
-      // Durations (unitless): hold-1(2) | slide-to-2(1) | hold-2(3) | slide-to-3(1) | hold-3(3) = 10 total
-      // Scroll budget: 1200vh → each unit ≈ 120vh of scroll
-      gsap.to('.pain-cards-track', {
-        y: '-200vh',
+      const probEnd = '+=900vh';
+
+      ScrollTrigger.create({
+        trigger: '#problem',
+        start: 'top top',
+        end: probEnd,
+        pin: true,
+        scrub: true,
+        invalidateOnRefresh: true,
+      });
+
+      gsap.to('#pain-track-left', {
+        y: '-104vh',
         ease: 'none',
         scrollTrigger: {
           trigger: '#problem',
           start: 'top top',
-          end: '+=1500vh',
+          end: probEnd,
           scrub: true,
-          pin: true,
-          invalidateOnRefresh: true,
           onUpdate: (self) => {
             const idx = Math.min(2, Math.floor(self.progress * 3));
-            document.querySelectorAll('.progress-dot').forEach((d, i) => {
+            document.querySelectorAll('#progress-left .progress-dot').forEach((d, i) => {
+              d.classList.toggle('active', i === idx);
+            });
+          }
+        }
+      });
+
+      gsap.to('#pain-track-right', {
+        y: '-104vh',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#problem',
+          start: 'top top',
+          end: probEnd,
+          scrub: true,
+          onUpdate: (self) => {
+            const idx = Math.min(2, Math.floor(self.progress * 3));
+            document.querySelectorAll('#progress-right .progress-dot').forEach((d, i) => {
               d.classList.toggle('active', i === idx);
             });
           }
@@ -2572,7 +2608,7 @@
         scrollTrigger: {
           trigger: '#problem',
           start: 'top top',
-          end: '+=1500vh',
+          end: probEnd,
           scrub: true
         }
       });
