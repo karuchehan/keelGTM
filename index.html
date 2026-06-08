@@ -1139,7 +1139,8 @@
       overflow: hidden;
       border: 1px solid rgba(225,223,219,0.1);
       cursor: pointer;
-      transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+      transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s cubic-bezier(0.16,1,0.3,1), border-color 0.45s cubic-bezier(0.16,1,0.3,1);
+      will-change: transform;
     }
     .vid-card video {
       width: 100%;
@@ -1158,14 +1159,15 @@
       box-shadow: 0 12px 50px rgba(0,0,0,0.6);
     }
     .vid-card.vid-active {
-      transform: rotate(0deg) translate(0, -20px) scale(1.04) !important;
+      transform: rotate(0deg) translate(0, -32px) scale(1.1) !important;
       z-index: 10 !important;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.7) !important;
-      border-color: rgba(225,223,219,0.25) !important;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.75) !important;
+      border-color: rgba(225,223,219,0.3) !important;
     }
     .vid-card.vid-back {
+      transform: rotate(0deg) translate(0, 8px) scale(0.96) !important;
       z-index: 1 !important;
-      opacity: 0.7;
+      opacity: 0.55;
     }
     .stack-visual {
       background: rgba(255,255,255,0.025);
@@ -2654,11 +2656,19 @@
       });
       vidCards.forEach(card => {
         card.addEventListener('mouseenter', () => {
-          card.classList.add('vid-active');
-          vidCards.forEach(other => { if (other !== card) other.classList.add('vid-back'); });
+          // Set z-index immediately before transition so no layer-order flash
+          card.style.zIndex = '10';
+          vidCards.forEach(other => { if (other !== card) other.style.zIndex = '1'; });
+          requestAnimationFrame(() => {
+            card.classList.add('vid-active');
+            vidCards.forEach(other => { if (other !== card) other.classList.add('vid-back'); });
+          });
         });
         card.addEventListener('mouseleave', () => {
-          vidCards.forEach(c => { c.classList.remove('vid-active', 'vid-back'); });
+          vidCards.forEach(c => {
+            c.classList.remove('vid-active', 'vid-back');
+            c.style.zIndex = '';
+          });
         });
       });
     }
