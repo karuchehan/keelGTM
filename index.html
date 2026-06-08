@@ -982,11 +982,9 @@
       display: flex;
       gap: 180px;
       width: max-content;
-      animation: marquee-scroll 30s linear infinite;
       align-items: center;
-    }
-    .marquee-inner:hover {
-      animation-play-state: paused;
+      cursor: grab;
+      user-select: none;
     }
     .marquee-logo-pill {
       display: inline-flex;
@@ -997,14 +995,10 @@
     }
     .marquee-logo {
       display: block;
-      height: 48px;
+      height: 64px;
       width: auto;
       max-width: 240px;
       object-fit: contain;
-    }
-    @keyframes marquee-scroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
     }
 
     /* STACKING CARDS PROCESS */
@@ -2225,25 +2219,135 @@
 
   <section id="tools" class="section" style="padding: 6vh 0; overflow: hidden;">
     <div class="marquee-track">
-      <div class="marquee-inner">
+      <div class="marquee-inner" id="marquee-inner">
+        <!-- set 1 -->
         <span class="marquee-logo-pill"><img src="assets/logos/tools/clay-logo.svg" alt="Clay" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/apollo-logo.svg" alt="Apollo.io" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/instantly-logo.svg" alt="Instantly" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/phantombuster-logo.svg" alt="Phantombuster" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/Prof pic (2).svg" alt="keelGTM" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/Aiark-cropped.svg" alt="Aiark" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/apollo-cropped.svg" alt="Apollo.io" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/clay cert 1-cropped.svg" alt="Clay Certified" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/instantly-cropped.svg" alt="Instantly" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/clay cert 2-cropped.svg" alt="Clay Expert" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/linkdedin-cropped.svg" alt="LinkedIn" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/plusvibe- design-cropped.svg" alt="Plusvibe" class="marquee-logo"></span>
+        <!-- set 2 (duplicate) -->
         <span class="marquee-logo-pill"><img src="assets/logos/tools/clay-logo.svg" alt="Clay" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/apollo-logo.svg" alt="Apollo.io" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/instantly-logo.svg" alt="Instantly" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/phantombuster-logo.svg" alt="Phantombuster" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/Prof pic (2).svg" alt="keelGTM" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/clay-logo.svg" alt="Clay" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/apollo-logo.svg" alt="Apollo.io" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/instantly-logo.svg" alt="Instantly" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/phantombuster-logo.svg" alt="Phantombuster" class="marquee-logo"></span>
-        <span class="marquee-logo-pill"><img src="assets/logos/tools/Prof pic (2).svg" alt="keelGTM" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/Aiark-cropped.svg" alt="Aiark" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/apollo-cropped.svg" alt="Apollo.io" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/clay cert 1-cropped.svg" alt="Clay Certified" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/instantly-cropped.svg" alt="Instantly" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/clay cert 2-cropped.svg" alt="Clay Expert" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/linkdedin-cropped.svg" alt="LinkedIn" class="marquee-logo"></span>
+        <span class="marquee-logo-pill"><img src="assets/logos/tools/plusvibe- design-cropped.svg" alt="Plusvibe" class="marquee-logo"></span>
       </div>
     </div>
   </section>
+
+  <script>
+    // Marquee momentum drag
+    (function() {
+      const track = document.querySelector('.marquee-track');
+      const inner = document.getElementById('marquee-inner');
+      if (!track || !inner) return;
+
+      let x = 0;
+      let vel = 0;
+      let autoScroll = true;
+      const AUTO_SPEED = 0.6;
+      const FRICTION = 0.96;
+
+      let isDragging = false;
+      let dragStartX = 0;
+      let dragStartScroll = 0;
+      let lastX = 0;
+      let lastTime = 0;
+      let lastVel = 0;
+
+      function halfWidth() { return inner.scrollWidth / 2; }
+
+      function setPos(newX) {
+        const half = halfWidth();
+        if (newX >= half) newX -= half;
+        if (newX < 0) newX += half;
+        x = newX;
+        inner.style.transform = 'translateX(' + (-x) + 'px)';
+      }
+
+      function tick() {
+        if (!isDragging) {
+          if (vel !== 0) {
+            vel *= FRICTION;
+            if (Math.abs(vel) < 0.1) vel = 0;
+            setPos(x + vel);
+          } else if (autoScroll) {
+            setPos(x + AUTO_SPEED);
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+
+      track.addEventListener('mouseenter', () => { if (!isDragging) autoScroll = false; });
+      track.addEventListener('mouseleave', () => { if (!isDragging) autoScroll = true; });
+
+      track.addEventListener('mousedown', e => {
+        isDragging = true;
+        autoScroll = false;
+        dragStartX = e.clientX;
+        dragStartScroll = x;
+        lastX = e.clientX;
+        lastTime = Date.now();
+        lastVel = 0;
+        vel = 0;
+        inner.style.cursor = 'grabbing';
+        e.preventDefault();
+      });
+
+      window.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        const now = Date.now();
+        const dt = now - lastTime;
+        if (dt > 0) lastVel = (e.clientX - lastX) / dt * 16;
+        lastX = e.clientX;
+        lastTime = now;
+        setPos(dragStartScroll + (dragStartX - e.clientX));
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        vel = -lastVel;
+        inner.style.cursor = 'grab';
+      });
+
+      track.addEventListener('touchstart', e => {
+        isDragging = true;
+        autoScroll = false;
+        dragStartX = e.touches[0].clientX;
+        dragStartScroll = x;
+        lastX = e.touches[0].clientX;
+        lastTime = Date.now();
+        lastVel = 0;
+        vel = 0;
+      }, { passive: true });
+
+      track.addEventListener('touchmove', e => {
+        if (!isDragging) return;
+        const now = Date.now();
+        const dt = now - lastTime;
+        if (dt > 0) lastVel = (e.touches[0].clientX - lastX) / dt * 16;
+        lastX = e.touches[0].clientX;
+        lastTime = now;
+        setPos(dragStartScroll + (dragStartX - e.touches[0].clientX));
+      }, { passive: true });
+
+      track.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        vel = -lastVel;
+      });
+
+      requestAnimationFrame(tick);
+    })();
+  </script>
 
   <section id="why" class="section">
     <div class="section-inner">
