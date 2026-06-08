@@ -1008,28 +1008,51 @@
     }
 
     /* STACKING CARDS PROCESS */
-    .process-stack-section { padding-bottom: 0; }
+    .process-stack-section { padding-top: 0; padding-bottom: 0; }
     #process { overflow: visible; }
+    .stack-pin-wrap {
+      height: 100vh;
+      overflow: hidden;
+      padding-top: 80px;
+      display: flex;
+      flex-direction: column;
+    }
+    .stack-pin-wrap .section-inner {
+      flex-shrink: 0;
+      padding-bottom: 24px;
+    }
     .stack-cards-wrap {
       position: relative;
-      padding-bottom: 60vh;
       max-width: 1100px;
+      width: 100%;
       margin: 0 auto;
-      padding-left: 20px;
-      padding-right: 20px;
+      padding: 0 20px;
+      flex: 1;
+      min-height: 0;
+    }
+    .stack-stage {
+      position: relative;
+      overflow: hidden;
+      height: 100%;
     }
     .stack-card {
-      position: sticky;
-      top: calc(100px + var(--i) * 24px);
-      margin-bottom: 2px;
       border-radius: 16px;
       border: 1px solid rgba(225,223,219,0.1);
       background: #291001;
       z-index: calc(var(--i) + 1);
-      transition: box-shadow 0.3s ease;
       overflow: hidden;
       --mouse-x: -400px;
       --mouse-y: -400px;
+      height: 100%;
+    }
+    /* All cards fill the stage; cards 2+3 overlay absolutely */
+    .stack-stage .stack-card:nth-child(1) {
+      position: relative;
+    }
+    .stack-stage .stack-card:nth-child(2),
+    .stack-stage .stack-card:nth-child(3) {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
     }
     .stack-card::before {
       content: '';
@@ -1047,12 +1070,10 @@
     .stack-card:nth-child(2) { background: #321503; box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
     .stack-card:nth-child(3) { background: #361704; box-shadow: 0 -8px 40px rgba(0,0,0,0.5); }
     .stack-card-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      padding: 4rem 0;
+      display: flex;
       align-items: center;
-      min-height: 60vh;
+      height: 100%;
+      padding: 3rem 3.5rem;
       position: relative;
       z-index: 1;
     }
@@ -1095,10 +1116,56 @@
       border-radius: 999px;
       padding: 4px 12px;
     }
-    .stack-card-right {
+    /* Video pile */
+    .video-pile-section {
+      padding: 60px 6vw;
+    }
+    .video-pile-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .video-pile {
+      position: relative;
+      height: 420px;
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+    .vid-card {
+      position: absolute;
+      width: 560px;
+      height: 340px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(225,223,219,0.1);
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+    }
+    .vid-card video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .vid-card:nth-child(1) {
+      transform: rotate(-4deg) translate(-20px, 10px);
+      z-index: 1;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    .vid-card:nth-child(2) {
+      transform: rotate(3deg) translate(20px, -10px);
+      z-index: 2;
+      box-shadow: 0 12px 50px rgba(0,0,0,0.6);
+    }
+    .vid-card.vid-active {
+      transform: rotate(0deg) translate(0, -20px) scale(1.04) !important;
+      z-index: 10 !important;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.7) !important;
+      border-color: rgba(225,223,219,0.25) !important;
+    }
+    .vid-card.vid-back {
+      z-index: 1 !important;
+      opacity: 0.7;
     }
     .stack-visual {
       background: rgba(255,255,255,0.025);
@@ -1150,10 +1217,112 @@
     }
     .pv-live { color: #4ade80; font-weight: 600; }
 
+    /* Process panel — new mini-step visuals */
+    .process-panel {
+      background: rgba(225,223,219,0.03);
+      border: 1px solid rgba(225,223,219,0.08);
+      border-radius: 12px;
+      padding: 24px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .process-panel-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(225,223,219,0.3);
+      margin-bottom: 16px;
+    }
+    .mini-step-card {
+      background: rgba(225,223,219,0.04);
+      border: 1px solid rgba(225,223,219,0.08);
+      border-radius: 8px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+    }
+    .mini-step-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #ff5930;
+      flex-shrink: 0;
+    }
+    .mini-step-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(225,223,219,0.7);
+    }
+    .mini-step-arrow {
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(225,223,219,0.2);
+      margin: 4px 0;
+    }
+
+    /* Keel Tools consultation band */
+    .keel-tools-band {
+      background: rgba(225,223,219,0.03);
+      border-top: 1px solid rgba(225,223,219,0.06);
+      border-bottom: 1px solid rgba(225,223,219,0.06);
+      padding: 48px 6vw;
+    }
+    .keel-tools-band-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 32px;
+    }
+    .keel-tools-band-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: #e1dfdb;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .keel-tools-band-text p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: rgba(225,223,219,0.45);
+    }
+    .keel-tools-btn {
+      background: #e1dfdb;
+      color: #291001;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      white-space: nowrap;
+      transition: background 0.3s ease, color 0.3s ease;
+      flex-shrink: 0;
+    }
+    .keel-tools-btn:hover {
+      background: #ff5930;
+      color: #291001;
+    }
     @media (max-width: 768px) {
-      .stack-card-inner { grid-template-columns: 1fr; gap: 2rem; min-height: auto; padding: 2.5rem 0; }
-      .stack-card-right { display: none; }
+      .keel-tools-band-inner { flex-direction: column; text-align: center; }
+      .keel-tools-btn { width: 100%; text-align: center; }
+    }
+
+    @media (max-width: 768px) {
+      .stack-card-inner { padding: 2rem 1.5rem; }
       .stack-step-num { font-size: 3.5rem; }
+      .stack-pin-wrap { height: auto; overflow: visible; padding-top: 40px; display: block; }
+      .stack-cards-wrap { flex: none; }
+      .stack-stage { overflow: visible; height: auto; }
+      .stack-card { height: auto; }
+      .stack-card-inner { height: auto; }
+      .stack-stage .stack-card:nth-child(2),
+      .stack-stage .stack-card:nth-child(3) { position: relative; top: auto; left: auto; right: auto; bottom: auto; margin-top: 16px; }
       .stack-card h3 { font-size: 2.8rem; }
     }
 
@@ -1911,94 +2080,91 @@
 
 
 <section id="process" class="section process-stack-section">
-  <div class="section-inner">
-    <span class="section-label">The Process</span>
-    <h2>How it <em>works.</em></h2>
+  <div class="stack-pin-wrap">
+    <div class="section-inner">
+      <span class="section-label">The Process</span>
+      <h2>How it <em>works.</em></h2>
+    </div>
+    <div class="stack-cards-wrap">
+      <div class="stack-stage">
+
+        <div class="stack-card" style="--i:0;">
+          <div class="stack-card-inner">
+            <div class="stack-card-left">
+              <span class="stack-step-num">01</span>
+              <h3>Scope.</h3>
+              <p>We map your ICP, define your target account criteria, and agree on exactly what the output looks like before a single record is pulled. No assumptions. No guesswork.</p>
+              <div class="stack-tags">
+                <span>ICP Mapping</span>
+                <span>Account Criteria</span>
+                <span>Signal Definition</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stack-card" style="--i:1;">
+          <div class="stack-card-inner">
+            <div class="stack-card-left">
+              <span class="stack-step-num">02</span>
+              <h3>Build.</h3>
+              <p>Account list pulled, enriched, and layered with signals. Prospect list built, validated, and verified. Every record checked against your ICP before it goes into the output.</p>
+              <div class="stack-tags">
+                <span>Account List</span>
+                <span>Prospect List</span>
+                <span>Enrichment</span>
+                <span>Signal Layer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stack-card" style="--i:2;">
+          <div class="stack-card-inner">
+            <div class="stack-card-left">
+              <span class="stack-step-num">03</span>
+              <h3>Hand Off.</h3>
+              <p>A clean structured file ready for your CRM or sequencer. Full documentation included. A live walkthrough on delivery. You own everything from day one. No retainer. No dependency.</p>
+              <div class="stack-tags">
+                <span>Clean Deliverable</span>
+                <span>Documentation</span>
+                <span>You Own It</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
-  <div class="stack-cards-wrap">
 
-    <div class="stack-card" style="--i:0;">
-      <div class="stack-card-inner">
-        <div class="stack-card-left">
-          <span class="stack-step-num">01</span>
-          <h3>Scope.</h3>
-          <p>We map your ICP, audit your data sources, and define exactly what your Clay table needs to do. No assumptions, no guesswork — just a clean blueprint.</p>
-          <div class="stack-tags">
-            <span>ICP Mapping</span>
-            <span>Data Audit</span>
-            <span>Clay Blueprint</span>
-          </div>
+  <div class="video-pile-section">
+    <div class="video-pile-inner">
+      <div class="video-pile">
+        <div class="vid-card">
+          <video autoplay muted loop playsinline>
+            <source src="videos/Clay_Table-1.mp4" type="video/mp4">
+          </video>
         </div>
-        <div class="stack-card-right">
-          <div class="stack-visual">
-            <div class="sv-label">ICP Definition</div>
-            <div class="sv-rows">
-              <div class="sv-row"><span class="sv-tag orange">Industry</span><span class="sv-val">SaaS · B2B · Fintech</span></div>
-              <div class="sv-row"><span class="sv-tag">Headcount</span><span class="sv-val">50 – 500 employees</span></div>
-              <div class="sv-row"><span class="sv-tag orange">Stage</span><span class="sv-val">Seed · Series A · Series B</span></div>
-              <div class="sv-row"><span class="Region</span><span class="sv-val">ANZ · NA · EMEA</span></div>
-              <div class="sv-row"><span class="sv-tag orange">Signal</span><span class="sv-val">Hiring SDRs · Raised funding</span></div>
-            </div>
-          </div>
+        <div class="vid-card">
+          <video autoplay muted loop playsinline>
+            <source src="videos/Clay-Table-2.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
     </div>
-
-    <div class="stack-card" style="--i:1;">
-      <div class="stack-card-inner">
-        <div class="stack-card-left">
-          <span class="stack-step-num">02</span>
-          <h3>Build.</h3>
-          <p>We construct your enrichment infrastructure in Clay. Waterfalls, signals, contact data, firmographics — everything wired up, tested, and running clean.</p>
-          <div class="stack-tags">
-            <span>Clay Table</span>
-            <span>Enrichment Waterfall</span>
-            <span>Signal Wiring</span>
-          </div>
-        </div>
-        <div class="stack-card-right">
-          <div class="stack-visual">
-            <div class="sv-label">Clay Enrichment Table</div>
-            <div class="sv-rows">
-              <div class="sv-row"><span class="sv-tag orange">Column</span><span class="sv-val">Company Domain → Apollo</span></div>
-              <div class="sv-row"><span class="sv-tag">Waterfall</span><span class="sv-val">LinkedIn → Clearbit → Hunter</span></div>
-              <div class="sv-row"><span class="sv-tag orange">Signal</span><span class="sv-val">Tech Stack via BuiltWith</span></div>
-              <div class="sv-row"><span class="sv-tag">Output</span><span class="sv-val">Verified email · Mobile · Title</span></div>
-              <div class="sv-row"><span class="sv-tag orange">Status</span><span class="sv-val pv-live">● Live & Running</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="stack-card" style="--i:2;">
-      <div class="stack-card-inner">
-        <div class="stack-card-left">
-          <span class="stack-step-num">03</span>
-          <h3>Hand Off.</h3>
-          <p>You receive a fully operational Clay system, clean documentation, and a live walkthrough. You own it entirely from day one. No retainer. No dependency.</p>
-          <div class="stack-tags">
-            <span>Full Handoff</span>
-            <span>Documentation</span>
-            <span>You Own It</span>
-          </div>
-        </div>
-        <div class="stack-card-right">
-          <div class="stack-visual">
-            <div class="sv-label">Handoff Package</div>
-            <div class="sv-rows">
-              <div class="sv-row"><span class="sv-tag orange">Delivered</span><span class="sv-val">Clay table · Full build</span></div>
-              <div class="sv-row"><span class="sv-tag">Docs</span><span class="sv-val">Column guide · SOP walkthrough</span></div>
-              <div class="sv-row"><span class="sv-tag orange">Session</span><span class="sv-val">60-min live walkthrough</span></div>
-              <div class="sv-row"><span class="sv-tag">Ownership</span><span class="sv-val">100% yours · No retainer</span></div>
-              <div class="sv-row"><span class="sv-tag orange">Status</span><span class="sv-val pv-live">● Ready to Deploy</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
+
+  <div class="keel-tools-band">
+    <div class="keel-tools-band-inner">
+      <div class="keel-tools-band-text">
+        <h3>Using Keel Tools?</h3>
+        <p>Book a one-time setup consultation. We configure everything for you.</p>
+      </div>
+      <a href="https://cal.com/chehan-karunaratne/30min" target="_blank" class="keel-tools-btn">Book a Consultation</a>
+    </div>
+  </div>
+
 </section>
 
   <section id="tools" class="section" style="padding: 6vh 0; overflow: hidden;">
@@ -2456,13 +2622,46 @@
       scrollTrigger: {trigger:'#cta', start:'top 85%', toggleActions:'play none none none'}
     });
 
-    // Stack cards animation
-    gsap.utils.toArray('.stack-card').forEach((el, i) => {
-      gsap.fromTo(el, {opacity:0, y:40, scale:0.95}, {
-        opacity:1, y:0, scale:1, duration:0.8, delay:i*0.2, ease:'power3.out',
-        scrollTrigger: {trigger:el, start:'top 85%', toggleActions:'play none none none'}
+    // Stack cards — pin + slide-up stacking (desktop only)
+    if (window.innerWidth > 768) {
+      const stackCards = gsap.utils.toArray('.stack-stage .stack-card');
+      if (stackCards.length === 3) {
+        const cardH = stackCards[0].offsetHeight;
+        gsap.set(stackCards[1], { y: cardH });
+        gsap.set(stackCards[2], { y: cardH });
+        const stackTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.stack-pin-wrap',
+            start: 'top top',
+            end: '+=2000',
+            scrub: true,
+            pin: true,
+            pinSpacing: true,
+            invalidateOnRefresh: true,
+          }
+        });
+        stackTl.to(stackCards[1], { y: 0, duration: 1, ease: 'none' });
+        stackTl.to(stackCards[2], { y: 0, duration: 1, ease: 'none' });
+      }
+    }
+
+    // Video pile cards animation + interaction
+    const vidCards = gsap.utils.toArray('.vid-card');
+    if (vidCards.length) {
+      gsap.fromTo(vidCards, {opacity:0, y:40}, {
+        opacity:1, y:0, duration:0.7, stagger:0.15, ease:'power3.out',
+        scrollTrigger: {trigger:'.video-pile', start:'top 85%', toggleActions:'play none none none'}
       });
-    });
+      vidCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.classList.add('vid-active');
+          vidCards.forEach(other => { if (other !== card) other.classList.add('vid-back'); });
+        });
+        card.addEventListener('mouseleave', () => {
+          vidCards.forEach(c => { c.classList.remove('vid-active', 'vid-back'); });
+        });
+      });
+    }
 
     // Card spotlight — tracks mouse for radial gradient on all card surfaces
     document.querySelectorAll('.offering-card, .craft-card, .service-card, .stack-card, .hero-social-proof').forEach(card => {
