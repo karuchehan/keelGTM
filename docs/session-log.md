@@ -201,3 +201,65 @@ Running log of all discussions, decisions, and changes made to the website. Upda
 
 ### In Progress
 - Remaining homepage sections to build
+
+---
+
+## Session: 2026-06-08
+
+### Context at session start
+- Branch: `main`
+- Last commit before session: `a1dd7bc Problem section: restore headline to 'Outbound stalls at the list.'`
+
+---
+
+### Changes Made
+
+#### Commit `cb4204c` — Keel Tools card: update copy, expand tool rows, add hover CTA overlay
+
+**Copy changes:**
+- Description replaced: "GTM systems combining AI workflows with human expertise..." → "Pre-built AI systems for the repetitive parts of your GTM and ops. Each tool runs on Claude, n8n, and Clay. Test a single run or integrate it fully with a one-time setup fee."
+- Tagline replaced: "Each system automates a specific part of your go-to-market motion. You run it. You own it." → "Built for founders and ops teams who want to stop doing the same things manually every week."
+
+**Tool rows expanded from 3 to 5:**
+- Removed: Prospect Validation, List Enrichment, Signal Qualification
+- Added: Signal Intelligence Engine, ICP Prospect Validator, Client Reporting Automator, Personalized Opening Line Writer, Podcast Content Repurposing Engine
+
+**CTA change:**
+- Removed static `.btn-offering-outline` "Explore Tools" button
+- Added hover-reveal overlay identical in structure and behavior to the Keel Build card: `position: absolute; bottom: 0; height: 80px; gradient fade; opacity 0 → 1 on card hover`
+- Button links to `pages/keel-tools.html` (placeholder)
+- Added `.offering-card.secondary:hover .offering-cta-overlay--tools` CSS trigger rule
+
+---
+
+#### Commit `d4ff2f3` — Keel Tools card: replace mockup rows with scattered pill tag layout
+
+**Replaced:** entire `.tools-mockup` div (rows, dots, dividers) with a `.tools-scatter` container holding five `.tool-pill` spans.
+
+**Layout:** absolute positioning with inline `top/left/right` + `transform: rotate()` per pill to create scattered organic feel.
+
+**Pill styles:** `background: rgba(225,223,219,0.05)`, `border: 1px solid rgba(225,223,219,0.1)`, `border-radius: 999px`, `padding: 8px 16px`, `font-size: 0.8rem`, `color: rgba(225,223,219,0.65)`.
+
+**Pill hover:** `background: rgba(255,89,48,0.08)`, `border-color: rgba(255,89,48,0.25)`, `color: #e1dfdb`, `transform: rotate(0deg) scale(1.04)`.
+
+**Deleted CSS rules:** `.tools-mockup`, `.tools-mockup-topbar`, `.tmb-dot`, `.tools-mockup-row`, `.tmr-dot`, `.tmr-label`, `.tools-mockup-divider`.
+
+---
+
+#### Commit `26cf7b4` — Keel Tools card: redesign pill layout and replace tagline with corner ribbon
+
+**Problem with previous commit:** Absolute-positioned pills looked random and unintentional.
+
+**Pill layout redesign:**
+- Switched `.tools-scatter` from absolute positioning to `display: flex; flex-wrap: wrap; gap: 10px`. Pills now flow by content width — looks designed, not scattered.
+- Removed all inline `top/left/right` styles from pill HTML.
+- Added nth-child rotations in CSS: ±0.8–1.5deg per pill, plus small `margin-top` offsets on alternating pills for vertical rhythm.
+- `.tool-pill:hover` no longer needs `!important` on transform since inline styles removed.
+
+**Corner ribbon:**
+- Removed `.tools-tagline` paragraph (both HTML and CSS rule).
+- Added `.tools-corner-ribbon` div as direct child of the card (outside `.tools-scatter`).
+- Style: `position: absolute; top: 24px; right: -36px; width: 170px; transform: rotate(35deg)` — diagonal strip clipping against card's `overflow: hidden`.
+- Orange tint: `background: rgba(255,89,48,0.08)`, `border-top/bottom: 1px solid rgba(255,89,48,0.25)`, `color: rgba(255,89,48,0.7)`.
+- Text: "Set once · Runs weekly" — uppercase, 0.6rem, letter-spacing 0.08em.
+- Added `.tools-corner-ribbon` to the `:not()` exclusion list on `.offering-card > *` so the card's `position: relative; z-index: 1` override does not break the ribbon's absolute positioning.
