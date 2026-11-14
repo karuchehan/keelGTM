@@ -1,0 +1,21 @@
+/* 3D keel layer. Sits above the wave background (z 0) and below page content (z 2). */
+#keel-scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+#keel-scene.is-ready { opacity: 1; }
+
+/* Off on small screens for now. Keep in step with SMALL_SCREEN in keel-scene.js. */
+@media (max-width: 768px) {
+  #keel-scene { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #keel-scene { transition: none; }
+}

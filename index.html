@@ -616,11 +616,11 @@
     #pain-track-left .pain-point-slot:nth-child(3),
     #pain-track-right .pain-point-slot:nth-child(3) { z-index: 3; }
     #pain-track-left .pain-point-slot:nth-child(1) .pain-point,
-    #pain-track-right .pain-point-slot:nth-child(1) .pain-point { background: #2e1302; }
+    #pain-track-right .pain-point-slot:nth-child(1) .pain-point { background: rgba(255,255,255,0.02); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
     #pain-track-left .pain-point-slot:nth-child(2) .pain-point,
-    #pain-track-right .pain-point-slot:nth-child(2) .pain-point { background: #321503; box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
+    #pain-track-right .pain-point-slot:nth-child(2) .pain-point { background: rgba(255,255,255,0.02); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
     #pain-track-left .pain-point-slot:nth-child(3) .pain-point,
-    #pain-track-right .pain-point-slot:nth-child(3) .pain-point { background: #361704; box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
+    #pain-track-right .pain-point-slot:nth-child(3) .pain-point { background: rgba(255,255,255,0.02); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
     .problem-progress {
       display: flex;
       gap: 8px;
@@ -1080,7 +1080,9 @@
     .stack-card {
       border-radius: 16px;
       border: 1px solid rgba(225,223,219,0.1);
-      background: #291001;
+      background: rgba(255,255,255,0.02);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       z-index: calc(var(--i) + 1);
       overflow: hidden;
       --mouse-x: -400px;
@@ -1109,9 +1111,8 @@
       border-radius: inherit;
     }
     .stack-card:hover::before { opacity: 1; }
-    .stack-card:nth-child(1) { background: #2e1302; }
-    .stack-card:nth-child(2) { background: #321503; box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
-    .stack-card:nth-child(3) { background: #361704; box-shadow: 0 -8px 40px rgba(0,0,0,0.5); }
+    .stack-card:nth-child(2) { box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
+    .stack-card:nth-child(3) { box-shadow: 0 -8px 40px rgba(0,0,0,0.5); }
     .stack-card-inner {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1789,11 +1790,13 @@
       #offerings { padding: 10vh 5vw; }
       .offerings-grid { grid-template-columns: 1fr; }
       .offering-card { padding: 2rem; min-height: auto; backdrop-filter: none; -webkit-backdrop-filter: none; }
+      .stack-card, .pain-point-slot .pain-point { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
       .offering-card.primary { padding-bottom: 2rem; }
       .offering-card h3 { font-size: clamp(1.8rem, 9vw, 2.4rem); }
       .offering-watermark { font-size: clamp(2rem, 8vw, 3.5rem); }
     }
   </style>
+  <link rel="stylesheet" href="keel/keel-scene.css?v=5">
 </head>
 <body>
 
@@ -2939,6 +2942,15 @@
 
     })();
   </script>
+
+  <!-- 3D keel layer -->
+  <script src="keel/keel-shape.js?v=5"></script>
+  <script src="keel/keel-ship.js?v=5"></script>
+  <script src="keel/keel-materials.js?v=5"></script>
+  <script src="keel/keel-sea.js?v=5"></script>
+  <script src="keel/keel-journey.js?v=5"></script>
+  <script src="keel/keel-scene.js?v=5"></script>
+  <script src="keel/card-stack.js?v=5"></script>
 
 </body>
 </html>
