@@ -8,7 +8,7 @@
  *   time             ->  keel-sea.js      ->  swell the ship rides, spray, wake
  *   page layout      ->  this file        ->  dims ship and sea wherever copy sits over them
  *
- * three.js loads on demand, so small screens never download it.
+ * Wide screens and phones share everything except the route.
  */
 (function () {
   'use strict';
@@ -18,7 +18,7 @@
   if (!KEEL || !SHAPE || !KEEL.buildShip || !KEEL.createSea || !KEEL.createJourney) return;
 
   var THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js';
-  var SMALL_SCREEN = window.matchMedia('(max-width: 768px)');
+  var PORTRAIT = window.matchMedia('(max-width: 768px)');     // phones: different route, sized by width
   var REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
   var LOCK_QUALITY = /[?&]keel-hq\b/.test(window.location.search);   // testing aid: never step quality down
 
@@ -26,7 +26,7 @@
   // text counts only where the letters actually are.
   var BOXES = '.nav-inner, .hero-pill, .hero-form, .hero-chips, .hero-watch, .hero-social-proof, ' +
     '.problem-header-card, .problem-col-track-wrap, .offering-card, .craft-card, .stack-stage, ' +
-    '#tools, .team-card, .btn-cta, .footer-inner';
+    '.marquee-track, .team-card, .btn-cta, .footer-inner';
   var TEXT = '.hero h1, .hero > p, .section-label, .section h2, #cta p';
   var MAX_RECTS = 16;
 
@@ -36,7 +36,7 @@
   var started = false;
 
   function start() {
-    if (started || SMALL_SCREEN.matches) return;
+    if (started) return;
     started = true;
     import(THREE_URL).then(build).catch(function (err) {
       console.warn('[keel] 3D layer unavailable:', err);
@@ -76,7 +76,8 @@
       uDpr: { value: 1 },
       uTime: { value: 0 },
       uRects: { value: [] },
-      uRectCount: { value: 0 }
+      uRectCount: { value: 0 },
+      uFeather: { value: 30 }          // px over which dimming fades in around copy
     };
     for (var r = 0; r < MAX_RECTS; r++) shared.uRects.value.push(new THREE.Vector4());
 
@@ -106,8 +107,14 @@
     var level = 0;            // 0 full, 1 lower resolution, 2 lower resolution and no rippling light
 
     function layout() {
-      view.w = window.innerWidth; view.h = window.innerHeight;
-      var dpr = Math.min(window.devicePixelRatio || 1, level === 0 ? 1.5 : 1);
+      var portrait = PORTRAIT.matches;
+      // On phones the canvas is as tall as the screen with the address bar hidden, and stays
+      // that tall, so the ship does not move when the bar slides in and out.
+      view.w = window.innerWidth;
+      view.h = portrait ? canvas.clientHeight || window.innerHeight : window.innerHeight;
+      view.portrait = portrait;
+      shared.uFeather.value = portrait ? 14 : 30;     // gaps between copy are tight on phones
+      var dpr = Math.min(window.devicePixelRatio || 1, level === 0 ? (portrait ? 2 : 1.5) : (portrait ? 1.5 : 1));
       renderer.setPixelRatio(dpr);
       renderer.setSize(view.w, view.h, false);
       camera.aspect = view.w / view.h;
@@ -118,7 +125,7 @@
       var gw = Math.max(2, Math.round((view.w * dpr) / 1.4)), gh = Math.max(2, Math.round((view.h * dpr) / 1.4));
       ghostTarget.setSize(gw, gh);
       materials.ghostLayer.uniforms.uTexel.value.set(1 / gw, 1 / gh);
-      journey.measure();
+      journey.measure(view.w, view.h, portrait);
     }
 
     // ── Copy the ship must stay behind ───────────────────────────────────
@@ -143,7 +150,8 @@
       var n = Math.min(found.length, MAX_RECTS);
       for (i = 0; i < n; i++) {
         var f = found[i].b;
-        shared.uRects.value[i].set(f.left - 8, f.top - 8, f.right + 8, f.bottom + 8);
+        var pad = view.portrait ? 3 : 8;
+        shared.uRects.value[i].set(f.left - pad, f.top - pad, f.right + pad, f.bottom + pad);
       }
       shared.uRectCount.value = n;
     }
@@ -250,7 +258,7 @@
 
     function loop(now) {
       frame = 0;
-      if (SMALL_SCREEN.matches || document.hidden) return;
+      if (document.hidden) return;
       var still = REDUCED_MOTION.matches;
       var dt = still || !last ? 0 : Math.min(0.05, (now - last) / 1000);
       var ms = last ? now - last : 16;
@@ -260,7 +268,7 @@
       if (now - checked > 1000) {
         checked = now;
         var hgt = document.documentElement.scrollHeight;
-        if (hgt !== pageHeight) { pageHeight = hgt; journey.measure(); }
+        if (hgt !== pageHeight) { pageHeight = hgt; journey.measure(view.w, view.h, view.portrait); }
       }
 
       if (step(dt, still)) draw();
@@ -275,22 +283,25 @@
     }
 
     function wake() {
-      if (SMALL_SCREEN.matches) return;
       if (!frame) { last = 0; frame = requestAnimationFrame(loop); }
     }
 
     function refresh() {
-      if (SMALL_SCREEN.matches) return;
       layout();
       if (REDUCED_MOTION.matches) sea.clearSpray();
       wake();
     }
 
-    window.addEventListener('resize', refresh);
+    // Phones fire resize every time the address bar moves. Only a real change of width
+    // (rotation, split view) needs a new layout there.
+    window.addEventListener('resize', function () {
+      if (PORTRAIT.matches && window.innerWidth === view.w) { wake(); return; }
+      refresh();
+    });
     window.addEventListener('load', refresh);
     window.addEventListener('scroll', wake, { passive: true });   // reduced motion: redraw so dimming tracks the copy
     document.addEventListener('visibilitychange', wake);
-    SMALL_SCREEN.addEventListener('change', refresh);
+    PORTRAIT.addEventListener('change', refresh);
     REDUCED_MOTION.addEventListener('change', refresh);
 
     refresh();
@@ -299,6 +310,5 @@
     window.keelScene = { THREE: THREE, renderer: renderer, scene: scene, camera: camera, ship: ship, sea: sea, journey: journey, state: s };
   }
 
-  SMALL_SCREEN.addEventListener('change', start);
   start();
 })();

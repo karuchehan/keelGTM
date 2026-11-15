@@ -11,9 +11,10 @@
 }
 #keel-scene.is-ready { opacity: 1; }
 
-/* Off on small screens for now. Keep in step with SMALL_SCREEN in keel-scene.js. */
+/* Phones: as tall as the screen with the address bar hidden, so the canvas never
+   resizes while scrolling. Keep in step with PORTRAIT in keel-scene.js. */
 @media (max-width: 768px) {
-  #keel-scene { display: none; }
+  #keel-scene { bottom: auto; height: 100vh; height: 100lvh; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -17,6 +17,7 @@
   KEEL.GLSL_COVER = [
     'uniform vec4 uRects[16];',
     'uniform int uRectCount;',
+    'uniform float uFeather;',
     'float cover(vec2 p) {',
     '  float m = 0.0;',
     '  for (int i = 0; i < 16; i++) {',
@@ -24,7 +25,7 @@
     '    vec4 r = uRects[i];',
     '    vec2 q = abs(p - (r.xy + r.zw) * 0.5) - (r.zw - r.xy) * 0.5;',
     '    float d = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0);',
-    '    m = max(m, 1.0 - smoothstep(-4.0, 30.0, d));',
+    '    m = max(m, 1.0 - smoothstep(-4.0, uFeather, d));',
     '  }',
     '  return m;',
     '}'
@@ -63,7 +64,7 @@
     var keel = new THREE.ShaderMaterial(Object.assign({
       uniforms: {
         uRes: shared.uRes, uDpr: shared.uDpr, uTime: shared.uTime,
-        uRects: shared.uRects, uRectCount: shared.uRectCount,
+        uRects: shared.uRects, uRectCount: shared.uRectCount, uFeather: shared.uFeather,
         uUnitW: { value: 1 }, uWaterY: { value: 0 }, uTravel: { value: 0 }, uFade: { value: 1 }, uLight: { value: 1 }
       },
       vertexShader: [
@@ -137,7 +138,7 @@
     // Lays the soft ghost buffer back over the page.
     var ghostLayer = new THREE.ShaderMaterial(Object.assign({
       uniforms: {
-        uRes: shared.uRes, uDpr: shared.uDpr, uRects: shared.uRects, uRectCount: shared.uRectCount,
+        uRes: shared.uRes, uDpr: shared.uDpr, uRects: shared.uRects, uRectCount: shared.uRectCount, uFeather: shared.uFeather,
         tGhost: { value: null }, uTexel: { value: new THREE.Vector2(1, 1) }, uFade: { value: 1 }
       },
       depthTest: false,

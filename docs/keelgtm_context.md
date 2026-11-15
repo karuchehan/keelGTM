@@ -188,6 +188,14 @@ Play Books landing page. Single collection card linking to abm-series.html.
 **post-01.html:**
 First blog post. Title: "You're reaching out to accounts that aren't ready to buy. That's why nothing is working." Full approved content live. Sidebar with next post preview and Book a Call CTA.
 
+**The ship (index.html, all files in `/keel/`):**
+A ghosted 3D motor yacht sails down the homepage as the visitor scrolls. The logo fin hangs below it as a solid, bright keel. The ship rides a drawn waterline, throws spray when it surges, climbs one big wave at "How it works", and settles beside the closing line. Ship and water dim wherever copy or a card sits over them. Desktop and phone use different routes. Reduced motion gets one still ship. three.js loads from CDN. No build tools.
+
+- `keel-ship.js` builds the model. `keel-journey.js` holds the scroll route. `keel-sea.js` draws water and spray. `keel-materials.js` holds the look. `keel-scene.js` runs it.
+- `card-stack.js` trims stacked cards so translucent cards never show the card beneath.
+- `tools/trace_keel_logo.py` regenerates `keel-shape.js` from `assets/logos/2.svg`.
+- After editing any file in `/keel/`, bump the `?v=` number on its tags in `index.html`.
+
 ---
 
 ## What Needs to Be Built Next

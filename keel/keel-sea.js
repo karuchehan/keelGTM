@@ -24,7 +24,7 @@
   KEEL.createSea = function (THREE, shared) {
     var uniforms = {
       uRes: shared.uRes, uDpr: shared.uDpr, uTime: shared.uTime,
-      uRects: shared.uRects, uRectCount: shared.uRectCount,
+      uRects: shared.uRects, uRectCount: shared.uRectCount, uFeather: shared.uFeather,
       uShip: { value: new THREE.Vector2() },
       uUnit: { value: 100 }, uTravel: { value: 0 }, uAmp: { value: 0.02 },
       uEnergy: { value: 0 }, uFade: { value: 1 }, uSpeed: { value: 0 }, uDir: { value: 1 },
@@ -110,7 +110,7 @@
     sprayGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
     sprayGeo.setAttribute('aData', new THREE.BufferAttribute(data, 2));
     var spray = new THREE.Points(sprayGeo, new THREE.ShaderMaterial({
-      uniforms: { uRes: shared.uRes, uDpr: shared.uDpr, uRects: shared.uRects, uRectCount: shared.uRectCount, uFade: uniforms.uFade },
+      uniforms: { uRes: shared.uRes, uDpr: shared.uDpr, uRects: shared.uRects, uRectCount: shared.uRectCount, uFeather: shared.uFeather, uFade: uniforms.uFade },
       transparent: true, depthTest: false, depthWrite: false,
       blending: THREE.CustomBlending,
       blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor,

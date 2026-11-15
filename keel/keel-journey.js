@@ -6,7 +6,8 @@
  *
  * Each waypoint:
  *   x, y     where the ship's waterline sits, as a fraction of the viewport (0,0 is top left)
- *   len      hull length as a fraction of viewport height
+ *   len      hull length as a fraction of viewport height (wide route)
+ *   w        hull length as a fraction of viewport width (portrait route)
  *   yaw      heading in half turns. Even numbers face right, odd face left, halves face the viewer or away
  *   heel     lean from the wind, in radians
  *   pitch    bow up (+) or down (-), in radians
@@ -30,19 +31,36 @@
 
   KEEL.createJourney = function () {
     var keys = [];
+    var landed = 0;      // visible screen height when the page first opened (phones)
 
-    function measure() {
-      var vh = window.innerHeight;
+    function measure(vw, vh, portrait) {
+      vw = vw || window.innerWidth; vh = vh || window.innerHeight;
       var end = Math.max(1, document.documentElement.scrollHeight - vh);
+      var raw = portrait ? portraitRoute(vw, vh, end) : wideRoute(vh, end);
+      keys = [];
+      if (!raw) return;
+      var last = -1e9;
+      raw.forEach(function (r) {
+        var k = { at: Math.max(r[0], last + 60) };
+        last = k.at;
+        PROPS.forEach(function (p) { k[p] = r[1][p] || 0; });
+        if (r[1].w) k.len = (r[1].w * vw) / vh;          // portrait waypoints size the ship by screen width
+        k.yaw *= Math.PI;
+        keys.push(k);
+      });
+    }
+
+    // Desktop and tablet: the ship works the side gutters and the space beside headings.
+    function wideRoute(vh, end) {
       var P = docTop('#problem'), O = docTop('#offerings'), C = docTop('#craft');
       var S = docTop('.stack-pin-wrap'), T = docTop('#team');
-      if (P === null || O === null || C === null || S === null || T === null) { keys = []; return; }
+      if (P === null || O === null || C === null || S === null || T === null) return null;
 
       // Stretches between sections. Waypoints are spaced along these, so they can
       // never bunch up and make the ship snap, whatever the section heights are.
       var OC = C - O, CS = S - C, W = S + 2000, WT = T - W, TE = end - T;
 
-      var raw = [
+      return [
         // Hero: at rest, low right, bow toward the page.
         [0,              { x: 0.82, y: 0.62, len: 0.56, yaw: 1.16, heel: 0.06 }],
         [P - 0.55 * vh,  { x: 0.84, y: 0.56, len: 0.5,  yaw: 1.1,  heel: 0.08, energy: 0.1 }],
@@ -88,15 +106,94 @@
         [end + 1,         { x: 0.8,  y: 0.58, len: 0.5,  yaw: 6.0,  heel: 0.0,  calm: 1, big: 1 }]
       ];
 
-      keys = [];
-      var last = -1e9;
-      raw.forEach(function (r) {
-        var k = { at: Math.max(r[0], last + 60) };
-        last = k.at;
-        PROPS.forEach(function (p) { k[p] = r[1][p] || 0; });
-        k.yaw *= Math.PI;
-        keys.push(k);
-      });
+    }
+
+    /*
+     * Phones: content fills the width, so there are no gutters. The open water is
+     * the gap between one section's cards and the next section's heading. The ship
+     * rides each gap up the screen as it scrolls past, at full brightness, and
+     * drifts dimmed behind the cards in between. Each gap gets one of the moments.
+     */
+    function portraitRoute(vw, vh, end) {
+      function gap(above, below) {
+        var a = document.querySelector(above), b = document.querySelector(below);
+        if (!a || !b) return null;
+        var top = a.getBoundingClientRect().bottom + window.pageYOffset;
+        var bottom = b.getBoundingClientRect().top + window.pageYOffset;
+        var mid = (top + bottom) / 2;
+        return { at: function (f) { return mid - f * vh; }, mid: mid };     // scroll at which the gap sits f down the screen
+      }
+      function inside(selector) {
+        var el = document.querySelector(selector);
+        if (!el) return null;
+        var top = el.getBoundingClientRect().top + window.pageYOffset, h = el.offsetHeight;
+        return function (f) { return top + f * h - 0.5 * vh; };              // scroll at which a point f down the block is mid screen
+      }
+
+      var g1 = gap('.hero-bottom', '.problem-header-card');
+      var g2 = gap('.problem-columns', '#offerings .section-label');
+      var g3 = gap('.offerings-grid', '#craft .section-label');
+      var g4 = gap('.craft-grid', '.stack-pin-wrap .section-label');
+      var g5 = gap('.marquee-track', '#team .section-label');
+      var g6 = gap('.team-grid', '#cta .section-label');
+      var problem = inside('.problem-columns'), offer = inside('.offerings-grid'), craft = inside('.craft-grid');
+      var stage = inside('.stack-stage'), team = inside('.team-grid');
+      if (!g1 || !g2 || !g3 || !g4 || !g5 || !g6 || !problem || !offer || !craft || !stage || !team) return null;
+
+      // On landing, browser bars cover the bottom of the screen. Berth the ship by the
+      // height that is actually visible then, so it shows before any scrolling.
+      if (!landed) landed = Math.min(vh, window.innerHeight);
+      var berth = (0.74 * landed) / vh;
+
+      var home = Math.min(0.4, Math.max(0.2, (g6.mid - end) / vh));          // where the last gap rests at the end of the page
+
+      return [
+        // Hero: at rest at the right edge beside the copy, half off screen, keel in clear view.
+        [0,            { x: 0.86, y: berth, w: 0.62, yaw: 1.14, heel: 0.05 }],
+
+        // Into the problem section: the surge, right to left across the first gap.
+        [g1.at(0.78),  { x: 0.74, y: 0.76, w: 0.6,  yaw: 1.08, heel: 0.12, energy: 0.4 }],
+        [g1.at(0.5),   { x: 0.45, y: 0.48, w: 0.7,  yaw: 0.98, heel: 0.28, energy: 1 }],
+        [g1.at(0.24),  { x: 0.2,  y: 0.24, w: 0.62, yaw: 1.0,  heel: 0.12, energy: 0.3 }],
+        [problem(0.5), { x: 0.16, y: 0.6,  w: 0.5,  yaw: 1.04, heel: 0.05, calm: 0.3 }],
+
+        // Into What We Build: comes about in the gap, bow swinging past the viewer.
+        [g2.at(0.78),  { x: 0.2,  y: 0.76, w: 0.6,  yaw: 1.35, heel: 0.0 }],
+        [g2.at(0.5),   { x: 0.4,  y: 0.48, w: 0.72, yaw: 1.78, heel: 0.0,  energy: 0.35 }],
+        [g2.at(0.24),  { x: 0.62, y: 0.25, w: 0.64, yaw: 1.92, heel: 0.1,  energy: 0.3 }],
+        [offer(0.5),   { x: 0.74, y: 0.62, w: 0.5,  yaw: 1.95, heel: 0.06 }],
+
+        // Into Built. Delivered: turns away, then a long calm glide behind the client cards.
+        [g3.at(0.78),  { x: 0.76, y: 0.76, w: 0.58, yaw: 2.04, heel: 0.0 }],
+        [g3.at(0.5),   { x: 0.62, y: 0.48, w: 0.62, yaw: 2.22, heel: 0.0 }],
+        [g3.at(0.24),  { x: 0.5,  y: 0.25, w: 0.52, yaw: 2.72, heel: 0.04, calm: 0.4 }],
+        [craft(0.25),  { x: 0.66, y: 0.55, w: 0.46, yaw: 3.02, heel: 0.04, calm: 0.7 }],
+        [craft(0.6),   { x: 0.42, y: 0.66, w: 0.44, yaw: 3.0,  heel: 0.04, calm: 0.7 }],
+        [craft(0.9),   { x: 0.26, y: 0.7,  w: 0.46, yaw: 2.98, heel: 0.04, calm: 0.5 }],
+
+        // Into How it works: the big wave. Climbs, crests, crashes, settles.
+        [g4.at(0.85),  { x: 0.22, y: 0.83, w: 0.6,  yaw: 3.5,  heel: 0.0,  energy: 0.4, big: 0 }],
+        [g4.at(0.66),  { x: 0.36, y: 0.64, w: 0.74, yaw: 3.9,  heel: 0.14, pitch: 0.16,  energy: 0.9, big: 0.3 }],
+        [g4.at(0.48),  { x: 0.52, y: 0.46, w: 0.8,  yaw: 3.94, heel: 0.16, pitch: 0.26,  energy: 1,   big: 0.53 }],
+        [g4.at(0.34),  { x: 0.64, y: 0.33, w: 0.78, yaw: 3.95, heel: 0.1,  pitch: -0.26, energy: 1,   big: 0.72 }],
+        [g4.at(0.2),   { x: 0.72, y: 0.2,  w: 0.66, yaw: 3.97, heel: 0.06, energy: 0.3, big: 1 }],
+        [stage(0.2),   { x: 0.74, y: 0.6,  w: 0.5,  yaw: 3.98, heel: 0.05, big: 1 }],
+        [stage(0.55),  { x: 0.78, y: 0.62, w: 0.48, yaw: 4.02, heel: 0.05, big: 1 }],
+        [stage(0.88),  { x: 0.74, y: 0.66, w: 0.5,  yaw: 4.5,  heel: 0.0,  big: 1 }],
+
+        // Into Team: sails left past the heading, deck showing.
+        [g5.at(0.8),   { x: 0.66, y: 0.78, w: 0.52, yaw: 4.95, heel: 0.08, lean: 0.25, energy: 0.3,  big: 1 }],
+        [g5.at(0.5),   { x: 0.46, y: 0.48, w: 0.54, yaw: 5.02, heel: 0.08, lean: 0.36, energy: 0.35, big: 1 }],
+        [g5.at(0.24),  { x: 0.3,  y: 0.25, w: 0.5,  yaw: 5.0,  heel: 0.08, lean: 0.3,  big: 1 }],
+        [team(0.35),   { x: 0.22, y: 0.6,  w: 0.46, yaw: 4.98, heel: 0.05, lean: 0.2,  big: 1 }],
+        [team(0.75),   { x: 0.2,  y: 0.66, w: 0.48, yaw: 5.5,  heel: 0.0,  big: 1 }],
+
+        // Your outbound needs a keel: one last turn, then home above the final line.
+        [g6.at(0.82),  { x: 0.22, y: 0.8,  w: 0.56, yaw: 5.85, heel: 0.08, energy: 0.3, calm: 0.3, big: 1 }],
+        [g6.at(0.5),   { x: 0.4,  y: 0.48, w: 0.5,  yaw: 5.97, heel: 0.04, calm: 0.6, big: 1 }],
+        [end - 0.02 * vh, { x: 0.5, y: home, w: 0.44, yaw: 6.0, heel: 0.0, calm: 1, big: 1 }],
+        [end + 1,         { x: 0.5, y: home, w: 0.44, yaw: 6.0, heel: 0.0, calm: 1, big: 1 }]
+      ];
     }
 
     // Smooth curve through the waypoints, so speed carries through each one.
@@ -129,7 +226,6 @@
       return out;
     }
 
-    measure();
     return { measure: measure, sample: sample, keys: function () { return keys; } };
   };
 })();
